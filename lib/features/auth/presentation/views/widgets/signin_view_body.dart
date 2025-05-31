@@ -24,8 +24,22 @@ class _SignInViewBodyState extends State<SignInViewBody> {
   bool isShowPassword = true;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   AutovalidateMode autoValidateMode = AutovalidateMode.disabled;
-  late String name, password, userTypeValue;
+  late String name, password;
+  String userTypeValue = 'Medical Representative';
   List<String> userType = ['Administrator', 'Medical Representative'];
+  final TextEditingController _userTypeValue = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _userTypeValue.text = userTypeValue; // Default value
+  }
+
+  @override
+  void dispose() {
+    _userTypeValue.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +98,7 @@ class _SignInViewBodyState extends State<SignInViewBody> {
               onSaved: (value) {
                 userTypeValue = value!;
               },
-              controller: TextEditingController(text: userType[1]),
+              controller: _userTypeValue,
               boolien: true,
               validator: (value) {
                 return validInput(
@@ -96,26 +110,40 @@ class _SignInViewBodyState extends State<SignInViewBody> {
                 );
               },
               keyboardType: TextInputType.name,
-              suffixIcon: DropdownButton<String>(
-                // value: userType[0].toLowerCase(),
-                underline: Container(),
-                borderRadius: BorderRadius.circular(8),
-                elevation: 0,
-                items: [
-                  for (var i = 0; i < userType.length; i++)
-                    DropdownMenuItem<String>(
-                      value: userType[i].toLowerCase(),
-                      child: Text(
-                        userType[i].toUpperCase(),
-                        style: AppStyle.styleSemiBold22(),
-                      ),
-                    ),
-                ],
-                onChanged: (value) {
-                  setState(() {
-                    userTypeValue = value!;
-                  });
-                },
+              suffixIcon: Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: DropdownButton<String>(
+                  // value: userTypeValue,
+                  underline: Container(),
+                  borderRadius: BorderRadius.circular(8),
+                  elevation: 0,
+                  items:
+                      userType.map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(
+                            value.toUpperCase(),
+                            style: AppStyle.styleSemiBold22(),
+                          ),
+                        );
+                      }).toList(),
+                  // items: [
+                  //   for (var i = 0; i < userType.length; i++)
+                  //     DropdownMenuItem<String>(
+                  //       value: userType[i].toLowerCase(),
+                  //       child: Text(
+                  //         userType[i].toUpperCase(),
+                  //         style: AppStyle.styleSemiBold22(),
+                  //       ),
+                  //     ),
+                  // ],
+                  onChanged: (value) {
+                    setState(() {
+                      userTypeValue = value!;
+                      _userTypeValue.text = value;
+                    });
+                  },
+                ),
               ),
             ),
 
@@ -130,6 +158,7 @@ class _SignInViewBodyState extends State<SignInViewBody> {
                   context.read<SignInCubit>().signInWithEmailAndPassword(
                     name: name,
                     password: password,
+                    userType: userTypeValue,
                   );
                 } else {
                   autoValidateMode = AutovalidateMode.always;

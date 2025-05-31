@@ -57,10 +57,11 @@ class AuthRepoImpl implements AuthRepo {
     }
   }
 
-   @override
+  @override
   Future<Either<Failures, UserEntity>> signIn({
     required String name,
     required String password,
+    required String userType, // Changed from role to userType
   }) async {
     try {
       final user = await firebaseAuthService.signInWithNameAndPassword(
@@ -75,17 +76,15 @@ class AuthRepoImpl implements AuthRepo {
       return Left(ServerFailure(message: e.message));
     } catch (e) {
       log('Exception in signIn: ${e.toString()}');
-      return Left(ServerFailure(
-        message: 'حدث خطأ ما. الرجاء المحاولة مرة أخرى.',
-      ));
+      return Left(
+        ServerFailure(message: 'حدث خطأ ما. الرجاء المحاولة مرة أخرى.'),
+      );
     }
   }
 
-
   @override
   Future<void> deleteUser() async {
-      await firebaseAuthService.deleteUser();
-    
+    await firebaseAuthService.deleteUser();
   }
 
   @override
