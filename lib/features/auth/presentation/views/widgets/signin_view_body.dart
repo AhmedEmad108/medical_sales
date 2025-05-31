@@ -88,6 +88,11 @@ class _SignInViewBodyState extends State<SignInViewBody> {
             const SizedBox(
               height: 16,
             ),
+            
+            const SizedBox(
+              height: 16,
+            ),
+
             // Row(
             //   mainAxisAlignment: MainAxisAlignment.end,
             //   children: [
@@ -128,13 +133,13 @@ class _SignInViewBodyState extends State<SignInViewBody> {
             const SizedBox(
               height: 33,
             ),
-            HaveOrDontHaveAccountWidget(
-              text: S.of(context).do_not_have_an_account,
-              text2: S.of(context).signup,
-              onTap: () {
-                Navigator.of(context).pushNamed(SignupView.routeName);
-              },
-            ),
+            // HaveOrDontHaveAccountWidget(
+            //   text: S.of(context).do_not_have_an_account,
+            //   text2: S.of(context).signup,
+            //   onTap: () {
+            //     Navigator.of(context).pushNamed(SignupView.routeName);
+            //   },
+            // ),
             // const SizedBox(
             //   height: 33,
             // ),
