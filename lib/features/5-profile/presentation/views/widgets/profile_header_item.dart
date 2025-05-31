@@ -5,10 +5,7 @@ import 'package:medical_sales/core/widgets/custom_image_picker.dart';
 import 'package:medical_sales/features/auth/domain/entities/user_entity.dart';
 
 class ProfileHeaderItem extends StatelessWidget {
-  const ProfileHeaderItem({
-    super.key,
-    required this.user,
-  });
+  const ProfileHeaderItem({super.key, required this.user});
   final UserEntity user;
 
   @override
@@ -16,10 +13,7 @@ class ProfileHeaderItem extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 20),
-      padding: const EdgeInsets.symmetric(
-        horizontal: 24,
-        vertical: 32,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.tertiary,
         borderRadius: BorderRadius.circular(8),
@@ -34,12 +28,12 @@ class ProfileHeaderItem extends StatelessWidget {
               context.read<UserCubit>().editUserImage(image: value!);
             },
           ),
-          const SizedBox(
-            width: 24,
-          ),
+          const SizedBox(width: 24),
           ConstrainedBox(
-            constraints:
-                BoxConstraints(maxWidth: size.width * 0.48, maxHeight: 70),
+            constraints: BoxConstraints(
+              maxWidth: size.width * 0.48,
+              maxHeight: 70,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -56,16 +50,16 @@ class ProfileHeaderItem extends StatelessWidget {
                   child: FittedBox(
                     fit: BoxFit.scaleDown,
                     child: Text(
-                      user.email,
+                      user.userType,
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            color: Theme.of(context).colorScheme.secondary,
-                          ),
+                        color: Theme.of(context).colorScheme.secondary,
+                      ),
                     ),
                   ),
                 ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );

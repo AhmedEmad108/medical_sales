@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medical_sales/core/utils/custom_listtile.dart';
 import 'package:medical_sales/features/5-profile/presentation/views/chang_password/change_password_view.dart';
-import 'package:medical_sales/features/5-profile/presentation/views/edit_email/change_email_view.dart';
 import 'package:medical_sales/features/5-profile/presentation/views/edit_profile/edit_profile_view.dart';
 import 'package:medical_sales/generated/l10n.dart';
 import 'package:medical_sales/features/5-profile/presentation/views/logout/custom_log_out.dart';
@@ -34,15 +33,7 @@ class CustomProfileItem extends StatelessWidget {
               );
             },
           ),
-          CustomListTile(
-            title: S.of(context).change_email,
-            icon: Icons.email_outlined,
-            onTap: () {
-              Navigator.of(context).pushNamed(
-                ChangeEmailView.routeName,
-              );
-            },
-          ),
+         
           CustomListTile(
             title: S.of(context).change_password,
             icon: Icons.lock_outline,

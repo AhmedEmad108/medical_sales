@@ -1,52 +1,51 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:medical_sales/features/auth/domain/entities/user_entity.dart';
 
 class UserModel extends UserEntity {
   UserModel({
     required super.uId,
-    required super.email,
     required super.name,
     required super.phone,
     required super.image,
+    required super.userType, // Add role to the constructor
   });
 
-  factory UserModel.fromFirebaseUser(User user) {
-    return UserModel(
-      uId: user.uid,
-      email: user.email ?? '',
-      name: user.displayName ?? '',
-      phone: user.phoneNumber ?? '',
-      image: user.photoURL ?? '',
-    );
-  }
+  // factory UserModel.fromFirebaseUser(User user) {
+  //   return UserModel(
+  //     uId: user.uid,
+  //     name: user.displayName ?? '',
+  //     phone: user.phoneNumber ?? '',
+  //     image: user.photoURL ?? '',
+  //     role: user.role,
+  //   );
+  // }
 
-  factory UserModel.fromJson(Map<String, dynamic> map) {
+  factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-      uId: map['uId'],
-      email: map['email'],
-      name: map['name'],
-      phone: map['phone'],
-      image: map['image'],
+      uId: json['uId'] ?? '',
+      name: json['name'] ?? '',
+      phone: json['phone'] ?? '',
+      image: json['image'] ?? '',
+      userType: json['userType'] ?? '', // Add role from JSON
     );
   }
 
   factory UserModel.fromEntity(UserEntity user) {
     return UserModel(
       uId: user.uId,
-      email: user.email,
       name: user.name,
       phone: user.phone,
       image: user.image,
+      userType: user.userType, // Add role from entity
     );
   }
 
   toMap() {
     return {
       'uId': uId,
-      'email': email,
       'name': name,
       'phone': phone,
       'image': image,
+      'userType': userType, // Add role to the map
     };
   }
 }

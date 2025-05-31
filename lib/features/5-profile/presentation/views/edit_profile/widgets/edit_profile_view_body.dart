@@ -121,7 +121,7 @@ class _EditProfileViewBodyState extends State<EditProfileViewBody> {
                     formKey.currentState!.save();
                     UserEntity user = UserEntity(
                       uId: user2.uId,
-                      email: user2.email,
+                      userType: user2.userType,
                       name: userName.text,
                       phone: phone.text,
                       image: urlImage!,

@@ -24,13 +24,14 @@ class UserCubit extends Cubit<UserState> {
       final reselt = await authRepo.getUserData(uId: getCurrentUserId());
       emit(GetUserSuccess(user: reselt));
       await authRepo.saveUserLocally(
-          user: UserEntity(
-        uId: reselt.uId,
-        email: reselt.email,
-        name: reselt.name,
-        phone: reselt.phone,
-        image: reselt.image,
-      ));
+        user: UserEntity(
+          uId: reselt.uId,
+          userType: reselt.userType,
+          name: reselt.name,
+          phone: reselt.phone,
+          image: reselt.image,
+        ),
+      );
     } catch (e) {
       emit(GetUserFailed(errMessage: e.toString()));
     }
@@ -41,10 +42,7 @@ class UserCubit extends Cubit<UserState> {
   Future<void> editUserImage({required String image}) async {
     try {
       emit(GetUserLoading());
-      await authRepo.updateUserImage(
-        uId: getCurrentUserId(),
-        image: image,
-      );
+      await authRepo.updateUserImage(uId: getCurrentUserId(), image: image);
       await getUserData();
     } catch (e) {
       emit(GetUserFailed(errMessage: e.toString()));
@@ -73,36 +71,35 @@ class UserCubit extends Cubit<UserState> {
     // );
   }
 
-Future<void> updateEmail({required String newEmail}) async {
-    emit(ChangeEmailLoading());
-    try {
-      // تحديث الإيميل في Firebase Auth
-      await authRepo.updateUserEmail(newEmail: newEmail);
-      
-      // الحصول على بيانات المستخدم الحالي
-      UserEntity currentUser = getUser();
-      
-      // تحديث بيانات المستخدم في Firestore
-      UserEntity updatedUser = UserEntity(
-        uId: currentUser.uId,
-        email: newEmail,  // الإيميل الجديد
-        name: currentUser.name,
-        phone: currentUser.phone,
-        image: currentUser.image,
-      );
+  // Future<void> updateEmail({required String newEmail}) async {
+  //     emit(ChangeEmailLoading());
+  //     try {
+  //       // تحديث الإيميل في Firebase Auth
+  //       await authRepo.updateUserEmail(newEmail: newEmail);
 
-      // تحديث البيانات في Firestore
-      await authRepo.updateUserData(user: updatedUser);
-      
-      // تحديث البيانات محلياً
-      await authRepo.updateUserLocally(user: updatedUser);
+  //       // الحصول على بيانات المستخدم الحالي
+  //       UserEntity currentUser = getUser();
 
-      emit(ChangeEmailSuccess());
-    } catch (e) {
-      emit(ChangeEmailFailed(error: e.toString()));
-    }
-  }
+  //       // تحديث بيانات المستخدم في Firestore
+  //       UserEntity updatedUser = UserEntity(
+  //         uId: currentUser.uId,
+  //         email: newEmail,  // الإيميل الجديد
+  //         name: currentUser.name,
+  //         phone: currentUser.phone,
+  //         image: currentUser.image,
+  //       );
 
+  //       // تحديث البيانات في Firestore
+  //       await authRepo.updateUserData(user: updatedUser);
+
+  //       // تحديث البيانات محلياً
+  //       await authRepo.updateUserLocally(user: updatedUser);
+
+  //       emit(ChangeEmailSuccess());
+  //     } catch (e) {
+  //       emit(ChangeEmailFailed(error: e.toString()));
+  //     }
+  //   }
 
   String getCurrentUserId() {
     return FirebaseAuth.instance.currentUser!.uid;

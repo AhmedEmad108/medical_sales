@@ -11,70 +11,187 @@ class FirebaseAuthService {
     } catch (e) {
       log('Exception in FirebaseAuthService.deleteUser: ${e.toString()}');
       throw CustomException(
-          message: 'Something went wrong. Please try again later.');
+        message: 'Something went wrong. Please try again later.',
+      );
     }
   }
 
-  Future<User> createUserWithEmailAndPassword(
-      {required String email, required String password}) async {
+  Future<User> createUserWithNameAndPassword({
+    required String name,
+    required String password,
+  }) async {
     try {
-      final credential =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      // تنظيف اسم المستخدم وتحويله لصيغة صالحة للاستخدام
+      final String sanitizedName = name.toLowerCase().replaceAll(' ', '_');
+
+      final credential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+            email: '$sanitizedName@placeholder.com',
+            password: password,
+          );
+
+      // تحديث اسم العرض للمستخدم
+      await credential.user?.updateDisplayName(name);
+
+      return credential.user!;
+    } on FirebaseAuthException catch (e) {
+      log(
+        'Exception in FirebaseAuthService.createUserWithEmailAndPassword: ${e.toString()} and code: ${e.code}',
+      );
+      if (e.code == 'weak-password') {
+        throw CustomException(message: 'The password provided is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        throw CustomException(
+          message: 'The account already exists for that email.',
+        );
+      } else if (e.code == 'network-request-failed') {
+        throw CustomException(
+          message: 'Please check your internet connection.',
+        );
+      } else {
+        throw CustomException(
+          message: 'Something went wrong. Please try again later.',
+        );
+      }
+    } catch (e) {
+      log(
+        'Exception in FirebaseAuthService.createUserWithEmailAndPassword: ${e.toString()}',
+      );
+      throw CustomException(
+        message: 'Something went wrong. Please try again later.',
+      );
+    }
+  }
+
+  Future<User> signInWithNameAndPassword({
+    required String name,
+    required String password,
+  }) async {
+    try {
+      final String sanitizedName = name.toLowerCase().replaceAll(' ', '_');
+      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: '$sanitizedName@placeholder.com',
+        password: password,
+      );
+      return credential.user!;
+    } on FirebaseAuthException catch (e) {
+      log(
+        'Exception in FirebaseAuthService.signInWithEmailAndPassword: ${e.toString()} and code: ${e.code}',
+      );
+      if (e.code == 'user-not-found') {
+        throw CustomException(message: 'No user found for that email.');
+      } else if (e.code == 'name-not-found') {
+        throw CustomException(message: 'No user found for that name.');
+      } else if (e.code == 'wrong-password') {
+        throw CustomException(
+          message: 'Wrong password provided for that user.',
+        );
+      } else if (e.code == 'invalid-credential') {
+        throw CustomException(message: 'The  user name or password is wrong.');
+      } else if (e.code == 'user-disabled') {
+        throw CustomException(
+          message: 'The user account has been disabled by an administrator.',
+        );
+      } else if (e.code == 'network-request-failed') {
+        throw CustomException(
+          message: 'Please check your internet connection.',
+        );
+      } else {
+        throw CustomException(
+          message: 'Something went wrong. Please try again later.',
+        );
+      }
+    } catch (e) {
+      log(
+        'Exception in FirebaseAuthService.signInWithEmailAndPassword: ${e.toString()}',
+      );
+      throw CustomException(
+        message: 'Something went wrong. Please try again later.',
+      );
+    }
+  }
+
+  Future<User> createUserWithEmailAndPassword({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      final credential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
+      return credential.user!;
+    } on FirebaseAuthException catch (e) {
+      log(
+        'Exception in FirebaseAuthService.createUserWithEmailAndPassword: ${e.toString()} and code: ${e.code}',
+      );
+      if (e.code == 'weak-password') {
+        throw CustomException(message: 'The password provided is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        throw CustomException(
+          message: 'The account already exists for that email.',
+        );
+      } else if (e.code == 'network-request-failed') {
+        throw CustomException(
+          message: 'Please check your internet connection.',
+        );
+      } else {
+        throw CustomException(
+          message: 'Something went wrong. Please try again later.',
+        );
+      }
+    } catch (e) {
+      log(
+        'Exception in FirebaseAuthService.createUserWithEmailAndPassword: ${e.toString()}',
+      );
+      throw CustomException(
+        message: 'Something went wrong. Please try again later.',
+      );
+    }
+  }
+
+  Future<User> signInWithEmailAndPassword({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
       return credential.user!;
     } on FirebaseAuthException catch (e) {
-      log('Exception in FirebaseAuthService.createUserWithEmailAndPassword: ${e.toString()} and code: ${e.code}');
-      if (e.code == 'weak-password') {
-        throw CustomException(message: 'The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        throw CustomException(
-            message: 'The account already exists for that email.');
-      } else if (e.code == 'network-request-failed') {
-        throw CustomException(
-            message: 'Please check your internet connection.');
-      } else {
-        throw CustomException(
-            message: 'Something went wrong. Please try again later.');
-      }
-    } catch (e) {
-      log('Exception in FirebaseAuthService.createUserWithEmailAndPassword: ${e.toString()}');
-      throw CustomException(
-          message: 'Something went wrong. Please try again later.');
-    }
-  }
-
-  Future<User> signInWithEmailAndPassword(
-      {required String email, required String password}) async {
-    try {
-      final credential = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
-      return credential.user!;
-    } on FirebaseAuthException catch (e) {
-      log('Exception in FirebaseAuthService.signInWithEmailAndPassword: ${e.toString()} and code: ${e.code}');
+      log(
+        'Exception in FirebaseAuthService.signInWithEmailAndPassword: ${e.toString()} and code: ${e.code}',
+      );
       if (e.code == 'user-not-found') {
         throw CustomException(message: 'No user found for that email.');
       } else if (e.code == 'wrong-password') {
         throw CustomException(
-            message: 'Wrong password provided for that user.');
+          message: 'Wrong password provided for that user.',
+        );
       } else if (e.code == 'invalid-credential') {
         throw CustomException(
-            message: 'The email address or password is wrong.');
+          message: 'The email address or password is wrong.',
+        );
       } else if (e.code == 'user-disabled') {
         throw CustomException(
-            message: 'The user account has been disabled by an administrator.');
+          message: 'The user account has been disabled by an administrator.',
+        );
       } else if (e.code == 'network-request-failed') {
         throw CustomException(
-            message: 'Please check your internet connection.');
+          message: 'Please check your internet connection.',
+        );
       } else {
         throw CustomException(
-            message: 'Something went wrong. Please try again later.');
+          message: 'Something went wrong. Please try again later.',
+        );
       }
     } catch (e) {
-      log('Exception in FirebaseAuthService.signInWithEmailAndPassword: ${e.toString()}');
+      log(
+        'Exception in FirebaseAuthService.signInWithEmailAndPassword: ${e.toString()}',
+      );
       throw CustomException(
-          message: 'Something went wrong. Please try again later.');
+        message: 'Something went wrong. Please try again later.',
+      );
     }
   }
 
@@ -87,46 +204,61 @@ class FirebaseAuthService {
         accessToken: googleAuth?.accessToken,
         idToken: googleAuth?.idToken,
       );
-      final userCredential =
-          await FirebaseAuth.instance.signInWithCredential(credential);
+      final userCredential = await FirebaseAuth.instance.signInWithCredential(
+        credential,
+      );
       return userCredential.user!;
     } on FirebaseAuthException catch (e) {
-      log('Exception in FirebaseAuthService.signInWithGoogle: ${e.toString()} and code: ${e.code}');
+      log(
+        'Exception in FirebaseAuthService.signInWithGoogle: ${e.toString()} and code: ${e.code}',
+      );
       if (e.code == 'network-request-failed') {
         throw CustomException(
-            message: 'Please check your internet connection.');
+          message: 'Please check your internet connection.',
+        );
       } else {
         throw CustomException(
-            message: 'Something went wrong. Please try again later.');
+          message: 'Something went wrong. Please try again later.',
+        );
       }
     } catch (e) {
       log('Exception in FirebaseAuthService.signInWithGoogle: ${e.toString()}');
       throw CustomException(
-          message: 'Something went wrong. Please try again later.');
+        message: 'Something went wrong. Please try again later.',
+      );
     }
   }
 
   Future<User> signInWithFacebook() async {
     try {
       final LoginResult result = await FacebookAuth.instance.login();
-      final facebookCredential =
-          FacebookAuthProvider.credential(result.accessToken!.tokenString);
-      final userCredential =
-          await FirebaseAuth.instance.signInWithCredential(facebookCredential);
+      final facebookCredential = FacebookAuthProvider.credential(
+        result.accessToken!.tokenString,
+      );
+      final userCredential = await FirebaseAuth.instance.signInWithCredential(
+        facebookCredential,
+      );
       return userCredential.user!;
     } on FirebaseAuthException catch (e) {
-      log('Exception in FirebaseAuthService.signInWithFacebook: ${e.toString()} and code: ${e.code}');
+      log(
+        'Exception in FirebaseAuthService.signInWithFacebook: ${e.toString()} and code: ${e.code}',
+      );
       if (e.code == 'network-request-failed') {
         throw CustomException(
-            message: 'Please check your internet connection.');
+          message: 'Please check your internet connection.',
+        );
       } else {
         throw CustomException(
-            message: 'Something went wrong. Please try again later.');
+          message: 'Something went wrong. Please try again later.',
+        );
       }
     } catch (e) {
-      log('Exception in FirebaseAuthService.signInWithFacebook: ${e.toString()}');
+      log(
+        'Exception in FirebaseAuthService.signInWithFacebook: ${e.toString()}',
+      );
       throw CustomException(
-          message: 'Something went wrong. Please try again later.');
+        message: 'Something went wrong. Please try again later.',
+      );
     }
   }
 
@@ -138,15 +270,19 @@ class FirebaseAuthService {
     await FirebaseAuth.instance.signOut();
   }
 
-  Future<void> changePassword(
-      {required String currentPassword, required String newPassword}) async {
+  Future<void> changePassword({
+    required String currentPassword,
+    required String newPassword,
+  }) async {
     // الحصول على المستخدم الحالي
     try {
       final user = FirebaseAuth.instance.currentUser;
 
       // إنشاء بيانات اعتماد لإعادة المصادقة
       final cred = EmailAuthProvider.credential(
-          email: user?.email ?? '', password: currentPassword);
+        email: user?.email ?? '',
+        password: currentPassword,
+      );
 
       // إعادة المصادقة
       await user?.reauthenticateWithCredential(cred);
@@ -154,10 +290,13 @@ class FirebaseAuthService {
       // تغيير كلمة المرور
       await user?.updatePassword(newPassword);
     } on FirebaseAuthException catch (e) {
-      log('Exception in FirebaseAuthService.changePassword: ${e.toString()} and code: ${e.code}');
+      log(
+        'Exception in FirebaseAuthService.changePassword: ${e.toString()} and code: ${e.code}',
+      );
       if (e.code == 'network-request-failed') {
         throw CustomException(
-            message: 'Please check your internet connection.');
+          message: 'Please check your internet connection.',
+        );
       } else if (e.code == 'invalid-credential') {
         throw CustomException(message: 'Current password is wrong.');
       } else if (e.code == 'requires-recent-login') {
@@ -166,47 +305,56 @@ class FirebaseAuthService {
         throw CustomException(message: 'No user found for that email.');
       } else if (e.code == 'wrong-password') {
         throw CustomException(
-            message: 'Wrong password provided for that user.');
+          message: 'Wrong password provided for that user.',
+        );
       } else {
         throw CustomException(
-            message: 'Something went wrong. Please try again later.');
+          message: 'Something went wrong. Please try again later.',
+        );
       }
     } catch (e) {
       log('Exception in FirebaseAuthService.changePassword: ${e.toString()}');
       throw CustomException(
-          message: 'Something went wrong. Please try again later.');
+        message: 'Something went wrong. Please try again later.',
+      );
     }
   }
 
-
-Future<void> updateEmail(String newEmail) async {
-  try {
-    User? user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      await user.verifyBeforeUpdateEmail(newEmail);
-      // This will send a verification email to the new email address
-    } else {
-      throw CustomException(message: 'No user is currently signed in.');
-    }
-  } on FirebaseAuthException catch (e) {
-    log('Exception in FirebaseAuthService.updateEmail: ${e.toString()} and code: ${e.code}');
-    if (e.code == 'invalid-email') {
-      throw CustomException(message: 'The email address is not valid.');
-    } else if (e.code == 'email-already-in-use') {
-      throw CustomException(message: 'This email is already registered.');
-    } else if (e.code == 'requires-recent-login') {
+  Future<void> updateEmail(String newEmail) async {
+    try {
+      User? user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        await user.verifyBeforeUpdateEmail(newEmail);
+        // This will send a verification email to the new email address
+      } else {
+        throw CustomException(message: 'No user is currently signed in.');
+      }
+    } on FirebaseAuthException catch (e) {
+      log(
+        'Exception in FirebaseAuthService.updateEmail: ${e.toString()} and code: ${e.code}',
+      );
+      if (e.code == 'invalid-email') {
+        throw CustomException(message: 'The email address is not valid.');
+      } else if (e.code == 'email-already-in-use') {
+        throw CustomException(message: 'This email is already registered.');
+      } else if (e.code == 'requires-recent-login') {
+        throw CustomException(
+          message: 'Please log in again before updating your email.',
+        );
+      } else if (e.code == 'network-request-failed') {
+        throw CustomException(
+          message: 'Please check your internet connection.',
+        );
+      } else {
+        throw CustomException(
+          message: 'Something went wrong. Please try again later.',
+        );
+      }
+    } catch (e) {
+      log('Exception in FirebaseAuthService.updateEmail: ${e.toString()}');
       throw CustomException(
-          message: 'Please log in again before updating your email.');
-    } else if (e.code == 'network-request-failed') {
-      throw CustomException(message: 'Please check your internet connection.');
-    } else {
-      throw CustomException(
-          message: 'Something went wrong. Please try again later.');
+        message: 'Something went wrong. Please try again later.',
+      );
     }
-  } catch (e) {
-    log('Exception in FirebaseAuthService.updateEmail: ${e.toString()}');
-    throw CustomException(
-        message: 'Something went wrong. Please try again later.');
   }
-}
 }

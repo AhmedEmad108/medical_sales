@@ -16,130 +16,77 @@ import 'package:medical_sales/features/auth/domain/repos/auth_repo.dart';
 class AuthRepoImpl implements AuthRepo {
   final FirebaseAuthService firebaseAuthService;
   final DatabaseService databaseService;
-  AuthRepoImpl(
-      {required this.firebaseAuthService, required this.databaseService});
+  AuthRepoImpl({
+    required this.firebaseAuthService,
+    required this.databaseService,
+  });
   @override
-  Future<Either<Failures, UserEntity>> createUserWithEmailAndPassword({
-    required String email,
+  Future<Either<Failures, UserEntity>> createUser({
+    // required String email,
     required String password,
     required String name,
     required String phone,
     required String image,
+    required String userType, // Changed from role to userType
   }) async {
     User? user;
 
     try {
-      user = await firebaseAuthService.createUserWithEmailAndPassword(
-          email: email, password: password);
+      user = await firebaseAuthService.createUserWithNameAndPassword(
+        name: name,
+        password: password,
+      );
       var userEntity = UserEntity(
         uId: user.uid,
-        email: email,
         name: name,
         phone: phone,
         image: image,
+        userType: userType,
       );
-      await user.sendEmailVerification();
       await addUserData(user: userEntity);
       return Right(userEntity);
     } on CustomException catch (e) {
-      await deleteUser(user);
+      // await deleteUser(user);
       return Left(ServerFailure(message: e.message));
     } catch (e) {
-      await deleteUser(user);
+      // await deleteUser(user);
       log('Exception in createUserWithEmailAndPassword: ${e.toString()}');
-      return Left(ServerFailure(
-          message: 'Something went wrong. Please try again later.'));
+      return Left(
+        ServerFailure(message: 'Something went wrong. Please try again later.'),
+      );
     }
   }
 
-  Future<void> deleteUser(User? user) async {
-    if (user != null) {
-      await firebaseAuthService.deleteUser();
-    }
-  }
-
-  @override
-  Future<Either<Failures, UserEntity>> signInWithEmailAndPassword(
-      {required String email, required String password}) async {
+   @override
+  Future<Either<Failures, UserEntity>> signIn({
+    required String name,
+    required String password,
+  }) async {
     try {
-      var user = await firebaseAuthService.signInWithEmailAndPassword(
-          email: email, password: password);
-      if (user.emailVerified) {
-        var userEntity = await getUserData(uId: user.uid);
-        await saveUserLocally(user: userEntity);
-        return Right(userEntity);
-      } else {
-        await user.sendEmailVerification();
-        return Left(ServerFailure(
-            message:
-                'Please verify your email address. A verification link has been sent to your email address. Once you verify your email address, you can log in to your account.'));
-      }
+      final user = await firebaseAuthService.signInWithNameAndPassword(
+        name: name,
+        password: password,
+      );
+
+      final userEntity = await getUserData(uId: user.uid);
+      await saveUserLocally(user: userEntity);
+      return Right(userEntity);
     } on CustomException catch (e) {
       return Left(ServerFailure(message: e.message));
     } catch (e) {
-      log('Exception in signInWithEmailAndPassword: ${e.toString()}');
+      log('Exception in signIn: ${e.toString()}');
       return Left(ServerFailure(
-          message: 'Something went wrong. Please try again later.'));
+        message: 'حدث خطأ ما. الرجاء المحاولة مرة أخرى.',
+      ));
     }
   }
 
-  // @override
-  // Future<Either<Failures, UserEntity>> signInWithGoogle() async {
-  //   User? user;
-  //   try {
-  //     user = await firebaseAuthService.signInWithGoogle();
-  //     var userEntity = UserModel.fromFirebaseUser(user);
-  //     var isUserExist = await databaseService.checkIfDataExists(
-  //       path: BackendEndpoint.userData,
-  //       documentId: user.uid,
-  //     );
-  //     if (isUserExist) {
-  //       await getUserData(uId: user.uid);
-  //       await saveUserLocally(user: userEntity);
-  //     } else {
-  //       await addUserData(user: userEntity);
-  //       await saveUserLocally(user: userEntity);
-  //     }
-  //     return Right(userEntity);
-  //   } on CustomException catch (e) {
-  //     await deleteUser(user);
-  //     return Left(ServerFailure(message: e.message));
-  //   } catch (e) {
-  //     await deleteUser(user);
-  //     log('Exception in signInWithGoogle: ${e.toString()}');
-  //     return Left(ServerFailure(
-  //         message: 'Something went wrong. Please try again later.'));
-  //   }
-  // }
 
-  // @override
-  // Future<Either<Failures, UserEntity>> signInWithFacebook() async {
-  //   User? user;
-  //   try {
-  //     user = await firebaseAuthService.signInWithFacebook();
-  //     var userEntity = UserModel.fromFirebaseUser(user);
-  //     var isUserExist = await databaseService.checkIfDataExists(
-  //       path: BackendEndpoint.userData,
-  //       documentId: user.uid,
-  //     );
-  //     if (isUserExist) {
-  //       await getUserData(uId: user.uid);
-  //       await saveUserLocally(user: userEntity);
-  //     } else {
-  //       await addUserData(user: userEntity);
-  //       await saveUserLocally(user: userEntity);
-  //     }
-  //     return Right(userEntity);
-  //   } on CustomException catch (e) {
-  //     await deleteUser(user);
-  //     return Left(ServerFailure(message: e.message));
-  //   } catch (e) {
-  //     await deleteUser(user);
-  //     log('Exception in signInWithFacebook: ${e.toString()}');
-  //     return Left(ServerFailure(
-  //         message: 'Something went wrong. Please try again later.'));
-  //   }
-  // }
+  @override
+  Future<void> deleteUser() async {
+      await firebaseAuthService.deleteUser();
+    
+  }
 
   @override
   Future addUserData({required UserEntity user}) async {
@@ -165,8 +112,9 @@ class AuthRepoImpl implements AuthRepo {
   }
 
   @override
-  Future<Either<Failures, void>> updateUserData(
-      {required UserEntity user}) async {
+  Future<Either<Failures, void>> updateUserData({
+    required UserEntity user,
+  }) async {
     try {
       await databaseService.updateData(
         path: BackendEndpoint.userData,
@@ -180,8 +128,10 @@ class AuthRepoImpl implements AuthRepo {
   }
 
   @override
-  Future<Either<Failures, void>> updateUserImage(
-      {required String uId, required String image}) async {
+  Future<Either<Failures, void>> updateUserImage({
+    required String uId,
+    required String image,
+  }) async {
     try {
       await databaseService.updateData(
         path: BackendEndpoint.userData,
@@ -221,10 +171,14 @@ class AuthRepoImpl implements AuthRepo {
   }
 
   @override
-  Future<void> changePassword(
-      {required String currentPassword, required String newPassword}) async {
+  Future<void> changePassword({
+    required String currentPassword,
+    required String newPassword,
+  }) async {
     await firebaseAuthService.changePassword(
-        currentPassword: currentPassword, newPassword: newPassword);
+      currentPassword: currentPassword,
+      newPassword: newPassword,
+    );
   }
 
   @override
