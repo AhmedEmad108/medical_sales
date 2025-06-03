@@ -1471,6 +1471,116 @@ class S {
     );
   }
 
+  /// `Enter Employee Type`
+  String get enter_employee_type {
+    return Intl.message(
+      'Enter Employee Type',
+      name: 'enter_employee_type',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Employee Type`
+  String get employee_type {
+    return Intl.message(
+      'Employee Type',
+      name: 'employee_type',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter Join Date`
+  String get enter_join_date {
+    return Intl.message(
+      'Enter Join Date',
+      name: 'enter_join_date',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Join Date`
+  String get join_date {
+    return Intl.message('Join Date', name: 'join_date', desc: '', args: []);
+  }
+
+  /// `Enter Direct Manager`
+  String get enter_direct_manager {
+    return Intl.message(
+      'Enter Direct Manager',
+      name: 'enter_direct_manager',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Direct Manager`
+  String get direct_manager {
+    return Intl.message(
+      'Direct Manager',
+      name: 'direct_manager',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter Area Manager`
+  String get enter_area_manager {
+    return Intl.message(
+      'Enter Area Manager',
+      name: 'enter_area_manager',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Area Manager`
+  String get area_manager {
+    return Intl.message(
+      'Area Manager',
+      name: 'area_manager',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter Territory`
+  String get enter_territory {
+    return Intl.message(
+      'Enter Territory',
+      name: 'enter_territory',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Territory`
+  String get territory {
+    return Intl.message('Territory', name: 'territory', desc: '', args: []);
+  }
+
+  /// `Enter Employee Status`
+  String get enter_employee_status {
+    return Intl.message(
+      'Enter Employee Status',
+      name: 'enter_employee_status',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Employee Status`
+  String get employee_status {
+    return Intl.message(
+      'Employee Status',
+      name: 'employee_status',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Employee Email`
   String get employee_email {
     return Intl.message(
@@ -1506,6 +1616,86 @@ class S {
     return Intl.message(
       'Enter Employee Phone',
       name: 'enter_employee_phone',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter Employee National ID`
+  String get enter_employee_national_id {
+    return Intl.message(
+      'Enter Employee National ID',
+      name: 'enter_employee_national_id',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Employee National ID`
+  String get employee_national_id {
+    return Intl.message(
+      'Employee National ID',
+      name: 'employee_national_id',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter Employee Address`
+  String get employee_enter_address {
+    return Intl.message(
+      'Enter Employee Address',
+      name: 'employee_enter_address',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Employee Address`
+  String get employee_address {
+    return Intl.message(
+      'Employee Address',
+      name: 'employee_address',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter Employee Basic Salary`
+  String get enter_employee_basic_salary {
+    return Intl.message(
+      'Enter Employee Basic Salary',
+      name: 'enter_employee_basic_salary',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Employee Basic Salary`
+  String get employee_basic_salary {
+    return Intl.message(
+      'Employee Basic Salary',
+      name: 'employee_basic_salary',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter Employee Notes`
+  String get enter_employee_notes {
+    return Intl.message(
+      'Enter Employee Notes',
+      name: 'enter_employee_notes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Employee Notes`
+  String get employee_notes {
+    return Intl.message(
+      'Employee Notes',
+      name: 'employee_notes',
       desc: '',
       args: [],
     );

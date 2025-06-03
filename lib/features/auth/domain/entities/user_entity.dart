@@ -7,14 +7,14 @@ class UserEntity {
   final String directManager;
   final String areaManager;
   final String territory;
-  final String employmentStatus;
+  final String employeeStatus;
 
   // بيانات اضافية للمندوب
   final String? email;
   final String? phone;
   final String? nationalId;
   final String? address;
-  final double? basicSalary;
+  final String? basicSalary;
   final String? notes;
 
   UserEntity({
@@ -32,6 +32,6 @@ class UserEntity {
     this.address,
     this.basicSalary,
     this.notes,
-    required this.employmentStatus,
+    required this.employeeStatus,
   });
 }

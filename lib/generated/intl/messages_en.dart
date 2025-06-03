@@ -37,6 +37,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Already have an account?",
     ),
     "arabic": MessageLookupByLibrary.simpleMessage("Arabic"),
+    "area_manager": MessageLookupByLibrary.simpleMessage("Area Manager"),
     "best_selling": MessageLookupByLibrary.simpleMessage("Best Selling"),
     "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
     "cant_be_empty": MessageLookupByLibrary.simpleMessage("Cant Be Empty"),
@@ -111,6 +112,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "didnot_receive_code": MessageLookupByLibrary.simpleMessage(
       "Didn’t Receive Code?",
     ),
+    "direct_manager": MessageLookupByLibrary.simpleMessage("Direct Manager"),
     "do_not_have_an_account": MessageLookupByLibrary.simpleMessage(
       "Don’t have an account?",
     ),
@@ -122,17 +124,35 @@ class MessageLookup extends MessageLookupByLibrary {
     "edit_product": MessageLookupByLibrary.simpleMessage("Edit Product"),
     "edit_profile": MessageLookupByLibrary.simpleMessage("Edit Profile"),
     "email": MessageLookupByLibrary.simpleMessage("Email"),
+    "employee_address": MessageLookupByLibrary.simpleMessage(
+      "Employee Address",
+    ),
+    "employee_basic_salary": MessageLookupByLibrary.simpleMessage(
+      "Employee Basic Salary",
+    ),
     "employee_email": MessageLookupByLibrary.simpleMessage("Employee Email"),
+    "employee_enter_address": MessageLookupByLibrary.simpleMessage(
+      "Enter Employee Address",
+    ),
     "employee_name": MessageLookupByLibrary.simpleMessage("Employee Name"),
+    "employee_national_id": MessageLookupByLibrary.simpleMessage(
+      "Employee National ID",
+    ),
+    "employee_notes": MessageLookupByLibrary.simpleMessage("Employee Notes"),
     "employee_password": MessageLookupByLibrary.simpleMessage(
       "Employee Password",
     ),
     "employee_phone": MessageLookupByLibrary.simpleMessage("Employee Phone"),
+    "employee_status": MessageLookupByLibrary.simpleMessage("Employee Status"),
+    "employee_type": MessageLookupByLibrary.simpleMessage("Employee Type"),
     "empty_search_results": MessageLookupByLibrary.simpleMessage(
       "No search results",
     ),
     "english": MessageLookupByLibrary.simpleMessage("English"),
     "enter": MessageLookupByLibrary.simpleMessage("Enter"),
+    "enter_area_manager": MessageLookupByLibrary.simpleMessage(
+      "Enter Area Manager",
+    ),
     "enter_confirm_employee_password": MessageLookupByLibrary.simpleMessage(
       "Enter Confirm Employee Password",
     ),
@@ -145,12 +165,24 @@ class MessageLookup extends MessageLookupByLibrary {
     "enter_current_password": MessageLookupByLibrary.simpleMessage(
       "Enter Current Password",
     ),
+    "enter_direct_manager": MessageLookupByLibrary.simpleMessage(
+      "Enter Direct Manager",
+    ),
     "enter_email": MessageLookupByLibrary.simpleMessage("Enter Your Email"),
+    "enter_employee_basic_salary": MessageLookupByLibrary.simpleMessage(
+      "Enter Employee Basic Salary",
+    ),
     "enter_employee_email": MessageLookupByLibrary.simpleMessage(
       "Enter Employee Email",
     ),
     "enter_employee_name": MessageLookupByLibrary.simpleMessage(
       "Enter Employee Name",
+    ),
+    "enter_employee_national_id": MessageLookupByLibrary.simpleMessage(
+      "Enter Employee National ID",
+    ),
+    "enter_employee_notes": MessageLookupByLibrary.simpleMessage(
+      "Enter Employee Notes",
     ),
     "enter_employee_password": MessageLookupByLibrary.simpleMessage(
       "Enter Employee Password",
@@ -158,6 +190,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "enter_employee_phone": MessageLookupByLibrary.simpleMessage(
       "Enter Employee Phone",
     ),
+    "enter_employee_status": MessageLookupByLibrary.simpleMessage(
+      "Enter Employee Status",
+    ),
+    "enter_employee_type": MessageLookupByLibrary.simpleMessage(
+      "Enter Employee Type",
+    ),
+    "enter_join_date": MessageLookupByLibrary.simpleMessage("Enter Join Date"),
     "enter_name": MessageLookupByLibrary.simpleMessage("Enter Your User Name"),
     "enter_new_password": MessageLookupByLibrary.simpleMessage(
       "Enter New Password",
@@ -187,6 +226,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "enter_product_price": MessageLookupByLibrary.simpleMessage(
       "Enter Product Price",
     ),
+    "enter_territory": MessageLookupByLibrary.simpleMessage("Enter Territory"),
     "enter_your_password": MessageLookupByLibrary.simpleMessage(
       "Enter Your Password",
     ),
@@ -220,6 +260,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "is_featured_item": MessageLookupByLibrary.simpleMessage(
       "Is Featured Item",
     ),
+    "join_date": MessageLookupByLibrary.simpleMessage("Join Date"),
     "le": MessageLookupByLibrary.simpleMessage("LE"),
     "light_mode": MessageLookupByLibrary.simpleMessage("Light Mode"),
     "login_to_continue": MessageLookupByLibrary.simpleMessage(
@@ -362,6 +403,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "terms_and_condition2": MessageLookupByLibrary.simpleMessage(
       "our Terms of Service and Privacy Policy.",
     ),
+    "territory": MessageLookupByLibrary.simpleMessage("Territory"),
     "update": MessageLookupByLibrary.simpleMessage("Update"),
     "verification_code": MessageLookupByLibrary.simpleMessage(
       "Verification Code",

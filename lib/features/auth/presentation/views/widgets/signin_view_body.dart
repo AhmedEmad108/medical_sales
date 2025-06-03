@@ -157,9 +157,9 @@ class _SignInViewBodyState extends State<SignInViewBody> {
                 if (formKey.currentState!.validate()) {
                   formKey.currentState!.save();
                   context.read<UserCubit>().signIn(
-                    name: name.trim(),
-                    password: password.trim(),
-                    userType: userTypeValue.trim(),
+                    name: name,
+                    password: password,
+                    userType: userTypeValue,
                   );
                   // context.read<SignInCubit>().signInWithEmailAndPassword(
                   //   name: name,

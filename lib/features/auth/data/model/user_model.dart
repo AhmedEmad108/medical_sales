@@ -10,7 +10,7 @@ class UserModel extends UserEntity {
     required super.directManager,
     required super.areaManager,
     required super.territory,
-    required super.employmentStatus,
+    required super.employeeStatus,
 
     super.email,
     super.phone,
@@ -30,14 +30,14 @@ class UserModel extends UserEntity {
       directManager: json['directManager'],
       areaManager: json['areaManager'],
       territory: json['territory'],
-      employmentStatus: json['employmentStatus'],
+      employeeStatus: json['employmentStatus'],
 
       email: json['email'],
       phone: json['phone'],
       nationalId: json['nationalId'],
       address: json['address'],
-      basicSalary: json['basicSalary'], 
-      notes: json['notes'], 
+      basicSalary: json['basicSalary'],
+      notes: json['notes'],
     );
   }
 
@@ -57,7 +57,7 @@ class UserModel extends UserEntity {
       address: user.address,
       basicSalary: user.basicSalary,
       notes: user.notes,
-      employmentStatus: user.employmentStatus,
+      employeeStatus: user.employeeStatus,
     );
   }
 
@@ -77,7 +77,7 @@ class UserModel extends UserEntity {
       'address': address,
       'basicSalary': basicSalary,
       'notes': notes,
-      'employmentStatus': employmentStatus,
+      'employmentStatus': employeeStatus,
     };
   }
 }

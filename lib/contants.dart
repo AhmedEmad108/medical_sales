@@ -2,4 +2,4 @@ const kHorizontalPadding = 16.0;
 const kIsOnBoardingViewSeen = 'isOnBoardingViewSeen';
 const kUserData = 'userData';
 const imageProfile =
-    'https://love-msg.com/?seraph_accel_gci=wp-content%2Fuploads%2F2017%2F12%2F4367-7.jpg&n=FI0pusmN3fswBHItHS2Hlw';
+    'https://firebasestorage.googleapis.com/v0/b/online-shop-dcbc6.appspot.com/o/images_medical_sales%2Fscaled_1000000044.jpg..jpg?alt=media&token=20caac78-dbb9-468a-a856-393e79d230b8';

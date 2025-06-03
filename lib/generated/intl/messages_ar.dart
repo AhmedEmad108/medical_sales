@@ -35,6 +35,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "لديك حساب؟",
     ),
     "arabic": MessageLookupByLibrary.simpleMessage("اللغة العربية"),
+    "area_manager": MessageLookupByLibrary.simpleMessage("مدير المنطقة"),
     "best_selling": MessageLookupByLibrary.simpleMessage("الاكثر مبيعاً"),
     "cancel": MessageLookupByLibrary.simpleMessage("الغاء"),
     "cant_be_empty": MessageLookupByLibrary.simpleMessage(
@@ -115,6 +116,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "didnot_receive_code": MessageLookupByLibrary.simpleMessage(
       "لم تستلم رمز؟",
     ),
+    "direct_manager": MessageLookupByLibrary.simpleMessage("المدير المباشر"),
     "do_not_have_an_account": MessageLookupByLibrary.simpleMessage(
       "ليس لديك حساب؟",
     ),
@@ -126,15 +128,31 @@ class MessageLookup extends MessageLookupByLibrary {
     "edit_product": MessageLookupByLibrary.simpleMessage("تعديل المنتج"),
     "edit_profile": MessageLookupByLibrary.simpleMessage("تعديل الملف الشخصي"),
     "email": MessageLookupByLibrary.simpleMessage("البريد الالكتروني"),
+    "employee_address": MessageLookupByLibrary.simpleMessage("عنوان الموظف"),
+    "employee_basic_salary": MessageLookupByLibrary.simpleMessage(
+      "الراتب الاساسي للموظف",
+    ),
     "employee_email": MessageLookupByLibrary.simpleMessage("بريد الموظف"),
+    "employee_enter_address": MessageLookupByLibrary.simpleMessage(
+      "ادخل عنوان الموظف",
+    ),
     "employee_name": MessageLookupByLibrary.simpleMessage("اسم الموظف"),
+    "employee_national_id": MessageLookupByLibrary.simpleMessage(
+      "الرقم القومي للموظف",
+    ),
+    "employee_notes": MessageLookupByLibrary.simpleMessage("ملاحظات الموظف"),
     "employee_password": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
     "employee_phone": MessageLookupByLibrary.simpleMessage("رقم هاتف الموظف"),
+    "employee_status": MessageLookupByLibrary.simpleMessage("حالة الموظف"),
+    "employee_type": MessageLookupByLibrary.simpleMessage("درجة الموظف"),
     "empty_search_results": MessageLookupByLibrary.simpleMessage(
       "لا توجد نتائج للبحث",
     ),
     "english": MessageLookupByLibrary.simpleMessage("اللغة الانجليزية"),
     "enter": MessageLookupByLibrary.simpleMessage("ادخل"),
+    "enter_area_manager": MessageLookupByLibrary.simpleMessage(
+      "ادخل مدير المنطقة",
+    ),
     "enter_confirm_employee_password": MessageLookupByLibrary.simpleMessage(
       "ادخل تاكيد كلمة المرور",
     ),
@@ -147,8 +165,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "enter_current_password": MessageLookupByLibrary.simpleMessage(
       "ادخل كلمة المرور الحالية",
     ),
+    "enter_direct_manager": MessageLookupByLibrary.simpleMessage(
+      "ادخل المدير المباشر",
+    ),
     "enter_email": MessageLookupByLibrary.simpleMessage(
       "ادخل بريدك الالكتروني",
+    ),
+    "enter_employee_basic_salary": MessageLookupByLibrary.simpleMessage(
+      "ادخل الراتب الاساسي للموظف",
     ),
     "enter_employee_email": MessageLookupByLibrary.simpleMessage(
       "ادخل بريد الموظف",
@@ -156,11 +180,26 @@ class MessageLookup extends MessageLookupByLibrary {
     "enter_employee_name": MessageLookupByLibrary.simpleMessage(
       "ادخل اسم الموظف",
     ),
+    "enter_employee_national_id": MessageLookupByLibrary.simpleMessage(
+      "ادخل الرقم القومي للموظف",
+    ),
+    "enter_employee_notes": MessageLookupByLibrary.simpleMessage(
+      "ادخل ملاحظات الموظف",
+    ),
     "enter_employee_password": MessageLookupByLibrary.simpleMessage(
       "ادخل كلمة المرور",
     ),
     "enter_employee_phone": MessageLookupByLibrary.simpleMessage(
       "ادخل رقم هاتف الموظف",
+    ),
+    "enter_employee_status": MessageLookupByLibrary.simpleMessage(
+      "ادخل حالة الموظف",
+    ),
+    "enter_employee_type": MessageLookupByLibrary.simpleMessage(
+      "ادخل درجة الموظف",
+    ),
+    "enter_join_date": MessageLookupByLibrary.simpleMessage(
+      "ادخل تاريخ الانضمام",
     ),
     "enter_name": MessageLookupByLibrary.simpleMessage("ادخل اسمك"),
     "enter_new_password": MessageLookupByLibrary.simpleMessage(
@@ -191,6 +230,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "enter_product_price": MessageLookupByLibrary.simpleMessage(
       "ادخل سعر المنتج",
     ),
+    "enter_territory": MessageLookupByLibrary.simpleMessage("ادخل المنطقة"),
     "enter_your_password": MessageLookupByLibrary.simpleMessage(
       "ادخل كلمة المرور",
     ),
@@ -226,6 +266,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "الرجاء إدخال اسم مستخدم صحيح",
     ),
     "is_featured_item": MessageLookupByLibrary.simpleMessage("هل هو منتج مميز"),
+    "join_date": MessageLookupByLibrary.simpleMessage("تاريخ الانضمام"),
     "le": MessageLookupByLibrary.simpleMessage("جنيه مصري"),
     "light_mode": MessageLookupByLibrary.simpleMessage("الوضع الفاتح"),
     "login_to_continue": MessageLookupByLibrary.simpleMessage(
@@ -366,6 +407,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "terms_and_condition2": MessageLookupByLibrary.simpleMessage(
       "شروط الخدمة وسياسة الخصوصية.",
     ),
+    "territory": MessageLookupByLibrary.simpleMessage("المنطقة"),
     "update": MessageLookupByLibrary.simpleMessage("تحديث"),
     "verification_code": MessageLookupByLibrary.simpleMessage("رمز التحقق"),
     "verify_code": MessageLookupByLibrary.simpleMessage("تحقق من رمزك"),

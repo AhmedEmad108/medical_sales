@@ -39,8 +39,7 @@ class UserCubit extends Cubit<UserState> {
           address: reselt.address,
           basicSalary: reselt.basicSalary,
           notes: reselt.notes,
-          employmentStatus: reselt.employmentStatus,
-          
+          employeeStatus: reselt.employmentStatus,
         ),
       );
     } catch (e) {
@@ -116,18 +115,13 @@ class UserCubit extends Cubit<UserState> {
     return FirebaseAuth.instance.currentUser!.uid;
   }
 
-
-
   Future<void> signUp({
     required UserEntity user,
     required String password,
   }) async {
     emit(SignUpLoading());
     try {
-      await authRepo.signUp(
-        user: user,
-        password: password,
-      );
+      await authRepo.signUp(user: user, password: password);
       emit(SignUpSuccess());
     } catch (e) {
       emit(SignUpFailed(errMessage: e.toString()));
