@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:medical_sales/features/auth/domain/entities/user_entity.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:medical_sales/core/cubit/user/user_cubit.dart';
 import 'package:medical_sales/core/helper_functions/get_user.dart';
 import 'package:medical_sales/features/5-profile/presentation/views/widgets/profile_header_item.dart';
 
 class CustomProfileHeaderBlocConsumer extends StatefulWidget {
-  const CustomProfileHeaderBlocConsumer({
-    super.key,
-  });
+  const CustomProfileHeaderBlocConsumer({super.key});
 
   @override
   State<CustomProfileHeaderBlocConsumer> createState() =>
@@ -29,16 +28,12 @@ class _CustomProfileHeaderBlocConsumerState
     return BlocBuilder<UserCubit, UserState>(
       builder: (context, state) {
         if (state is GetUserSuccess) {
-          return ProfileHeaderItem(
-            user: state.user,
-          );
+          return ProfileHeaderItem(user: state.user);
         }
         if (state is GetUserLoading) {
           return Skeletonizer(
             enabled: true,
-            child: ProfileHeaderItem(
-              user: getUser(),
-            ),
+            child: ProfileHeaderItem(user: getUser()),
           );
         }
         if (state is GetUserFailed) {
@@ -49,9 +44,7 @@ class _CustomProfileHeaderBlocConsumerState
         // }
         return Skeletonizer(
           enabled: true,
-          child: ProfileHeaderItem(
-            user: getUser(),
-          ),
+          child: ProfileHeaderItem(user: getUser()),
         );
         // return ProfileHeaderItem(
         //   user: getUser(),

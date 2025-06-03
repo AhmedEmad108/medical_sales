@@ -4,28 +4,40 @@ class UserModel extends UserEntity {
   UserModel({
     required super.uId,
     required super.name,
-    required super.phone,
     required super.image,
-    required super.userType, // Add role to the constructor
-  });
+    required super.userType,
+    required super.joiningDate,
+    required super.directManager,
+    required super.areaManager,
+    required super.territory,
+    required super.employmentStatus,
 
-  // factory UserModel.fromFirebaseUser(User user) {
-  //   return UserModel(
-  //     uId: user.uid,
-  //     name: user.displayName ?? '',
-  //     phone: user.phoneNumber ?? '',
-  //     image: user.photoURL ?? '',
-  //     role: user.role,
-  //   );
-  // }
+    super.email,
+    super.phone,
+    super.nationalId,
+    super.address,
+    super.basicSalary,
+    super.notes,
+  });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-      uId: json['uId'] ?? '',
-      name: json['name'] ?? '',
-      phone: json['phone'] ?? '',
-      image: json['image'] ?? '',
-      userType: json['userType'] ?? '', // Add role from JSON
+      uId: json['uId'],
+      name: json['name'],
+      image: json['image'],
+      userType: json['userType'],
+      joiningDate: json['joiningDate'],
+      directManager: json['directManager'],
+      areaManager: json['areaManager'],
+      territory: json['territory'],
+      employmentStatus: json['employmentStatus'],
+
+      email: json['email'],
+      phone: json['phone'],
+      nationalId: json['nationalId'],
+      address: json['address'],
+      basicSalary: json['basicSalary'], 
+      notes: json['notes'], 
     );
   }
 
@@ -35,7 +47,17 @@ class UserModel extends UserEntity {
       name: user.name,
       phone: user.phone,
       image: user.image,
-      userType: user.userType, // Add role from entity
+      userType: user.userType,
+      email: user.email,
+      joiningDate: user.joiningDate,
+      directManager: user.directManager,
+      areaManager: user.areaManager,
+      territory: user.territory,
+      nationalId: user.nationalId,
+      address: user.address,
+      basicSalary: user.basicSalary,
+      notes: user.notes,
+      employmentStatus: user.employmentStatus,
     );
   }
 
@@ -45,7 +67,17 @@ class UserModel extends UserEntity {
       'name': name,
       'phone': phone,
       'image': image,
-      'userType': userType, // Add role to the map
+      'userType': userType,
+      'email': email,
+      'joiningDate': joiningDate,
+      'directManager': directManager,
+      'areaManager': areaManager,
+      'territory': territory,
+      'nationalId': nationalId,
+      'address': address,
+      'basicSalary': basicSalary,
+      'notes': notes,
+      'employmentStatus': employmentStatus,
     };
   }
 }

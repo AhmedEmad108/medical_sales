@@ -30,6 +30,17 @@ class UserCubit extends Cubit<UserState> {
           name: reselt.name,
           phone: reselt.phone,
           image: reselt.image,
+          email: reselt.email,
+          joiningDate: reselt.joiningDate,
+          directManager: reselt.directManager,
+          areaManager: reselt.areaManager,
+          territory: reselt.territory,
+          nationalId: reselt.nationalId,
+          address: reselt.address,
+          basicSalary: reselt.basicSalary,
+          notes: reselt.notes,
+          employmentStatus: reselt.employmentStatus,
+          
         ),
       );
     } catch (e) {
@@ -103,5 +114,45 @@ class UserCubit extends Cubit<UserState> {
 
   String getCurrentUserId() {
     return FirebaseAuth.instance.currentUser!.uid;
+  }
+
+
+
+  Future<void> signUp({
+    required UserEntity user,
+    required String password,
+  }) async {
+    emit(SignUpLoading());
+    try {
+      await authRepo.signUp(
+        user: user,
+        password: password,
+      );
+      emit(SignUpSuccess());
+    } catch (e) {
+      emit(SignUpFailed(errMessage: e.toString()));
+    }
+  }
+
+  Future<void> signIn({
+    required String name,
+    required String password,
+    required String userType,
+  }) async {
+    emit(SignInLoading());
+    try {
+      final userData = await authRepo.signIn(
+        name: name,
+        password: password,
+        userType: userType,
+      );
+      if (userData != null) {
+        emit(SignInSuccess(userData: userData));
+      } else {
+        emit(SignInFailed(errMessage: 'بيانات تسجيل الدخول غير صحيحة'));
+      }
+    } catch (e) {
+      emit(SignInFailed(errMessage: e.toString()));
+    }
   }
 }

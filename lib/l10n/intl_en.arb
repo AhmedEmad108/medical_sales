@@ -187,7 +187,25 @@
   "new_password_and_confirm_password_does_not_match": "New password and confirm password does not match",
 
   "password_updated_successfully": "Password updated successfully",
-  "logout_message": "Are you sure you want to logout?"
+  "logout_message": "Are you sure you want to logout?",
+
+
+  "password_and_confirm_password_not_match": "Password and Confirm Password do not match",
+
+  "add_employee": "Add Employee",
+  "success_added_employee": "Employee added successfully",
+  "employee_name": "Employee Name",
+  "enter_employee_name": "Enter Employee Name",
+  "employee_email": "Employee Email",
+  "enter_employee_email": "Enter Employee Email",
+  "employee_phone": "Employee Phone",
+  "enter_employee_phone": "Enter Employee Phone",
+  "employee_password": "Employee Password",
+  "enter_employee_password": "Enter Employee Password",
+  "confirm_employee_password": "Confirm Employee Password",
+  "enter_confirm_employee_password": "Enter Confirm Employee Password",
+  "success_updated_employee": "Employee updated successfully",
+  "success_deleted_employee": "Employee deleted successfully"
 
       
 

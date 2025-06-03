@@ -70,6 +70,28 @@ final class ChangeEmailFailed extends UserState {
 }
 
 
+class SignUpLoading extends UserState {}
+
+class SignUpSuccess extends UserState {}
+
+class SignUpFailed extends UserState {
+  final String errMessage;
+  SignUpFailed({required this.errMessage});
+}
+
+class SignInLoading extends UserState {}
+
+class SignInSuccess extends UserState {
+  final dynamic userData; // UserEntity
+  SignInSuccess({required this.userData});
+}
+
+class SignInFailed extends UserState {
+  final String errMessage;
+  SignInFailed({required this.errMessage});
+}
+
+
 // part of 'user_cubit.dart';
 
 // @immutable

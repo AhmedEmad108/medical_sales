@@ -27,6 +27,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "active_products": MessageLookupByLibrary.simpleMessage("المنتجات النشطة"),
     "add": MessageLookupByLibrary.simpleMessage("اضافة"),
     "add_category": MessageLookupByLibrary.simpleMessage("اضافة فئة"),
+    "add_employee": MessageLookupByLibrary.simpleMessage("اضافة موظف"),
     "add_product": MessageLookupByLibrary.simpleMessage("اضافة منتج"),
     "all_categories": MessageLookupByLibrary.simpleMessage("كل الفئات"),
     "all_products": MessageLookupByLibrary.simpleMessage("كل المنتجات"),
@@ -80,6 +81,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "confirm_delete_title": MessageLookupByLibrary.simpleMessage(
       "تأكيد الحذف",
     ),
+    "confirm_employee_password": MessageLookupByLibrary.simpleMessage(
+      "تاكيد كلمة المرور",
+    ),
     "confirm_new": MessageLookupByLibrary.simpleMessage("تأكيد جديد "),
     "confirm_new_password": MessageLookupByLibrary.simpleMessage(
       "تاكيد كلمة المرور الجديدة",
@@ -122,11 +126,18 @@ class MessageLookup extends MessageLookupByLibrary {
     "edit_product": MessageLookupByLibrary.simpleMessage("تعديل المنتج"),
     "edit_profile": MessageLookupByLibrary.simpleMessage("تعديل الملف الشخصي"),
     "email": MessageLookupByLibrary.simpleMessage("البريد الالكتروني"),
+    "employee_email": MessageLookupByLibrary.simpleMessage("بريد الموظف"),
+    "employee_name": MessageLookupByLibrary.simpleMessage("اسم الموظف"),
+    "employee_password": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
+    "employee_phone": MessageLookupByLibrary.simpleMessage("رقم هاتف الموظف"),
     "empty_search_results": MessageLookupByLibrary.simpleMessage(
       "لا توجد نتائج للبحث",
     ),
     "english": MessageLookupByLibrary.simpleMessage("اللغة الانجليزية"),
     "enter": MessageLookupByLibrary.simpleMessage("ادخل"),
+    "enter_confirm_employee_password": MessageLookupByLibrary.simpleMessage(
+      "ادخل تاكيد كلمة المرور",
+    ),
     "enter_confirm_new_password": MessageLookupByLibrary.simpleMessage(
       "ادخل تاكيد كلمة المرور الجديدة",
     ),
@@ -138,6 +149,18 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "enter_email": MessageLookupByLibrary.simpleMessage(
       "ادخل بريدك الالكتروني",
+    ),
+    "enter_employee_email": MessageLookupByLibrary.simpleMessage(
+      "ادخل بريد الموظف",
+    ),
+    "enter_employee_name": MessageLookupByLibrary.simpleMessage(
+      "ادخل اسم الموظف",
+    ),
+    "enter_employee_password": MessageLookupByLibrary.simpleMessage(
+      "ادخل كلمة المرور",
+    ),
+    "enter_employee_phone": MessageLookupByLibrary.simpleMessage(
+      "ادخل رقم هاتف الموظف",
     ),
     "enter_name": MessageLookupByLibrary.simpleMessage("ادخل اسمك"),
     "enter_new_password": MessageLookupByLibrary.simpleMessage(
@@ -235,6 +258,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "or_continue_with": MessageLookupByLibrary.simpleMessage("أو"),
     "orders": MessageLookupByLibrary.simpleMessage("الطلبات"),
     "password": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
+    "password_and_confirm_password_not_match":
+        MessageLookupByLibrary.simpleMessage(
+          "كلمة المرور وتأكيد كلمة المرور غير متطابقين",
+        ),
     "password_updated_failed": MessageLookupByLibrary.simpleMessage(
       "فشل تحديث كلمة المرور",
     ),
@@ -324,6 +351,15 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "signin": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
     "signup": MessageLookupByLibrary.simpleMessage("تسجيل"),
+    "success_added_employee": MessageLookupByLibrary.simpleMessage(
+      "تم اضافة الموظف بنجاح",
+    ),
+    "success_deleted_employee": MessageLookupByLibrary.simpleMessage(
+      "تم حذف الموظف بنجاح",
+    ),
+    "success_updated_employee": MessageLookupByLibrary.simpleMessage(
+      "تم تحديث الموظف بنجاح",
+    ),
     "terms_and_condition1": MessageLookupByLibrary.simpleMessage(
       "بالتسجيل فإنك توافق على ",
     ),

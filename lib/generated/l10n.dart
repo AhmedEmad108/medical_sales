@@ -1420,6 +1420,156 @@ class S {
       args: [],
     );
   }
+
+  /// `Password and Confirm Password do not match`
+  String get password_and_confirm_password_not_match {
+    return Intl.message(
+      'Password and Confirm Password do not match',
+      name: 'password_and_confirm_password_not_match',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add Employee`
+  String get add_employee {
+    return Intl.message(
+      'Add Employee',
+      name: 'add_employee',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Employee added successfully`
+  String get success_added_employee {
+    return Intl.message(
+      'Employee added successfully',
+      name: 'success_added_employee',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Employee Name`
+  String get employee_name {
+    return Intl.message(
+      'Employee Name',
+      name: 'employee_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter Employee Name`
+  String get enter_employee_name {
+    return Intl.message(
+      'Enter Employee Name',
+      name: 'enter_employee_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Employee Email`
+  String get employee_email {
+    return Intl.message(
+      'Employee Email',
+      name: 'employee_email',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter Employee Email`
+  String get enter_employee_email {
+    return Intl.message(
+      'Enter Employee Email',
+      name: 'enter_employee_email',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Employee Phone`
+  String get employee_phone {
+    return Intl.message(
+      'Employee Phone',
+      name: 'employee_phone',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter Employee Phone`
+  String get enter_employee_phone {
+    return Intl.message(
+      'Enter Employee Phone',
+      name: 'enter_employee_phone',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Employee Password`
+  String get employee_password {
+    return Intl.message(
+      'Employee Password',
+      name: 'employee_password',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter Employee Password`
+  String get enter_employee_password {
+    return Intl.message(
+      'Enter Employee Password',
+      name: 'enter_employee_password',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm Employee Password`
+  String get confirm_employee_password {
+    return Intl.message(
+      'Confirm Employee Password',
+      name: 'confirm_employee_password',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter Confirm Employee Password`
+  String get enter_confirm_employee_password {
+    return Intl.message(
+      'Enter Confirm Employee Password',
+      name: 'enter_confirm_employee_password',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Employee updated successfully`
+  String get success_updated_employee {
+    return Intl.message(
+      'Employee updated successfully',
+      name: 'success_updated_employee',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Employee deleted successfully`
+  String get success_deleted_employee {
+    return Intl.message(
+      'Employee deleted successfully',
+      name: 'success_deleted_employee',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

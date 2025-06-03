@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:medical_sales/contants.dart';
@@ -20,67 +21,107 @@ class AuthRepoImpl implements AuthRepo {
     required this.firebaseAuthService,
     required this.databaseService,
   });
-  @override
-  Future<Either<Failures, UserEntity>> createUser({
-    // required String email,
-    required String password,
-    required String name,
-    required String phone,
-    required String image,
-    required String userType, // Changed from role to userType
-  }) async {
-    User? user;
 
-    try {
-      user = await firebaseAuthService.createUserWithNameAndPassword(
-        name: name,
-        password: password,
-      );
-      var userEntity = UserEntity(
-        uId: user.uid,
-        name: name,
-        phone: phone,
-        image: image,
-        userType: userType,
-      );
-      await addUserData(user: userEntity);
-      return Right(userEntity);
-    } on CustomException catch (e) {
-      // await deleteUser(user);
-      return Left(ServerFailure(message: e.message));
-    } catch (e) {
-      // await deleteUser(user);
-      log('Exception in createUserWithEmailAndPassword: ${e.toString()}');
-      return Left(
-        ServerFailure(message: 'Something went wrong. Please try again later.'),
-      );
+  final usersCollection = FirebaseFirestore.instance.collection(
+    BackendEndpoint.userData,
+  );
+
+  @override
+  Future<void> signUp({
+    required UserEntity user,
+    required String password,
+  }) async {
+    // تحقق إذا كان الاسم مستخدم من قبل
+    final existing =
+        await usersCollection.where('name', isEqualTo: user.name).get();
+    if (existing.docs.isNotEmpty) {
+      throw Exception('الاسم مستخدم من قبل');
     }
+    final userMap = UserModel.fromEntity(user).toMap();
+    userMap['password'] = password; // إضافة الباسورد صريح أو مشفر حسب رغبتك
+    await usersCollection.add(userMap);
   }
 
   @override
-  Future<Either<Failures, UserEntity>> signIn({
+  Future<UserEntity?> signIn({
     required String name,
     required String password,
-    required String userType, // Changed from role to userType
+    required String userType,
   }) async {
-    try {
-      final user = await firebaseAuthService.signInWithNameAndPassword(
-        name: name,
-        password: password,
-      );
-
-      final userEntity = await getUserData(uId: user.uid);
-      await saveUserLocally(user: userEntity);
-      return Right(userEntity);
-    } on CustomException catch (e) {
-      return Left(ServerFailure(message: e.message));
-    } catch (e) {
-      log('Exception in signIn: ${e.toString()}');
-      return Left(
-        ServerFailure(message: 'حدث خطأ ما. الرجاء المحاولة مرة أخرى.'),
-      );
+    final result =
+        await usersCollection
+            .where('name', isEqualTo: name)
+            .where('password', isEqualTo: password)
+            .where('userType', isEqualTo: userType)
+            .get();
+    if (result.docs.isNotEmpty) {
+      final data = result.docs.first.data();
+      return UserModel.fromJson(data);
     }
+    return null;
   }
+
+  // @override
+  // Future<Either<Failures, UserEntity>> createUser({
+  //   // required String email,
+  //   required String password,
+  //   required String name,
+  //   required String phone,
+  //   required String image,
+  //   required String userType, // Changed from role to userType
+  // }) async {
+  //   User? user;
+
+  //   try {
+  //     user = await firebaseAuthService.createUserWithNameAndPassword(
+  //       name: name,
+  //       password: password,
+  //     );
+  //     var userEntity = UserEntity(
+  //       uId: user.uid,
+  //       name: name,
+  //       phone: phone,
+  //       image: image,
+  //       userType: userType,
+  //     );
+  //     await addUserData(user: userEntity);
+  //     return Right(userEntity);
+  //   } on CustomException catch (e) {
+  //     // await deleteUser(user);
+  //     return Left(ServerFailure(message: e.message));
+  //   } catch (e) {
+  //     // await deleteUser(user);
+  //     log('Exception in createUserWithEmailAndPassword: ${e.toString()}');
+  //     return Left(
+  //       ServerFailure(message: 'Something went wrong. Please try again later.'),
+  //     );
+  //   }
+  // }
+
+  // @override
+  // Future<Either<Failures, UserEntity>> signIn({
+  //   required String name,
+  //   required String password,
+  //   required String userType, // Changed from role to userType
+  // }) async {
+  //   try {
+  //     final user = await firebaseAuthService.signInWithNameAndPassword(
+  //       name: name,
+  //       password: password,
+  //     );
+
+  //     final userEntity = await getUserData(uId: user.uid);
+  //     await saveUserLocally(user: userEntity);
+  //     return Right(userEntity);
+  //   } on CustomException catch (e) {
+  //     return Left(ServerFailure(message: e.message));
+  //   } catch (e) {
+  //     log('Exception in signIn: ${e.toString()}');
+  //     return Left(
+  //       ServerFailure(message: 'حدث خطأ ما. الرجاء المحاولة مرة أخرى.'),
+  //     );
+  //   }
+  // }
 
   @override
   Future<void> deleteUser() async {

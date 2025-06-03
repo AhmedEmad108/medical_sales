@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medical_sales/contants.dart';
+import 'package:medical_sales/core/cubit/user/user_cubit.dart';
 import 'package:medical_sales/core/helper_functions/valid_input.dart';
 import 'package:medical_sales/core/utils/app_color.dart';
 import 'package:medical_sales/core/utils/app_images.dart';
@@ -155,11 +156,16 @@ class _SignInViewBodyState extends State<SignInViewBody> {
               onTap: () {
                 if (formKey.currentState!.validate()) {
                   formKey.currentState!.save();
-                  context.read<SignInCubit>().signInWithEmailAndPassword(
-                    name: name,
-                    password: password,
-                    userType: userTypeValue,
+                  context.read<UserCubit>().signIn(
+                    name: name.trim(),
+                    password: password.trim(),
+                    userType: userTypeValue.trim(),
                   );
+                  // context.read<SignInCubit>().signInWithEmailAndPassword(
+                  //   name: name,
+                  //   password: password,
+                  //   userType: userTypeValue,
+                  // );
                 } else {
                   autoValidateMode = AutovalidateMode.always;
                   setState(() {});

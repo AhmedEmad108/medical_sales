@@ -29,6 +29,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "active_products": MessageLookupByLibrary.simpleMessage("Active Products"),
     "add": MessageLookupByLibrary.simpleMessage("Add"),
     "add_category": MessageLookupByLibrary.simpleMessage("Add Categery"),
+    "add_employee": MessageLookupByLibrary.simpleMessage("Add Employee"),
     "add_product": MessageLookupByLibrary.simpleMessage("Add Product"),
     "all_categories": MessageLookupByLibrary.simpleMessage("All Categories"),
     "all_products": MessageLookupByLibrary.simpleMessage("All Products"),
@@ -76,6 +77,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "confirm_delete_title": MessageLookupByLibrary.simpleMessage(
       "Confirm Delete",
     ),
+    "confirm_employee_password": MessageLookupByLibrary.simpleMessage(
+      "Confirm Employee Password",
+    ),
     "confirm_new": MessageLookupByLibrary.simpleMessage("Confirm New "),
     "confirm_new_password": MessageLookupByLibrary.simpleMessage(
       "Confirm New Password",
@@ -118,11 +122,20 @@ class MessageLookup extends MessageLookupByLibrary {
     "edit_product": MessageLookupByLibrary.simpleMessage("Edit Product"),
     "edit_profile": MessageLookupByLibrary.simpleMessage("Edit Profile"),
     "email": MessageLookupByLibrary.simpleMessage("Email"),
+    "employee_email": MessageLookupByLibrary.simpleMessage("Employee Email"),
+    "employee_name": MessageLookupByLibrary.simpleMessage("Employee Name"),
+    "employee_password": MessageLookupByLibrary.simpleMessage(
+      "Employee Password",
+    ),
+    "employee_phone": MessageLookupByLibrary.simpleMessage("Employee Phone"),
     "empty_search_results": MessageLookupByLibrary.simpleMessage(
       "No search results",
     ),
     "english": MessageLookupByLibrary.simpleMessage("English"),
     "enter": MessageLookupByLibrary.simpleMessage("Enter"),
+    "enter_confirm_employee_password": MessageLookupByLibrary.simpleMessage(
+      "Enter Confirm Employee Password",
+    ),
     "enter_confirm_new_password": MessageLookupByLibrary.simpleMessage(
       "Enter Confirm New Password",
     ),
@@ -133,6 +146,18 @@ class MessageLookup extends MessageLookupByLibrary {
       "Enter Current Password",
     ),
     "enter_email": MessageLookupByLibrary.simpleMessage("Enter Your Email"),
+    "enter_employee_email": MessageLookupByLibrary.simpleMessage(
+      "Enter Employee Email",
+    ),
+    "enter_employee_name": MessageLookupByLibrary.simpleMessage(
+      "Enter Employee Name",
+    ),
+    "enter_employee_password": MessageLookupByLibrary.simpleMessage(
+      "Enter Employee Password",
+    ),
+    "enter_employee_phone": MessageLookupByLibrary.simpleMessage(
+      "Enter Employee Phone",
+    ),
     "enter_name": MessageLookupByLibrary.simpleMessage("Enter Your User Name"),
     "enter_new_password": MessageLookupByLibrary.simpleMessage(
       "Enter New Password",
@@ -229,6 +254,10 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "orders": MessageLookupByLibrary.simpleMessage("Orders"),
     "password": MessageLookupByLibrary.simpleMessage("Password"),
+    "password_and_confirm_password_not_match":
+        MessageLookupByLibrary.simpleMessage(
+          "Password and Confirm Password do not match",
+        ),
     "password_updated_failed": MessageLookupByLibrary.simpleMessage(
       "Password updated failed",
     ),
@@ -318,6 +347,15 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "signin": MessageLookupByLibrary.simpleMessage("Sign In"),
     "signup": MessageLookupByLibrary.simpleMessage("Sign Up"),
+    "success_added_employee": MessageLookupByLibrary.simpleMessage(
+      "Employee added successfully",
+    ),
+    "success_deleted_employee": MessageLookupByLibrary.simpleMessage(
+      "Employee deleted successfully",
+    ),
+    "success_updated_employee": MessageLookupByLibrary.simpleMessage(
+      "Employee updated successfully",
+    ),
     "terms_and_condition1": MessageLookupByLibrary.simpleMessage(
       "By signing up, you agree to ",
     ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:medical_sales/core/cubit/user/user_cubit.dart';
 import 'package:medical_sales/core/services/get_it.dart';
 import 'package:medical_sales/core/utils/custom_appbar.dart';
 import 'package:medical_sales/features/auth/domain/repos/auth_repo.dart';
@@ -14,7 +15,7 @@ class SignInView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => SignInCubit(getIt<AuthRepo>()),
+      create: (context) => UserCubit(getIt<AuthRepo>()),
       child: Scaffold(
         appBar: customAppBar(context, title: S.of(context).signin),
         body: const SafeArea(child: SignInViewBlocConsumer()),

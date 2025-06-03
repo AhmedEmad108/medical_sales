@@ -178,7 +178,24 @@
   "invalid_current_password": "كلمة المرور الحالية غير صالحة",
   "new_password_and_confirm_password_does_not_match": "كلمة المرور الجديدة وتاكيد كلمة المرور غير متطابقان",
   "password_updated_successfully": "تم تحديث كلمة المرور بنجاح",
-  "logout_message": "هل تريد تسجيل الخروج؟"
+  "logout_message": "هل تريد تسجيل الخروج؟",
+
+  "password_and_confirm_password_not_match": "كلمة المرور وتأكيد كلمة المرور غير متطابقين",
+
+  "add_employee": "اضافة موظف",
+  "success_added_employee": "تم اضافة الموظف بنجاح",
+  "employee_name": "اسم الموظف",
+  "enter_employee_name": "ادخل اسم الموظف",
+  "employee_email": "بريد الموظف",
+  "enter_employee_email": "ادخل بريد الموظف",
+  "employee_phone": "رقم هاتف الموظف",
+  "enter_employee_phone": "ادخل رقم هاتف الموظف",
+  "employee_password": "كلمة المرور",
+  "enter_employee_password": "ادخل كلمة المرور",
+  "confirm_employee_password": "تاكيد كلمة المرور",
+  "enter_confirm_employee_password": "ادخل تاكيد كلمة المرور",
+  "success_updated_employee": "تم تحديث الموظف بنجاح",
+  "success_deleted_employee": "تم حذف الموظف بنجاح"
 
       
 }
