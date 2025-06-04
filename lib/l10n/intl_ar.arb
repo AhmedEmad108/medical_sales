@@ -216,7 +216,19 @@
   "confirm_employee_password": "تاكيد كلمة المرور",
   "enter_confirm_employee_password": "ادخل تاكيد كلمة المرور",
   "success_updated_employee": "تم تحديث الموظف بنجاح",
-  "success_deleted_employee": "تم حذف الموظف بنجاح"
+  "success_deleted_employee": "تم حذف الموظف بنجاح",
+
+
+
+
+
+
+
+  "basic_info": "المعلومات الاساسية",
+  "employee_info": "معلومات الموظف",
+  "employee_type_info": "درجة الموظف",
+  "previous": "السابق",
+  "next": "التالي"
 
       
 }

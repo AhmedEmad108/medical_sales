@@ -36,6 +36,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "arabic": MessageLookupByLibrary.simpleMessage("اللغة العربية"),
     "area_manager": MessageLookupByLibrary.simpleMessage("مدير المنطقة"),
+    "basic_info": MessageLookupByLibrary.simpleMessage("المعلومات الاساسية"),
     "best_selling": MessageLookupByLibrary.simpleMessage("الاكثر مبيعاً"),
     "cancel": MessageLookupByLibrary.simpleMessage("الغاء"),
     "cant_be_empty": MessageLookupByLibrary.simpleMessage(
@@ -283,6 +284,7 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "كلمة المرور الجديدة وتاكيد كلمة المرور غير متطابقان",
         ),
+    "next": MessageLookupByLibrary.simpleMessage("التالي"),
     "no_categories_found": MessageLookupByLibrary.simpleMessage("لا يوجد فئات"),
     "no_data": MessageLookupByLibrary.simpleMessage("لا يوجد بيانات"),
     "no_products_found": MessageLookupByLibrary.simpleMessage("لا يوجد منتجات"),
@@ -322,6 +324,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "please_verify_your_email": MessageLookupByLibrary.simpleMessage(
       "الرجاء التحقق من بريدك الالكتروني لتفعيل الحساب",
     ),
+    "previous": MessageLookupByLibrary.simpleMessage("السابق"),
     "product": MessageLookupByLibrary.simpleMessage("منتج"),
     "product_added_successfully": MessageLookupByLibrary.simpleMessage(
       "تم اضافة المنتج بنجاح",

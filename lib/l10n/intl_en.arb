@@ -226,7 +226,20 @@
   "confirm_employee_password": "Confirm Employee Password",
   "enter_confirm_employee_password": "Enter Confirm Employee Password",
   "success_updated_employee": "Employee updated successfully",
-  "success_deleted_employee": "Employee deleted successfully"
+  "success_deleted_employee": "Employee deleted successfully",
+
+
+
+
+
+
+
+
+  "basic_info": "Basic Information",
+  "contact_info": "Contact Information",
+  "management_info": "Management Information",
+  "previous": "Previous",
+  "next": "Next"
 
       
 

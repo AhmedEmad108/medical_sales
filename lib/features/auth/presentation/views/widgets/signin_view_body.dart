@@ -78,7 +78,7 @@ class _SignInViewBodyState extends State<SignInViewBody> {
                   val: value!,
                   type: 'name',
                   max: 30,
-                  min: 10,
+                  min: 3,
                 );
               },
               keyboardType: TextInputType.name,
@@ -107,7 +107,7 @@ class _SignInViewBodyState extends State<SignInViewBody> {
                   val: value!,
                   type: 'name',
                   max: 30,
-                  min: 10,
+                  min: 1,
                 );
               },
               keyboardType: TextInputType.name,

@@ -38,6 +38,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "arabic": MessageLookupByLibrary.simpleMessage("Arabic"),
     "area_manager": MessageLookupByLibrary.simpleMessage("Area Manager"),
+    "basic_info": MessageLookupByLibrary.simpleMessage("Basic Information"),
     "best_selling": MessageLookupByLibrary.simpleMessage("Best Selling"),
     "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
     "cant_be_empty": MessageLookupByLibrary.simpleMessage("Cant Be Empty"),
@@ -90,6 +91,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "confirm_save": MessageLookupByLibrary.simpleMessage("Confirm Save"),
     "congratulations": MessageLookupByLibrary.simpleMessage("Congratulations!"),
+    "contact_info": MessageLookupByLibrary.simpleMessage("Contact Information"),
     "create_account": MessageLookupByLibrary.simpleMessage("Create Account"),
     "create_account_to_continue": MessageLookupByLibrary.simpleMessage(
       "Create Account to continue",
@@ -270,6 +272,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "logout_message": MessageLookupByLibrary.simpleMessage(
       "Are you sure you want to logout?",
     ),
+    "management_info": MessageLookupByLibrary.simpleMessage(
+      "Management Information",
+    ),
     "name": MessageLookupByLibrary.simpleMessage("User Name"),
     "new_": MessageLookupByLibrary.simpleMessage("New "),
     "new_password": MessageLookupByLibrary.simpleMessage("New Password"),
@@ -277,6 +282,7 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "New password and confirm password does not match",
         ),
+    "next": MessageLookupByLibrary.simpleMessage("Next"),
     "no_categories_found": MessageLookupByLibrary.simpleMessage(
       "No Categories Found",
     ),
@@ -318,6 +324,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "please_verify_your_email": MessageLookupByLibrary.simpleMessage(
       "Please Verify Your Email To Activate Your Account",
     ),
+    "previous": MessageLookupByLibrary.simpleMessage("Previous"),
     "product": MessageLookupByLibrary.simpleMessage("Products"),
     "product_added_successfully": MessageLookupByLibrary.simpleMessage(
       "Product Added Successfully",

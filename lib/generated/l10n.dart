@@ -1760,6 +1760,46 @@ class S {
       args: [],
     );
   }
+
+  /// `Basic Information`
+  String get basic_info {
+    return Intl.message(
+      'Basic Information',
+      name: 'basic_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Contact Information`
+  String get contact_info {
+    return Intl.message(
+      'Contact Information',
+      name: 'contact_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Management Information`
+  String get management_info {
+    return Intl.message(
+      'Management Information',
+      name: 'management_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Previous`
+  String get previous {
+    return Intl.message('Previous', name: 'previous', desc: '', args: []);
+  }
+
+  /// `Next`
+  String get next {
+    return Intl.message('Next', name: 'next', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

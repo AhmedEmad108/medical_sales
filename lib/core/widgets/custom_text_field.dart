@@ -17,7 +17,7 @@ class CustomTextField extends StatelessWidget {
     this.expanded = false,
     this.isNember = false,
     this.prefixIcon,
-    required this.keyboardType,
+    required this.keyboardType, this.onTap,
   });
   final bool expanded;
   final String hintText;
@@ -33,6 +33,7 @@ class CustomTextField extends StatelessWidget {
   final TextInputType keyboardType;
   final bool? obscureText;
   final bool isNember;
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -48,22 +49,26 @@ class CustomTextField extends StatelessWidget {
       validator: validator,
       minLines: 1,
       maxLines: expanded == true ? 5 : 1,
+      onTap: onTap,
       // maxLength: expanded == true ? 5 : 1,
       obscureText: obscureText!,
       // obscureText: obscureText == null || obscureText == false ? false : true,
       cursorColor: AppColor.primaryColor,
       decoration: InputDecoration(
-          // labelStyle: const TextStyle(color: Color(0xff39A2DB)),
-          label: Text(labels ?? ''),
-          // labelText: labels,
-          suffixIcon: suffixIcon,
-          prefixIcon: prefixIcon,
-          hintText: hintText,
-          hintStyle: Theme.of(context).textTheme.bodySmall,
-          border: buildBorder(),
-          enabledBorder: buildBorder(),
-          focusedBorder: buildBorder(
-              boolien == false ? AppColor.primaryColor : Colors.grey)),
+        // labelStyle: const TextStyle(color: Color(0xff39A2DB)),
+        label: Text(labels ?? ''),
+        // labelText: labels,
+        suffixIcon: suffixIcon,
+        prefixIcon: prefixIcon,
+        hintText: hintText,
+        hintStyle: Theme.of(context).textTheme.bodySmall,
+
+        border: buildBorder(),
+        enabledBorder: buildBorder(),
+        focusedBorder: buildBorder(
+          boolien == false ? AppColor.primaryColor : Colors.grey,
+        ),
+      ),
     );
   }
 
