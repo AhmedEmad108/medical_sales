@@ -228,7 +228,14 @@
   "employee_info": "معلومات الموظف",
   "employee_type_info": "درجة الموظف",
   "previous": "السابق",
-  "next": "التالي"
+  "next": "التالي",
+  "select_employee_type": "اختر درجة الموظف",
+  "medical_representative": "مندوب طبي",
+  "administrator": "اداري",
+  "select_employee_status": "اختر حالة الموظف",
+  "select_direct_manager": "اختر المدير المباشر",
+  "select_area_manager": "اختر مدير المنطقة",
+  "select_territory": "اختر المنطقة"
 
       
 }

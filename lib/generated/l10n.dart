@@ -1800,6 +1800,76 @@ class S {
   String get next {
     return Intl.message('Next', name: 'next', desc: '', args: []);
   }
+
+  /// `Select Employee Type`
+  String get select_employee_type {
+    return Intl.message(
+      'Select Employee Type',
+      name: 'select_employee_type',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Medical Representative`
+  String get medical_representative {
+    return Intl.message(
+      'Medical Representative',
+      name: 'medical_representative',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Administrator`
+  String get administator {
+    return Intl.message(
+      'Administrator',
+      name: 'administator',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select Employee Status`
+  String get select_employee_status {
+    return Intl.message(
+      'Select Employee Status',
+      name: 'select_employee_status',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select Direct Manager`
+  String get select_direct_manager {
+    return Intl.message(
+      'Select Direct Manager',
+      name: 'select_direct_manager',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select Area Manager`
+  String get select_area_manager {
+    return Intl.message(
+      'Select Area Manager',
+      name: 'select_area_manager',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select Territory`
+  String get select_territory {
+    return Intl.message(
+      'Select Territory',
+      name: 'select_territory',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

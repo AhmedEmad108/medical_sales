@@ -277,6 +277,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "logout_message": MessageLookupByLibrary.simpleMessage(
       "هل تريد تسجيل الخروج؟",
     ),
+    "medical_representative": MessageLookupByLibrary.simpleMessage("مندوب طبي"),
     "name": MessageLookupByLibrary.simpleMessage("الاسم"),
     "new_": MessageLookupByLibrary.simpleMessage("جديد "),
     "new_password": MessageLookupByLibrary.simpleMessage("كلمة المرور الجديدة"),
@@ -383,6 +384,19 @@ class MessageLookup extends MessageLookupByLibrary {
       "ابحث عن منتجاتك",
     ),
     "see_all": MessageLookupByLibrary.simpleMessage("اظهار الكل"),
+    "select_area_manager": MessageLookupByLibrary.simpleMessage(
+      "اختر مدير المنطقة",
+    ),
+    "select_direct_manager": MessageLookupByLibrary.simpleMessage(
+      "اختر المدير المباشر",
+    ),
+    "select_employee_status": MessageLookupByLibrary.simpleMessage(
+      "اختر حالة الموظف",
+    ),
+    "select_employee_type": MessageLookupByLibrary.simpleMessage(
+      "اختر درجة الموظف",
+    ),
+    "select_territory": MessageLookupByLibrary.simpleMessage("اختر المنطقة"),
     "settings": MessageLookupByLibrary.simpleMessage("الاعدادات"),
     "shop_now": MessageLookupByLibrary.simpleMessage("تسوق الان"),
     "shopping_cart": MessageLookupByLibrary.simpleMessage("عربة التسوق"),

@@ -100,7 +100,7 @@ class _SignInViewBodyState extends State<SignInViewBody> {
                 userTypeValue = value!;
               },
               controller: _userTypeValue,
-              boolien: true,
+              readOnly: true,
               validator: (value) {
                 return validInput(
                   context: context,

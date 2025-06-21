@@ -31,6 +31,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "add_category": MessageLookupByLibrary.simpleMessage("Add Categery"),
     "add_employee": MessageLookupByLibrary.simpleMessage("Add Employee"),
     "add_product": MessageLookupByLibrary.simpleMessage("Add Product"),
+    "administator": MessageLookupByLibrary.simpleMessage("Administrator"),
     "all_categories": MessageLookupByLibrary.simpleMessage("All Categories"),
     "all_products": MessageLookupByLibrary.simpleMessage("All Products"),
     "already_have_an_account": MessageLookupByLibrary.simpleMessage(
@@ -275,6 +276,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "management_info": MessageLookupByLibrary.simpleMessage(
       "Management Information",
     ),
+    "medical_representative": MessageLookupByLibrary.simpleMessage(
+      "Medical Representative",
+    ),
     "name": MessageLookupByLibrary.simpleMessage("User Name"),
     "new_": MessageLookupByLibrary.simpleMessage("New "),
     "new_password": MessageLookupByLibrary.simpleMessage("New Password"),
@@ -383,6 +387,21 @@ class MessageLookup extends MessageLookupByLibrary {
       "Search For Products",
     ),
     "see_all": MessageLookupByLibrary.simpleMessage("See All"),
+    "select_area_manager": MessageLookupByLibrary.simpleMessage(
+      "Select Area Manager",
+    ),
+    "select_direct_manager": MessageLookupByLibrary.simpleMessage(
+      "Select Direct Manager",
+    ),
+    "select_employee_status": MessageLookupByLibrary.simpleMessage(
+      "Select Employee Status",
+    ),
+    "select_employee_type": MessageLookupByLibrary.simpleMessage(
+      "Select Employee Type",
+    ),
+    "select_territory": MessageLookupByLibrary.simpleMessage(
+      "Select Territory",
+    ),
     "settings": MessageLookupByLibrary.simpleMessage("Settings"),
     "shop_now": MessageLookupByLibrary.simpleMessage("Shop Now"),
     "shopping_cart": MessageLookupByLibrary.simpleMessage("Shopping Cart"),

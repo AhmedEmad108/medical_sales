@@ -1,33 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:medical_sales/core/utils/app_color.dart';
 
 class CustomTextField extends StatelessWidget {
   const CustomTextField({
     super.key,
     required this.hintText,
-    this.maxlines = 1,
+    this.maxLines = 1,
     this.onSaved,
     this.onChanged,
     this.controller,
     this.suffixIcon,
     this.validator,
-    this.boolien = false,
+    this.readOnly = false,
     this.labels,
     this.obscureText = false,
     this.expanded = false,
     this.isNember = false,
     this.prefixIcon,
-    required this.keyboardType, this.onTap,
+    required this.keyboardType,
+    this.onTap,
   });
   final bool expanded;
   final String hintText;
   final String? labels;
-  final int? maxlines;
+  final int? maxLines;
   final void Function(String?)? onSaved;
   final Function(String)? onChanged;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
-  final bool? boolien;
+  final bool? readOnly;
   final Widget? suffixIcon;
   final Widget? prefixIcon;
   final TextInputType keyboardType;
@@ -42,7 +44,7 @@ class CustomTextField extends StatelessWidget {
       // isNember
       //     ? const TextInputType.numberWithOptions(decimal: true)
       //     : TextInputType.text,
-      readOnly: boolien!,
+      readOnly: readOnly!,
       controller: controller,
       onChanged: onChanged,
       onSaved: onSaved,
@@ -66,7 +68,8 @@ class CustomTextField extends StatelessWidget {
         border: buildBorder(),
         enabledBorder: buildBorder(),
         focusedBorder: buildBorder(
-          boolien == false ? AppColor.primaryColor : Colors.grey,
+          AppColor.primaryColor,
+          // readOnly == false ? AppColor.primaryColor : Colors.grey,
         ),
       ),
     );

@@ -13,7 +13,10 @@ class ProfileViewBody extends StatelessWidget {
       child: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(
-          children: [CustomProfileHeader(), const CustomProfileItem()],
+          children: [
+            // CustomProfileHeader(),
+            const CustomProfileItem(),
+          ],
         ),
       ),
     );

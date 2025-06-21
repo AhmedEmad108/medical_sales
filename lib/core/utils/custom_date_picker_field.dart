@@ -158,7 +158,7 @@ class _CustomDatePickerFieldState extends State<CustomDatePickerField> {
       keyboardType: TextInputType.none,
       controller: widget.controller,
       validator: widget.validator,
-      boolien: true,
+      readOnly: true,
       onTap: _selectDate,
       suffixIcon: const Icon(Icons.calendar_month_outlined),
     );

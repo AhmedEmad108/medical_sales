@@ -38,7 +38,7 @@ class AddEmployeeBlocConsumer extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        return const AddEmployeeView();
+        return const AddEmployeeViewBody();
       },
     );
   }

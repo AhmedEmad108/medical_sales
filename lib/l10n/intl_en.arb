@@ -239,7 +239,14 @@
   "contact_info": "Contact Information",
   "management_info": "Management Information",
   "previous": "Previous",
-  "next": "Next"
+  "next": "Next",
+  "select_employee_type": "Select Employee Type",
+  "medical_representative": "Medical Representative",
+  "administator": "Administrator",
+  "select_employee_status": "Select Employee Status",
+  "select_direct_manager": "Select Direct Manager",
+  "select_area_manager": "Select Area Manager",
+  "select_territory": "Select Territory"
 
       
 

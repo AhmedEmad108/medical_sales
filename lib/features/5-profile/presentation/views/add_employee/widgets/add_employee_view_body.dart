@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:medical_sales/contants.dart';
+import 'package:medical_sales/core/helper_functions/valid_input.dart';
 import 'package:medical_sales/core/utils/app_color.dart';
 import 'package:medical_sales/core/utils/app_style.dart';
 import 'package:medical_sales/core/utils/custom_date_picker_field.dart';
@@ -12,14 +14,14 @@ import 'package:medical_sales/features/auth/domain/entities/user_entity.dart';
 import 'package:medical_sales/core/cubit/user/user_cubit.dart';
 import 'package:medical_sales/generated/l10n.dart';
 
-class AddEmployeeView extends StatefulWidget {
-  const AddEmployeeView({super.key});
+class AddEmployeeViewBody extends StatefulWidget {
+  const AddEmployeeViewBody({super.key});
 
   @override
-  State<AddEmployeeView> createState() => _AddEmployeeViewState();
+  State<AddEmployeeViewBody> createState() => _AddEmployeeViewBodyState();
 }
 
-class _AddEmployeeViewState extends State<AddEmployeeView> {
+class _AddEmployeeViewBodyState extends State<AddEmployeeViewBody> {
   final _pageController = PageController();
   final _formKeys = List.generate(3, (index) => GlobalKey<FormState>());
   var _currentPage = 0;
@@ -75,131 +77,93 @@ class _AddEmployeeViewState extends State<AddEmployeeView> {
     super.dispose();
   }
 
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        body: BlocListener<UserCubit, UserState>(
-          listener: _handleUserState,
-          child: Column(
-            children: [
-              _buildStepIndicator(),
-              Expanded(
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: kHorizontalPadding,
+              ),
+
+              child: _buildStepIndicator(),
+            ),
+            const SizedBox(height: 16),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: kHorizontalPadding,
+                ),
                 child: PageView(
                   controller: _pageController,
                   physics: const NeverScrollableScrollPhysics(),
                   onPageChanged: _handlePageChange,
                   children: [
                     _buildBasicInfoStep(),
-                    _buildContactInfoStep(),
                     _buildManagementInfoStep(),
+                    _buildContactInfoStep(),
                   ],
                 ),
               ),
-              _buildNavigationButtons(),
-            ],
-          ),
+            ),
+            _buildNavigationButtons(),
+          ],
         ),
       ),
     );
   }
 
-  void _handleUserState(BuildContext context, UserState state) {
-    if (state is SignUpLoading) {
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => const Center(child: CircularProgressIndicator()),
-      );
-    } else if (state is S) {
-      Navigator.pop(context); // Dismiss loading
-      Navigator.pop(context); // Return to previous screen
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('S.of(context).employee_added_successfully'),
-          backgroundColor: Colors.green,
-        ),
-      );
-    } else if (state is SignInFailed) {
-      Navigator.pop(context); // Dismiss loading
-      customDialog(context, title: state.errMessage);
-    }
-  }
-
   Widget _buildStepIndicator() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16),
+    return SizedBox(
+      height: 70,
+      width: double.infinity,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: List.generate(3, (index) {
           return Expanded(
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Row(
-                  children: [
-                    if (index > 0)
-                      Expanded(
-                        child: Container(
-                          height: 2,
-                          color:
-                              _currentPage >= index
-                                  ? AppColor.primaryColor
-                                  : AppColor.grey,
-                        ),
-                      ),
-                    Container(
-                      width: 30,
-                      height: 30,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color:
-                            _currentPage >= index
-                                ? AppColor.primaryColor
-                                : AppColor.grey,
-                        border:
-                            _currentPage == index
-                                ? Border.all(
-                                  color: AppColor.primaryColor,
-                                  width: 2,
-                                )
-                                : null,
-                      ),
-                      child: Center(
-                        child: Text(
-                          '${index + 1}',
-                          style: TextStyle(
-                            color:
-                                _currentPage >= index
-                                    ? Colors.white
-                                    : Colors.black,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                    if (index < 2)
-                      Expanded(
-                        child: Container(
-                          height: 2,
-                          color:
-                              _currentPage > index
-                                  ? AppColor.primaryColor
-                                  : AppColor.grey,
-                        ),
-                      ),
-                  ],
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  _getStepTitle(index),
-                  style: TextStyle(
+                Container(
+                  width: 30,
+                  height: 30,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
                     color:
                         _currentPage >= index
                             ? AppColor.primaryColor
                             : AppColor.grey,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
+                    border:
+                        _currentPage == index
+                            ? Border.all(color: AppColor.primaryColor, width: 2)
+                            : null,
+                  ),
+                  child: Center(
+                    child: Text(
+                      '${index + 1}',
+                      style: AppStyle.styleBold16().copyWith(
+                        color:
+                            _currentPage >= index ? Colors.white : Colors.black,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                FittedBox(
+                  child: Text(
+                    _getStepTitle(index),
+                    style: AppStyle.styleMedium15().copyWith(
+                      color:
+                          _currentPage >= index
+                              ? AppColor.primaryColor
+                              : AppColor.grey,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
                 ),
               ],
@@ -215,183 +179,267 @@ class _AddEmployeeViewState extends State<AddEmployeeView> {
       case 0:
         return S.of(context).basic_info;
       case 1:
-        return S.of(context).contact_info;
-      case 2:
         return S.of(context).management_info;
+      case 2:
+        return S.of(context).contact_info;
       default:
         return '';
     }
   }
 
   Widget _buildBasicInfoStep() {
-    return FormStep(
-      formKey: _formKeys[0],
-      autovalidateMode: _autovalidateMode,
-      children: [
-        CustomImagePicker(
-          onFileChanged: (url) => _imageUrl = url,
-          auth: true,
-          radius: 70,
+    return SingleChildScrollView(
+      child: Form(
+        key: _formKeys[0],
+        autovalidateMode: _autovalidateMode,
+        child: Column(
+          children: [
+            const SizedBox(height: 16),
+            CustomImagePicker(
+              onFileChanged: (url) => _imageUrl = url,
+              auth: true,
+              radius: 70,
+            ),
+            const SizedBox(height: 24),
+            CustomTextField(
+              labels: "${S.of(context).employee_name} *",
+              hintText: S.of(context).enter_employee_name,
+              controller: _nameController,
+              validator: (value) {
+                return validInput(
+                  context: context,
+                  val: value!,
+                  type: 'name',
+                  max: 50,
+                  min: 3,
+                );
+              },
+              keyboardType: TextInputType.name,
+              suffixIcon: const Icon(Icons.person_outline),
+            ),
+            const SizedBox(height: 16),
+            CustomTextField(
+              labels: "${S.of(context).employee_type} *",
+              hintText: S.of(context).enter_employee_type,
+              controller: _typeController,
+              validator: (value) {
+                return validInput(
+                  context: context,
+                  val: value!,
+                  type: 'name',
+                  max: 50,
+                  min: 3,
+                );
+              },
+              keyboardType: TextInputType.name,
+              readOnly: true,
+              suffixIcon: const Icon(Icons.work_outline),
+              onTap: () {
+                FocusScope.of(context).unfocus();
+                _selectEmployeeType();
+              },
+            ),
+            const SizedBox(height: 16),
+            CustomDatePickerField(
+              label: "${S.of(context).join_date} *",
+              hint: S.of(context).enter_join_date,
+              controller: _joinDateController,
+              validator: (value) {
+                return validInput(
+                  context: context,
+                  val: value!,
+                  type: 'date',
+                  max: 10,
+                  min: 10,
+                );
+              },
+            ),
+            const SizedBox(height: 16),
+            CustomTextField(
+              labels: "${S.of(context).employee_status} *",
+              hintText: S.of(context).enter_employee_status,
+              controller: _statusController,
+              validator: (value) {
+                return validInput(
+                  context: context,
+                  val: value!,
+                  type: 'name',
+                  max: 20,
+                  min: 3,
+                );
+              },
+              keyboardType: TextInputType.name,
+              suffixIcon: const Icon(Icons.person_outline),
+            ),
+          ],
         ),
-        const SizedBox(height: 24),
-        CustomTextField(
-          labels: "${S.of(context).employee_name} *",
-          hintText: S.of(context).enter_employee_name,
-          controller: _nameController,
-          validator: _validateRequired,
-          keyboardType: TextInputType.name,
-          suffixIcon: const Icon(Icons.person_outline),
-        ),
-        const SizedBox(height: 16),
-        CustomTextField(
-          labels: "${S.of(context).employee_type} *",
-          hintText: S.of(context).enter_employee_type,
-          controller: _typeController,
-          validator: _validateRequired,
-          keyboardType: TextInputType.name,
-          suffixIcon: const Icon(Icons.work_outline),
-        ),
-        const SizedBox(height: 16),
-        CustomDatePickerField(
-          label: "${S.of(context).join_date} *",
-          hint: S.of(context).enter_join_date,
-          controller: _joinDateController,
-          validator: _validateRequired,
-        ),
-        const SizedBox(height: 16),
-        CustomTextField(
-          labels: "${S.of(context).employee_status} *",
-          hintText: S.of(context).enter_employee_status,
-          controller: _statusController,
-          validator: _validateRequired,
-          keyboardType: TextInputType.name,
-          suffixIcon: const Icon(Icons.person_outline),
-        ),
-      ],
+      ),
     );
   }
 
   Widget _buildContactInfoStep() {
-    return FormStep(
-      formKey: _formKeys[1],
-      autovalidateMode: _autovalidateMode,
-      children: [
-        CustomTextField(
-          labels: "${S.of(context).employee_email} *",
-          hintText: S.of(context).enter_employee_email,
-          controller: _emailController,
-          validator: _validateEmail,
-          keyboardType: TextInputType.emailAddress,
-          suffixIcon: const Icon(Icons.email_outlined),
+    return SingleChildScrollView(
+      child: Form(
+        key: _formKeys[1],
+        autovalidateMode: _autovalidateMode,
+        child: Column(
+          children: [
+            const SizedBox(height: 16),
+            CustomTextField(
+              labels: S.of(context).employee_email,
+              hintText: S.of(context).enter_employee_email,
+              controller: _emailController,
+              keyboardType: TextInputType.emailAddress,
+              suffixIcon: const Icon(Icons.email_outlined),
+            ),
+            const SizedBox(height: 16),
+            CustomTextField(
+              labels: S.of(context).employee_phone,
+              hintText: S.of(context).enter_employee_phone,
+              controller: _phoneController,
+              keyboardType: TextInputType.phone,
+              suffixIcon: const Icon(Icons.phone_android_outlined),
+            ),
+            const SizedBox(height: 16),
+            CustomTextField(
+              labels: S.of(context).employee_national_id,
+              hintText: S.of(context).enter_employee_national_id,
+              controller: _nationalIdController,
+              keyboardType: TextInputType.number,
+              suffixIcon: const Icon(Icons.badge_outlined),
+            ),
+            const SizedBox(height: 16),
+            CustomTextField(
+              labels: S.of(context).employee_address,
+              hintText: S.of(context).employee_enter_address,
+              controller: _addressController,
+              keyboardType: TextInputType.streetAddress,
+              suffixIcon: const Icon(Icons.location_on_outlined),
+            ),
+            const SizedBox(height: 16),
+            CustomPasswordTextField(
+              label: "${S.of(context).employee_password} *",
+              hintText: S.of(context).enter_employee_password,
+              onSaved: (value) => _password = value,
+            ),
+            const SizedBox(height: 16),
+            CustomPasswordTextField(
+              label: "${S.of(context).confirm_employee_password} *",
+              hintText: S.of(context).enter_confirm_employee_password,
+              onSaved: (value) => _confirmPassword = value,
+            ),
+          ],
         ),
-        const SizedBox(height: 16),
-        CustomTextField(
-          labels: "${S.of(context).employee_phone} *",
-          hintText: S.of(context).enter_employee_phone,
-          controller: _phoneController,
-          validator: _validatePhone,
-          keyboardType: TextInputType.phone,
-          suffixIcon: const Icon(Icons.phone_android_outlined),
-        ),
-        const SizedBox(height: 16),
-        CustomTextField(
-          labels: "${S.of(context).employee_national_id} *",
-          hintText: S.of(context).enter_employee_national_id,
-          controller: _nationalIdController,
-          validator: _validateNationalId,
-          keyboardType: TextInputType.number,
-          suffixIcon: const Icon(Icons.badge_outlined),
-        ),
-        const SizedBox(height: 16),
-        CustomTextField(
-          labels: S.of(context).employee_address,
-          hintText: S.of(context).employee_enter_address,
-          controller: _addressController,
-          keyboardType: TextInputType.streetAddress,
-          suffixIcon: const Icon(Icons.location_on_outlined),
-        ),
-        const SizedBox(height: 16),
-        CustomPasswordTextField(
-          label: "${S.of(context).employee_password} *",
-          hintText: S.of(context).enter_employee_password,
-          onSaved: (value) => _password = value,
-          // validator: _validatePassword,
-        ),
-        const SizedBox(height: 16),
-        CustomPasswordTextField(
-          label: "${S.of(context).confirm_employee_password} *",
-          hintText: S.of(context).enter_confirm_employee_password,
-          onSaved: (value) => _confirmPassword = value,
-          // validator: _validateConfirmPassword,
-        ),
-      ],
+      ),
     );
   }
 
   Widget _buildManagementInfoStep() {
-    return FormStep(
-      formKey: _formKeys[2],
-      autovalidateMode: _autovalidateMode,
-      children: [
-        CustomTextField(
-          labels: "${S.of(context).direct_manager} *",
-          hintText: S.of(context).enter_direct_manager,
-          controller: _directManagerController,
-          validator: _validateRequired,
-          keyboardType: TextInputType.name,
-          suffixIcon: const Icon(Icons.person_outline),
+    return SingleChildScrollView(
+      child: Form(
+        key: _formKeys[2],
+        autovalidateMode: _autovalidateMode,
+        child: Column(
+          children: [
+            const SizedBox(height: 16),
+            CustomTextField(
+              labels: "${S.of(context).direct_manager} *",
+              hintText: S.of(context).enter_direct_manager,
+              controller: _directManagerController,
+              validator: (value) {
+                return validInput(
+                  context: context,
+                  val: value!,
+                  type: 'name',
+                  max: 20,
+                  min: 3,
+                );
+              },
+              keyboardType: TextInputType.name,
+              suffixIcon: const Icon(Icons.person_outline),
+            ),
+            const SizedBox(height: 16),
+            CustomTextField(
+              labels: "${S.of(context).area_manager} *",
+              hintText: S.of(context).enter_area_manager,
+              controller: _areaManagerController,
+              validator: (value) {
+                return validInput(
+                  context: context,
+                  val: value!,
+                  type: 'name',
+                  max: 20,
+                  min: 3,
+                );
+              },
+              keyboardType: TextInputType.name,
+              suffixIcon: const Icon(Icons.person_outline),
+            ),
+            const SizedBox(height: 16),
+            CustomTextField(
+              labels: "${S.of(context).territory} *",
+              hintText: S.of(context).enter_territory,
+              controller: _territoryController,
+              validator: (value) {
+                return validInput(
+                  context: context,
+                  val: value!,
+                  type: 'name',
+                  max: 20,
+                  min: 3,
+                );
+              },
+              keyboardType: TextInputType.name,
+              suffixIcon: const Icon(Icons.location_on_outlined),
+            ),
+            const SizedBox(height: 16),
+            CustomTextField(
+              labels: "${S.of(context).employee_basic_salary} *",
+              hintText: S.of(context).enter_employee_basic_salary,
+              controller: _salaryController,
+              validator: (value) {
+                return validInput(
+                  context: context,
+                  val: value!,
+                  type: 'number',
+                  max: 20,
+                  min: 3,
+                );
+              },
+              keyboardType: TextInputType.number,
+              suffixIcon: const Icon(Icons.monetization_on_outlined),
+            ),
+            const SizedBox(height: 16),
+            CustomTextField(
+              labels: S.of(context).employee_notes,
+              hintText: S.of(context).enter_employee_notes,
+              controller: _notesController,
+              keyboardType: TextInputType.multiline,
+              maxLines: 3,
+              suffixIcon: const Icon(Icons.notes_outlined),
+            ),
+          ],
         ),
-        const SizedBox(height: 16),
-        CustomTextField(
-          labels: "${S.of(context).area_manager} *",
-          hintText: S.of(context).enter_area_manager,
-          controller: _areaManagerController,
-          validator: _validateRequired,
-          keyboardType: TextInputType.name,
-          suffixIcon: const Icon(Icons.person_outline),
-        ),
-        const SizedBox(height: 16),
-        CustomTextField(
-          labels: "${S.of(context).territory} *",
-          hintText: S.of(context).enter_territory,
-          controller: _territoryController,
-          validator: _validateRequired,
-          keyboardType: TextInputType.name,
-          suffixIcon: const Icon(Icons.location_on_outlined),
-        ),
-        const SizedBox(height: 16),
-        CustomTextField(
-          labels: "${S.of(context).employee_basic_salary} *",
-          hintText: S.of(context).enter_employee_basic_salary,
-          controller: _salaryController,
-          validator: _validateSalary,
-          keyboardType: TextInputType.number,
-          suffixIcon: const Icon(Icons.monetization_on_outlined),
-        ),
-        const SizedBox(height: 16),
-        CustomTextField(
-          labels: S.of(context).employee_notes,
-          hintText: S.of(context).enter_employee_notes,
-          controller: _notesController,
-          keyboardType: TextInputType.multiline,
-          maxlines: 3,
-          suffixIcon: const Icon(Icons.notes_outlined),
-        ),
-      ],
+      ),
     );
   }
 
   Widget _buildNavigationButtons() {
     return Padding(
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.symmetric(
+        horizontal: kHorizontalPadding,
+        vertical: kHorizontalPadding,
+      ),
       child: Row(
         children: [
           if (_currentPage > 0)
             Expanded(
               child: CustomButton(
                 title: S.of(context).previous,
-                buttonColor: AppColor.grey,
-                textStyle: AppStyle.styleBold16().copyWith(color: Colors.white),
+                buttonColor: AppColor.transparent,
+                textStyle: AppStyle.styleBold24().copyWith(
+                  color: AppColor.black,
+                ),
                 onTap: _previousPage,
               ),
             ),
@@ -403,7 +451,7 @@ class _AddEmployeeViewState extends State<AddEmployeeView> {
                       ? S.of(context).add_employee
                       : S.of(context).next,
               buttonColor: AppColor.primaryColor,
-              textStyle: AppStyle.styleBold16().copyWith(color: Colors.white),
+              textStyle: AppStyle.styleBold24().copyWith(color: Colors.white),
               onTap: _currentPage == 2 ? _submitForm : _nextPage,
             ),
           ),
@@ -427,91 +475,37 @@ class _AddEmployeeViewState extends State<AddEmployeeView> {
   }
 
   void _nextPage() {
-    if (_formKeys[_currentPage].currentState?.validate() ?? false) {
-      _formKeys[_currentPage].currentState?.save();
+    final currentFormState = _formKeys[_currentPage].currentState;
+    if (currentFormState != null && currentFormState.validate()) {
+      currentFormState.save();
       _pageController.nextPage(
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
       );
+
+      // نعيد ضبط وضع التحقق التلقائي عند الانتقال للصفحة التالية
+      setState(() {
+        _autovalidateMode = AutovalidateMode.disabled;
+      });
     } else {
       setState(() {
         _autovalidateMode = AutovalidateMode.always;
       });
     }
   }
-
-  String? _validateRequired(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'S.of(context).field_required';
-    }
-    return null;
-  }
-
-  String? _validateEmail(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'S.of(context).field_required';
-    }
-    if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
-      return S.of(context).invalid_email;
-    }
-    return null;
-  }
-
-  String? _validatePhone(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'S.of(context).field_required';
-    }
-    if (value.length != 11) {
-      return S.of(context).invalid_phone;
-    }
-    if (!value.startsWith('01')) {
-      return 'S.of(context).phone_must_start_with_01';
-    }
-    return null;
-  }
-
-  String? _validateNationalId(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'S.of(context).field_required';
-    }
-    if (value.length != 14) {
-      return ' S.of(context).national_id_must_be_14_digits';
-    }
-    return null;
-  }
-
-  String? _validatePassword(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'S.of(context).field_required';
-    }
-    if (value.length < 6) {
-      return 'S.of(context).password_too_short';
-    }
-    return null;
-  }
-
-  String? _validateConfirmPassword(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'S.of(context).field_required';
-    }
-    if (value != _password) {
-      return S.of(context).password_and_confirm_password_not_match;
-    }
-    return null;
-  }
-
-  String? _validateSalary(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'S.of(context).field_required';
-    }
-    if (double.tryParse(value) == null) {
-      return 'S.of(context).please_enter_valid_number';
-    }
-    if (double.parse(value) <= 0) {
-      return 'S.of(context).salary_must_be_greater_than_zero';
-    }
-    return null;
-  }
+  // void _nextPage() {
+  //   if (_formKeys[_currentPage].currentState?.validate() ?? false) {
+  //     _formKeys[_currentPage].currentState?.save();
+  //     _pageController.nextPage(
+  //       duration: const Duration(milliseconds: 300),
+  //       curve: Curves.easeInOut,
+  //     );
+  //   } else {
+  //     setState(() {
+  //       _autovalidateMode = AutovalidateMode.always;
+  //     });
+  //   }
+  // }
 
   void _submitForm() {
     final currentForm = _formKeys[_currentPage].currentState;
@@ -584,34 +578,67 @@ class _AddEmployeeViewState extends State<AddEmployeeView> {
       });
     }
   }
-}
 
-class FormStep extends StatelessWidget {
-  final GlobalKey<FormState> formKey;
-  final AutovalidateMode autovalidateMode;
-  final List<Widget> children;
-
-  const FormStep({
-    Key? key,
-    required this.formKey,
-    required this.autovalidateMode,
-    required this.children,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Form(
-      key: formKey,
-      autovalidateMode: autovalidateMode,
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(children: children),
-        ),
-      ),
+  void _selectEmployeeType() {
+    // This function should open a dialog or bottom sheet to select employee type
+    // For now, we will just show a placeholder dialog
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(S.of(context).select_employee_type),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: [
+                ListTile(
+                  title: Text(S.of(context).medical_representative),
+                  onTap: () {
+                    _typeController.text = S.of(context).medical_representative;
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  title: Text(S.of(context).administator),
+                  onTap: () {
+                    _typeController.text = S.of(context).administator;
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
+
+// class FormStep extends StatelessWidget {
+//   final GlobalKey<FormState> formKey;
+//   final AutovalidateMode autovalidateMode;
+//   final List<Widget> children;
+
+//   const FormStep({
+//     super.key,
+//     required this.formKey,
+//     required this.autovalidateMode,
+//     required this.children,
+//   });
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Form(
+//       key: formKey,
+//       autovalidateMode: autovalidateMode,
+//       child: SingleChildScrollView(
+//         child: Padding(
+//           padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+//           child: Column(children: children),
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 // import 'package:flutter/material.dart';
 // import 'package:flutter_bloc/flutter_bloc.dart';
