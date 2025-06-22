@@ -26,6 +26,7 @@ class _AddEmployeeViewBodyState extends State<AddEmployeeViewBody> {
   final _formKeys = List.generate(3, (index) => GlobalKey<FormState>());
   var _currentPage = 0;
   var _autovalidateMode = AutovalidateMode.disabled;
+  String? selectedUserType;
 
   // Form Controllers
   final _nameController = TextEditingController();
@@ -76,7 +77,6 @@ class _AddEmployeeViewBodyState extends State<AddEmployeeViewBody> {
     _notesController.dispose();
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -218,6 +218,7 @@ class _AddEmployeeViewBodyState extends State<AddEmployeeViewBody> {
               suffixIcon: const Icon(Icons.person_outline),
             ),
             const SizedBox(height: 16),
+
             CustomTextField(
               labels: "${S.of(context).employee_type} *",
               hintText: S.of(context).enter_employee_type,
@@ -234,10 +235,60 @@ class _AddEmployeeViewBodyState extends State<AddEmployeeViewBody> {
               keyboardType: TextInputType.name,
               readOnly: true,
               suffixIcon: const Icon(Icons.work_outline),
-              onTap: () {
-                FocusScope.of(context).unfocus();
-                _selectEmployeeType();
+              onTap: () async {
+                final result = await showDialog<String>(
+                  context: context,
+                  builder:
+                      (context) => CustomSelectDialog(
+                        items: [
+                          'Medical Rep',
+                          'Area Manager',
+                          'District Manager',
+                          'Administrator',
+                        ],
+                        title: S.of(context).select_employee_type,
+                      ),
+                );
+                if (result != null) {
+                  setState(() {
+                    selectedUserType = result;
+                    _typeController.text = result;
+                  });
+                }
               },
+              // onTap: () async {
+              //   final result = await showDialog<String>(
+              //     context: context,
+              //     builder: (context) {
+              //       return Dialog(
+              //         // title: Text(S.of(context).select_employee_type),
+              //         child: SingleChildScrollView(
+              //           child: ListBody(
+              //             children:
+              //                 userTypes.map((type) {
+              //                   return ListTile(
+              //                     title: Text(type),
+              //                     onTap: () {
+              //                       Navigator.pop(context, type);
+              //                     },
+              //                   );
+              //                 }).toList(),
+              //           ),
+              //         ),
+              //       );
+              //     },
+              //   );
+              //   if (result != null) {
+              //     setState(() {
+              //       selectedUserType = result;
+              //       _typeController.text = result;
+              //     });
+              //   }
+              // },
+              // onTap: () {
+              //   FocusScope.of(context).unfocus();
+              //   _selectEmployeeType();
+              // },
             ),
             const SizedBox(height: 16),
             CustomDatePickerField(
@@ -270,6 +321,22 @@ class _AddEmployeeViewBodyState extends State<AddEmployeeViewBody> {
               },
               keyboardType: TextInputType.name,
               suffixIcon: const Icon(Icons.person_outline),
+              readOnly: true,
+              onTap: () async {
+                final result = await showDialog<String>(
+                  context: context,
+                  builder:
+                      (context) => CustomSelectDialog(
+                        items: ['Active', 'Inactive'],
+                        title: S.of(context).select_employee_status,
+                      ),
+                );
+                if (result != null) {
+                  setState(() {
+                    _statusController.text = result;
+                  });
+                }
+              },
             ),
           ],
         ),
@@ -578,40 +645,102 @@ class _AddEmployeeViewBodyState extends State<AddEmployeeViewBody> {
       });
     }
   }
+}
 
-  void _selectEmployeeType() {
-    // This function should open a dialog or bottom sheet to select employee type
-    // For now, we will just show a placeholder dialog
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text(S.of(context).select_employee_type),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: [
-                ListTile(
-                  title: Text(S.of(context).medical_representative),
-                  onTap: () {
-                    _typeController.text = S.of(context).medical_representative;
-                    Navigator.pop(context);
-                  },
+class CustomSelectDialog extends StatelessWidget {
+  final List<String> items;
+  final String? title;
+
+  const CustomSelectDialog({super.key, required this.items, this.title});
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (title != null)
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text(
+                  title!,
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: AppColor.primaryColor,
+                    fontSize: 20,
+                  ),
                 ),
-                ListTile(
-                  title: Text(S.of(context).administator),
-                  onTap: () {
-                    _typeController.text = S.of(context).administator;
-                    Navigator.pop(context);
-                  },
-                ),
-              ],
+              ),
+            ...items.map(
+              (item) => ListTile(
+                title: Text(item),
+                onTap: () => Navigator.pop(context, item),
+              ),
             ),
-          ),
-        );
-      },
+          ],
+        ),
+      ),
     );
   }
 }
+
+//   final List<String> items;
+//   final String hintText;
+//   final String? labels;
+//   final String? value;
+//   final void Function(String?)? onChanged;
+//   final void Function(String?)? onSaved;
+//   final String? Function(String?)? validator;
+//   final Widget? suffixIcon;
+//   final Widget? prefixIcon;
+//   final bool readOnly;
+//   final void Function()? onTap;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return DropdownButtonFormField<String>(
+//       value: value,
+//       onChanged: readOnly ? null : onChanged,
+//       onSaved: onSaved,
+//       validator: validator,
+//       decoration: InputDecoration(
+//         label: Text(labels ?? ''),
+//         suffixIcon: suffixIcon,
+//         prefixIcon: prefixIcon,
+//         hintText: hintText,
+//         hintStyle: Theme.of(context).textTheme.bodySmall,
+//         border: buildBorder(),
+//         enabledBorder: buildBorder(),
+//         focusedBorder: buildBorder(AppColor.primaryColor),
+//         // نفس الديزاين بتاع CustomTextField بالظبط
+//         contentPadding: const EdgeInsets.symmetric(
+//           horizontal: 12,
+//           vertical: 16,
+//         ),
+//       ),
+//       icon: const Icon(Icons.arrow_drop_down),
+//       items:
+//           items
+//               .map(
+//                 (item) =>
+//                     DropdownMenuItem<String>(value: item, child: Text(item)),
+//               )
+//               .toList(),
+//       onTap: onTap,
+//       // لو حابب تمنع فتح الليسته في حالة الريدي فقط
+//       // isExpanded: true,
+//     );
+//   }
+
+//   OutlineInputBorder buildBorder([color]) {
+//     return OutlineInputBorder(
+//       borderRadius: BorderRadius.circular(8),
+//       borderSide: BorderSide(color: color ?? Colors.grey),
+//     );
+//   }
+// }
 
 // class FormStep extends StatelessWidget {
 //   final GlobalKey<FormState> formKey;

@@ -4,31 +4,33 @@ import 'package:dartz/dartz.dart';
 
 abstract class AuthRepo {
   
-  Future<void> signUp({
+  // Future<void> signUp({
+  //   required UserEntity user,
+  //   required String password,
+  // });
+
+  // Future<UserEntity?> signIn({
+  //   required String name,
+  //   required String password,
+  //   required String userType,
+  // });
+  
+  Future<Either<Failures, UserEntity>> signUp({
+    // required String email,
+    
     required UserEntity user,
     required String password,
+    // required String name,
+    // required String phone,
+    // required String image,
+    // required String userType,
   });
 
-  Future<UserEntity?> signIn({
+  Future<Either<Failures, UserEntity>> signIn({
     required String name,
     required String password,
     required String userType,
   });
-  
-  // Future<Either<Failures, UserEntity>> createUser({
-  //   // required String email,
-  //   required String password,
-  //   required String name,
-  //   required String phone,
-  //   required String image,
-  //   required String userType,
-  // });
-
-  // Future<Either<Failures, UserEntity>> signIn({
-  //   required String name,
-  //   required String password,
-  //   required String userType,
-  // });
 
   Future addUserData({required UserEntity user});
   Future getUserData({required String uId});
