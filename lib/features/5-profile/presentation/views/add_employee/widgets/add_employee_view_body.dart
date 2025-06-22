@@ -26,7 +26,18 @@ class _AddEmployeeViewBodyState extends State<AddEmployeeViewBody> {
   final _formKeys = List.generate(3, (index) => GlobalKey<FormState>());
   var _currentPage = 0;
   var _autovalidateMode = AutovalidateMode.disabled;
-  String? selectedUserType;
+
+  static const List<String> userTypes = [
+    'Medical Rep',
+    'Area Manager',
+    'District Manager',
+    'Admin',
+  ];
+
+  static const List<String> userStatuses = ['Active', 'Inactive'];
+
+  String selectedUserType = userTypes[0];
+  String selectedUserStatus = userStatuses[0];
 
   // Form Controllers
   final _nameController = TextEditingController();
@@ -51,6 +62,8 @@ class _AddEmployeeViewBodyState extends State<AddEmployeeViewBody> {
   void initState() {
     super.initState();
     _setDefaultDate();
+    _typeController.text = selectedUserType;
+    _statusController.text = selectedUserStatus;
   }
 
   void _setDefaultDate() {
@@ -223,6 +236,12 @@ class _AddEmployeeViewBodyState extends State<AddEmployeeViewBody> {
               labels: "${S.of(context).employee_type} *",
               hintText: S.of(context).enter_employee_type,
               controller: _typeController,
+              // controller: ,
+              onChanged: (value) {
+                setState(() {
+                  selectedUserType = value;
+                });
+              },
               validator: (value) {
                 return validInput(
                   context: context,
@@ -240,12 +259,7 @@ class _AddEmployeeViewBodyState extends State<AddEmployeeViewBody> {
                   context: context,
                   builder:
                       (context) => CustomSelectDialog(
-                        items: [
-                          'Medical Rep',
-                          'Area Manager',
-                          'District Manager',
-                          'Administrator',
-                        ],
+                        items: userTypes,
                         title: S.of(context).select_employee_type,
                       ),
                 );
@@ -347,7 +361,7 @@ class _AddEmployeeViewBodyState extends State<AddEmployeeViewBody> {
   Widget _buildContactInfoStep() {
     return SingleChildScrollView(
       child: Form(
-        key: _formKeys[1],
+        key: _formKeys[2],
         autovalidateMode: _autovalidateMode,
         child: Column(
           children: [
@@ -404,7 +418,7 @@ class _AddEmployeeViewBodyState extends State<AddEmployeeViewBody> {
   Widget _buildManagementInfoStep() {
     return SingleChildScrollView(
       child: Form(
-        key: _formKeys[2],
+        key: _formKeys[1],
         autovalidateMode: _autovalidateMode,
         child: Column(
           children: [

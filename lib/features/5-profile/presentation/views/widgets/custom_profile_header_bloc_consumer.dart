@@ -37,6 +37,7 @@ class _CustomProfileHeaderBlocConsumerState
           );
         }
         if (state is GetUserFailed) {
+          print('GetUserFailed: ${state.errMessage}');
           return Center(child: Text(state.errMessage));
         }
         // ret if (state is GetUserSuccess) {

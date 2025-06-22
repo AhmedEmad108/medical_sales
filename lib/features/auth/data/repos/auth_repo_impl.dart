@@ -78,7 +78,6 @@ class AuthRepoImpl implements AuthRepo {
         name: user.name,
         password: password,
       );
-
       // user = await firebaseAuthService.createUserWithNameAndPassword(
       //   name: name,
       //   password: password,
@@ -93,6 +92,12 @@ class AuthRepoImpl implements AuthRepo {
         employeeStatus: user.employeeStatus,
         joiningDate: user.joiningDate,
         territory: user.territory,
+        address: user.address,
+        areaManager: user.areaManager,
+        basicSalary: user.basicSalary,
+        directManager: user.directManager,
+        nationalId: user.nationalId,
+        notes: user.notes,
       );
       await addUserData(user: userEntity);
       return Right(userEntity);
