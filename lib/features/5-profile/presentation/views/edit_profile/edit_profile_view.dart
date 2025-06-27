@@ -12,7 +12,7 @@ class EditProfileView extends StatelessWidget {
     return Scaffold(
       appBar:
           customAppBar(context, title: S.of(context).edit_profile, icon: true),
-      // body: EditProfileViewBlocConsumer(),
+      body: EditProfileViewBlocConsumer(),
     );
   }
 }

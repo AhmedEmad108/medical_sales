@@ -28,7 +28,7 @@ class _CustomProfileItemState extends State<CustomProfileItem> {
 
   @override
   Widget build(BuildContext context) {
-    // UserEntity user = getUser();
+    UserEntity user = getUser();
 
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 20),
@@ -39,13 +39,15 @@ class _CustomProfileItemState extends State<CustomProfileItem> {
       ),
       child: Column(
         children: [
-          // user.userType == 'Administrator'
-          CustomListTile(
-            title: S.of(context).add_employee,
-            icon: Icons.add_circle_outline,
-            onTap: () {
-              Navigator.of(context).pushNamed(AddEmployeeView.routeName);
-            },
+          Visibility(
+            visible: user.admin == 'true',
+            child: CustomListTile(
+              title: S.of(context).add_employee,
+              icon: Icons.add_circle_outline,
+              onTap: () {
+                Navigator.of(context).pushNamed(AddEmployeeView.routeName);
+              },
+            ),
           ),
           CustomListTile(
             title: S.of(context).edit_profile,

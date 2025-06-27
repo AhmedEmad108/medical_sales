@@ -32,6 +32,7 @@ class UserCubit extends Cubit<UserState> {
           image: reselt.image,
           email: reselt.email,
           joiningDate: reselt.joiningDate,
+          admin: reselt.admin,
           directManager: reselt.directManager,
           areaManager: reselt.areaManager,
           territory: reselt.territory,
@@ -39,7 +40,7 @@ class UserCubit extends Cubit<UserState> {
           address: reselt.address,
           basicSalary: reselt.basicSalary,
           notes: reselt.notes,
-          employeeStatus: reselt.employmentStatus,
+          employeeStatus: reselt.employeeStatus,
         ),
       );
     } catch (e) {
@@ -140,12 +141,8 @@ class UserCubit extends Cubit<UserState> {
         password: password,
         userType: userType,
       );
-      if (userData != null) {
-        emit(SignInSuccess(userData: userData));
-      } else {
-        emit(SignInFailed(errMessage: 'بيانات تسجيل الدخول غير صحيحة'));
-      }
-    } catch (e) {
+      emit(SignInSuccess(userData: userData));
+        } catch (e) {
       emit(SignInFailed(errMessage: e.toString()));
     }
   }

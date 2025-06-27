@@ -235,7 +235,10 @@
   "select_employee_status": "اختر حالة الموظف",
   "select_direct_manager": "اختر المدير المباشر",
   "select_area_manager": "اختر مدير المنطقة",
-  "select_territory": "اختر المنطقة"
+  "select_territory": "اختر المنطقة",
+  "is_admin": "هل هو اداري؟",
+  "enter_is_admin": "ادخل هل هو اداري؟",
+  "select_is_admin": "اختر هل هو اداري؟"
 
       
 }

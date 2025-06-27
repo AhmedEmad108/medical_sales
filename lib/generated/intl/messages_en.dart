@@ -199,6 +199,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "enter_employee_type": MessageLookupByLibrary.simpleMessage(
       "Enter Employee Type",
     ),
+    "enter_is_admin": MessageLookupByLibrary.simpleMessage("Enter Is Admin"),
     "enter_join_date": MessageLookupByLibrary.simpleMessage("Enter Join Date"),
     "enter_name": MessageLookupByLibrary.simpleMessage("Enter Your User Name"),
     "enter_new_password": MessageLookupByLibrary.simpleMessage(
@@ -260,6 +261,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "invalid_username": MessageLookupByLibrary.simpleMessage(
       "Please enter a valid username",
     ),
+    "is_admin": MessageLookupByLibrary.simpleMessage("Is Admin"),
     "is_featured_item": MessageLookupByLibrary.simpleMessage(
       "Is Featured Item",
     ),
@@ -399,6 +401,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "select_employee_type": MessageLookupByLibrary.simpleMessage(
       "Select Employee Type",
     ),
+    "select_is_admin": MessageLookupByLibrary.simpleMessage("Select Is Admin"),
     "select_territory": MessageLookupByLibrary.simpleMessage(
       "Select Territory",
     ),

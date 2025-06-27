@@ -6,6 +6,7 @@ class UserEntity {
   final String image;
   final String userType;
   final String joiningDate;
+  final String admin;
   final String? directManager;
   final String? areaManager;
   final String territory;
@@ -23,6 +24,7 @@ class UserEntity {
     required this.image,
     required this.userType,
     required this.joiningDate,
+    required this.admin,
     this.directManager,
     this.areaManager,
     required this.territory,

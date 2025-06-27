@@ -88,7 +88,8 @@ class AuthRepoImpl implements AuthRepo {
         phone: user.phone,
         image: user.image,
         userType: user.userType,
-        email: users.email ?? '',
+        admin: user.admin,
+        email: users.email,
         employeeStatus: user.employeeStatus,
         joiningDate: user.joiningDate,
         territory: user.territory,
@@ -102,10 +103,10 @@ class AuthRepoImpl implements AuthRepo {
       await addUserData(user: userEntity);
       return Right(userEntity);
     } on CustomException catch (e) {
-      // await deleteUser(user);
+      await deleteUser(users);
       return Left(ServerFailure(message: e.message));
     } catch (e) {
-      // await deleteUser(user);
+      await deleteUser(users);
       log('Exception in createUserWithEmailAndPassword: ${e.toString()}');
       return Left(
         ServerFailure(message: 'Something went wrong. Please try again later.'),
@@ -123,6 +124,7 @@ class AuthRepoImpl implements AuthRepo {
       final user = await firebaseAuthService.signInWithNameAndPassword(
         name: name,
         password: password,
+        // userType: userType,
       );
 
       final userEntity = await getUserData(uId: user.uid);
@@ -139,8 +141,10 @@ class AuthRepoImpl implements AuthRepo {
   }
 
   @override
-  Future<void> deleteUser() async {
-    await firebaseAuthService.deleteUser();
+  Future<void> deleteUser(User? user) async {
+    if (user != null) {
+      await firebaseAuthService.deleteUser();
+    }
   }
 
   @override

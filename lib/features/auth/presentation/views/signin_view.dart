@@ -4,7 +4,6 @@ import 'package:medical_sales/core/cubit/user/user_cubit.dart';
 import 'package:medical_sales/core/services/get_it.dart';
 import 'package:medical_sales/core/utils/custom_appbar.dart';
 import 'package:medical_sales/features/auth/domain/repos/auth_repo.dart';
-import 'package:medical_sales/features/auth/presentation/cubits/signin_cubit/sign_in_cubit.dart';
 import 'package:medical_sales/features/auth/presentation/views/widgets/signin_view_bloc_consumer.dart';
 import 'package:medical_sales/generated/l10n.dart';
 

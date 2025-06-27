@@ -199,6 +199,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "enter_employee_type": MessageLookupByLibrary.simpleMessage(
       "ادخل درجة الموظف",
     ),
+    "enter_is_admin": MessageLookupByLibrary.simpleMessage("ادخل هل هو اداري؟"),
     "enter_join_date": MessageLookupByLibrary.simpleMessage(
       "ادخل تاريخ الانضمام",
     ),
@@ -266,6 +267,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "invalid_username": MessageLookupByLibrary.simpleMessage(
       "الرجاء إدخال اسم مستخدم صحيح",
     ),
+    "is_admin": MessageLookupByLibrary.simpleMessage("هل هو اداري؟"),
     "is_featured_item": MessageLookupByLibrary.simpleMessage("هل هو منتج مميز"),
     "join_date": MessageLookupByLibrary.simpleMessage("تاريخ الانضمام"),
     "le": MessageLookupByLibrary.simpleMessage("جنيه مصري"),
@@ -395,6 +397,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "select_employee_type": MessageLookupByLibrary.simpleMessage(
       "اختر درجة الموظف",
+    ),
+    "select_is_admin": MessageLookupByLibrary.simpleMessage(
+      "اختر هل هو اداري؟",
     ),
     "select_territory": MessageLookupByLibrary.simpleMessage("اختر المنطقة"),
     "settings": MessageLookupByLibrary.simpleMessage("الاعدادات"),

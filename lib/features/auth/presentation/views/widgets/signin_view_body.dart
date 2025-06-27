@@ -6,11 +6,9 @@ import 'package:medical_sales/core/helper_functions/valid_input.dart';
 import 'package:medical_sales/core/utils/app_color.dart';
 import 'package:medical_sales/core/utils/app_images.dart';
 import 'package:medical_sales/core/utils/app_style.dart';
-import 'package:medical_sales/core/utils/custom_listtile.dart';
 import 'package:medical_sales/core/utils/custom_password_text_field.dart';
 import 'package:medical_sales/core/widgets/custom_button.dart';
 import 'package:medical_sales/core/widgets/custom_text_field.dart';
-import 'package:medical_sales/features/auth/presentation/cubits/signin_cubit/sign_in_cubit.dart';
 import 'package:medical_sales/generated/l10n.dart';
 import 'package:svg_flutter/svg.dart';
 

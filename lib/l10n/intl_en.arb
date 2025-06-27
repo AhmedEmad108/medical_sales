@@ -246,7 +246,10 @@
   "select_employee_status": "Select Employee Status",
   "select_direct_manager": "Select Direct Manager",
   "select_area_manager": "Select Area Manager",
-  "select_territory": "Select Territory"
+  "select_territory": "Select Territory",
+  "is_admin": "Is Admin",
+  "enter_is_admin": "Enter Is Admin",
+  "select_is_admin": "Select Is Admin"
 
       
 

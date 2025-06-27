@@ -1,9 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:medical_sales/core/errors/failures.dart';
 import 'package:medical_sales/features/auth/domain/entities/user_entity.dart';
 import 'package:dartz/dartz.dart';
 
 abstract class AuthRepo {
-  
   // Future<void> signUp({
   //   required UserEntity user,
   //   required String password,
@@ -14,10 +14,9 @@ abstract class AuthRepo {
   //   required String password,
   //   required String userType,
   // });
-  
+
   Future<Either<Failures, UserEntity>> signUp({
     // required String email,
-    
     required UserEntity user,
     required String password,
     // required String name,
@@ -50,5 +49,5 @@ abstract class AuthRepo {
   Future updateUserEmail({required String newEmail});
 
   Future signOut();
-  Future<void> deleteUser();
+  Future<void> deleteUser(User? user);
 }

@@ -1870,6 +1870,31 @@ class S {
       args: [],
     );
   }
+
+  /// `Is Admin`
+  String get is_admin {
+    return Intl.message('Is Admin', name: 'is_admin', desc: '', args: []);
+  }
+
+  /// `Enter Is Admin`
+  String get enter_is_admin {
+    return Intl.message(
+      'Enter Is Admin',
+      name: 'enter_is_admin',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select Is Admin`
+  String get select_is_admin {
+    return Intl.message(
+      'Select Is Admin',
+      name: 'select_is_admin',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

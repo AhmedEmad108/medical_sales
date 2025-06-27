@@ -28,22 +28,25 @@ class _AddEmployeeViewBodyState extends State<AddEmployeeViewBody> {
   var _autovalidateMode = AutovalidateMode.disabled;
 
   static const List<String> userTypes = [
-    'Medical Rep',
     'Area Manager',
     'District Manager',
-    'Admin',
+    'Senior Manager',
+    'Medical Rep',
   ];
 
   static const List<String> userStatuses = ['Active', 'Inactive'];
+  static const List<String> admin = ['true', 'false'];
 
-  String selectedUserType = userTypes[0];
+  String selectedUserType = userTypes[3];
   String selectedUserStatus = userStatuses[0];
+  String selectedAdmin = admin[1];
 
   // Form Controllers
   final _nameController = TextEditingController();
   final _typeController = TextEditingController();
   final _joinDateController = TextEditingController();
   final _statusController = TextEditingController();
+  final _adminController = TextEditingController();
   final _emailController = TextEditingController();
   final _phoneController = TextEditingController();
   final _nationalIdController = TextEditingController();
@@ -64,6 +67,7 @@ class _AddEmployeeViewBodyState extends State<AddEmployeeViewBody> {
     _setDefaultDate();
     _typeController.text = selectedUserType;
     _statusController.text = selectedUserStatus;
+    _adminController.text = selectedAdmin;
   }
 
   void _setDefaultDate() {
@@ -88,6 +92,7 @@ class _AddEmployeeViewBodyState extends State<AddEmployeeViewBody> {
     _territoryController.dispose();
     _salaryController.dispose();
     _notesController.dispose();
+    _adminController.dispose();
     super.dispose();
   }
 
@@ -334,20 +339,56 @@ class _AddEmployeeViewBodyState extends State<AddEmployeeViewBody> {
                 );
               },
               keyboardType: TextInputType.name,
-              suffixIcon: const Icon(Icons.person_outline),
+              suffixIcon:
+                  _statusController.text == 'Active'
+                      ? const Icon(Icons.check_circle_outline)
+                      : const Icon(Icons.cancel_outlined, color: Colors.red),
               readOnly: true,
               onTap: () async {
                 final result = await showDialog<String>(
                   context: context,
                   builder:
                       (context) => CustomSelectDialog(
-                        items: ['Active', 'Inactive'],
+                        items: userStatuses,
                         title: S.of(context).select_employee_status,
                       ),
                 );
                 if (result != null) {
                   setState(() {
                     _statusController.text = result;
+                  });
+                }
+              },
+            ),
+            const SizedBox(height: 16),
+            CustomTextField(
+              labels: "${S.of(context).is_admin} *",
+              hintText: S.of(context).enter_is_admin,
+              controller: _adminController,
+              readOnly: true,
+              validator: (value) {
+                return validInput(
+                  context: context,
+                  val: value!,
+                  type: 'name',
+                  max: 20,
+                  min: 3,
+                );
+              },
+              keyboardType: TextInputType.name,
+              suffixIcon: const Icon(Icons.admin_panel_settings_outlined),
+              onTap: () async {
+                final result = await showDialog<String>(
+                  context: context,
+                  builder:
+                      (context) => CustomSelectDialog(
+                        items: admin,
+                        title: S.of(context).select_is_admin,
+                      ),
+                );
+                if (result != null) {
+                  setState(() {
+                    _adminController.text = result;
                   });
                 }
               },
@@ -422,39 +463,61 @@ class _AddEmployeeViewBodyState extends State<AddEmployeeViewBody> {
         autovalidateMode: _autovalidateMode,
         child: Column(
           children: [
-            const SizedBox(height: 16),
-            CustomTextField(
-              labels: "${S.of(context).direct_manager} *",
-              hintText: S.of(context).enter_direct_manager,
-              controller: _directManagerController,
-              validator: (value) {
-                return validInput(
-                  context: context,
-                  val: value!,
-                  type: 'name',
-                  max: 20,
-                  min: 3,
-                );
-              },
-              keyboardType: TextInputType.name,
-              suffixIcon: const Icon(Icons.person_outline),
+            Visibility(
+              visible:
+                  _typeController.text == 'Medical Rep' ||
+                  _typeController.text == 'Senior Manager',
+              child: const SizedBox(height: 16),
             ),
-            const SizedBox(height: 16),
-            CustomTextField(
-              labels: "${S.of(context).area_manager} *",
-              hintText: S.of(context).enter_area_manager,
-              controller: _areaManagerController,
-              validator: (value) {
-                return validInput(
-                  context: context,
-                  val: value!,
-                  type: 'name',
-                  max: 20,
-                  min: 3,
-                );
-              },
-              keyboardType: TextInputType.name,
-              suffixIcon: const Icon(Icons.person_outline),
+            Visibility(
+              visible:
+                  _typeController.text == 'Medical Rep' ||
+                  _typeController.text == 'Senior Manager',
+              child: CustomTextField(
+                labels: "${S.of(context).direct_manager} *",
+                hintText: S.of(context).enter_direct_manager,
+                controller: _directManagerController,
+                validator: (value) {
+                  return validInput(
+                    context: context,
+                    val: value!,
+                    type: 'name',
+                    max: 20,
+                    min: 3,
+                  );
+                },
+                keyboardType: TextInputType.name,
+                suffixIcon: const Icon(Icons.person_outline),
+              ),
+            ),
+            Visibility(
+              visible:
+                  _typeController.text == 'Medical Rep' ||
+                  _typeController.text == 'Senior Manager' ||
+                  _typeController.text == 'District Manager',
+              child: const SizedBox(height: 16),
+            ),
+            Visibility(
+              visible:
+                  _typeController.text == 'Medical Rep' ||
+                  _typeController.text == 'Senior Manager' ||
+                  _typeController.text == 'District Manager',
+              child: CustomTextField(
+                labels: "${S.of(context).area_manager} *",
+                hintText: S.of(context).enter_area_manager,
+                controller: _areaManagerController,
+                validator: (value) {
+                  return validInput(
+                    context: context,
+                    val: value!,
+                    type: 'name',
+                    max: 20,
+                    min: 3,
+                  );
+                },
+                keyboardType: TextInputType.name,
+                suffixIcon: const Icon(Icons.person_outline),
+              ),
             ),
             const SizedBox(height: 16),
             CustomTextField(
@@ -640,6 +703,7 @@ class _AddEmployeeViewBodyState extends State<AddEmployeeViewBody> {
           name: _nameController.text,
           userType: _typeController.text,
           joiningDate: _joinDateController.text,
+          admin: _adminController.text,
           directManager: _directManagerController.text,
           areaManager: _areaManagerController.text,
           territory: _territoryController.text,
