@@ -19,42 +19,62 @@ class UserCubit extends Cubit<UserState> {
 
   Future<void> getUserData() async {
     emit(GetUserLoading());
-
     try {
-      final reselt = await authRepo.getUserData(uId: await getCurrentUserId());
-      emit(GetUserSuccess(user: reselt));
-      await authRepo.saveUserLocally(
-        user: UserEntity(
-          uId: reselt.uId,
-          userType: reselt.userType,
-          name: reselt.name,
-          password: reselt.password,
-          phone: reselt.phone,
-          image: reselt.image,
-          email: reselt.email,
-          joiningDate: reselt.joiningDate,
-          admin: reselt.admin,
-          directManager: reselt.directManager,
-          areaManager: reselt.areaManager,
-          territory: reselt.territory,
-          nationalId: reselt.nationalId,
-          address: reselt.address,
-          basicSalary: reselt.basicSalary,
-          notes: reselt.notes,
-          employeeStatus: reselt.employeeStatus,
-        ),
-      );
+      final uId = await getCurrentUserId();
+      final userModel = await authRepo.getUserData(uId: uId);
+      emit(GetUserSuccess(user: userModel));
     } catch (e) {
       emit(GetUserFailed(errMessage: e.toString()));
     }
+    // try {
+    //   final reselt = await authRepo.getUserData(uId: await getCurrentUserId());
+    //   emit(GetUserSuccess(user: reselt));
+    //   await authRepo.saveUserLocally(user: reselt);
+    // } catch (e) {
+    //   emit(GetUserFailed(errMessage: e.toString())); // لازم تبعت حالة الفشل
+    // }
   }
+  // Future<void> getUserData() async {
+  //   emit(GetUserLoading());
+
+  //   try {
+  //     final reselt = await authRepo.getUserData(uId: await getCurrentUserId());
+  //     emit(GetUserSuccess(user: reselt));
+  //     await authRepo.saveUserLocally(
+  //       user: UserEntity(
+  //         uId: reselt.uId,
+  //         userType: reselt.userType,
+  //         name: reselt.name,
+  //         password: reselt.password,
+  //         phone: reselt.phone,
+  //         image: reselt.image,
+  //         email: reselt.email,
+  //         joiningDate: reselt.joiningDate,
+  //         admin: reselt.admin,
+  //         directManager: reselt.directManager,
+  //         areaManager: reselt.areaManager,
+  //         territory: reselt.territory,
+  //         nationalId: reselt.nationalId,
+  //         address: reselt.address,
+  //         basicSalary: reselt.basicSalary,
+  //         notes: reselt.notes,
+  //         employeeStatus: reselt.employeeStatus,
+  //       ),
+  //     );
+  //   } catch (e) {
+  //     emit(GetUserFailed(errMessage: e.toString()));
+  //   }
+  // }
 
   Future<void> signOut() async => await authRepo.signOut();
 
   Future<void> editUserImage({required String image}) async {
     try {
       emit(GetUserLoading());
-      await authRepo.updateUserImage(uId: await getCurrentUserId(), image: image);
+      await authRepo.updateUserImage(
+        uId: await getCurrentUserId(),
+        image: image,
+      );
       await getUserData();
     } catch (e) {
       emit(GetUserFailed(errMessage: e.toString()));
@@ -114,23 +134,27 @@ class UserCubit extends Cubit<UserState> {
   //   }
 
   Future<String> getCurrentUserId() async {
-    final user = await getUser();
+    final user = getUser();
     return user.uId;
     // return FirebaseAuth.instance.currentUser!.uid;
   }
 
   Future<void> signUp({
     required UserEntity user,
-    required String password,
   }) async {
     emit(SignUpLoading());
-    try {
-      await authRepo.signUp(user: user, password: password);
-      emit(SignUpSuccess());
-    } catch (e) {
-      emit(SignUpFailed(errMessage: e.toString()));
-    }
+    final result = await authRepo.signUp(user: user,);
+    result.fold(
+      (failure) async {
+        emit(SignUpFailed(errMessage: failure.message));
+      },
+      (userEntity) async {
+        emit(SignUpSuccess());
+      },
+    );
   }
+ 
+
 
   Future<void> signIn({
     required String name,

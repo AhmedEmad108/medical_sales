@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:medical_sales/contants.dart';
-import 'package:medical_sales/core/errors/exceptions.dart';
 import 'package:medical_sales/core/errors/failures.dart';
 import 'package:medical_sales/core/services/database_service.dart';
 import 'package:medical_sales/core/services/firebase_auth_service.dart';
@@ -29,30 +28,32 @@ class AuthRepoImpl implements AuthRepo {
   @override
   Future<Either<Failures, UserEntity>> signUp({
     required UserEntity user,
-    required String password,
   }) async {
     try {
       // جرب تجيب المستخدم بالاسم (document id = name)
       final doc =
           await usersCollection
-              .doc(user.name.toLowerCase().replaceAll(' ', ''))
+              .doc(user.name.trim().toLowerCase().replaceAll(' ', ''))
               .get();
       if (doc.exists) {
+        // لو لقيت مستخدم بنفس الاسم، ارجع فشل
+        log('اسم المستخدم مستخدم من قبل');
         return Left(ServerFailure(message: 'اسم المستخدم مستخدم من قبل'));
       }
 
       // أنشئ Map من بيانات المستخدم
       final userMap = UserModel.fromEntity(user).toMap();
-      userMap['password'] = password;
+      userMap['password'] = user.password; // تخزين الباسورد كـ نص عادي (لو عايز ممكن تعمله هاش)
 
-      // أضف المستخدم بالاسم كـ document id
-      await usersCollection
-          .doc(user.name.toLowerCase().replaceAll(' ', ''))
-          .set(userMap);
+      // // أضف المستخدم بالاسم كـ document id
+      // await usersCollection
+      //     .doc(user.name.toLowerCase().replaceAll(' ', ''))
+      //     .set(userMap);
 
       final userEntity = user.copyWith(
         uId: user.name.toLowerCase().replaceAll(' ', ''),
       );
+      await addUserData(user: userEntity);
       return Right(userEntity);
     } catch (e) {
       return Left(ServerFailure(message: 'حدث خطأ أثناء التسجيل'));

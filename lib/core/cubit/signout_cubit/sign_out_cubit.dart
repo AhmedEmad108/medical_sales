@@ -14,9 +14,8 @@ class SignOutCubit extends Cubit<SignOutState> {
     emit(SignOutLoading());
     try {
       await authRepo.signOut();
-      Prefs.deleteString(
-        kUserData,
-      );
+      Prefs.deleteString(kUserData);
+      Prefs.setBool(kIsLoggedIn, false);
       emit(SignOutSuccess());
     } catch (e) {
       emit(SignOutError(message: e.toString()));

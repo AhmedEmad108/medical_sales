@@ -9,6 +9,7 @@ import 'package:medical_sales/core/utils/app_style.dart';
 import 'package:medical_sales/core/utils/custom_password_text_field.dart';
 import 'package:medical_sales/core/widgets/custom_button.dart';
 import 'package:medical_sales/core/widgets/custom_text_field.dart';
+import 'package:medical_sales/features/5-profile/presentation/views/add_employee/widgets/add_employee_view_body.dart';
 import 'package:medical_sales/generated/l10n.dart';
 import 'package:svg_flutter/svg.dart';
 
@@ -24,14 +25,20 @@ class _SignInViewBodyState extends State<SignInViewBody> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   AutovalidateMode autoValidateMode = AutovalidateMode.disabled;
   late String name, password;
-  String userTypeValue = 'Medical Representative';
-  List<String> userType = ['Administrator', 'Medical Representative'];
+  static const List<String> userTypes = [
+    'Area Manager',
+    'District Manager',
+    'Senior Manager',
+    'Medical Rep',
+  ];
+
+  String selectedUserType = userTypes[3];
   final TextEditingController _userTypeValue = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _userTypeValue.text = userTypeValue; // Default value
+    _userTypeValue.text = selectedUserType; // Default value
   }
 
   @override
@@ -55,7 +62,7 @@ class _SignInViewBodyState extends State<SignInViewBody> {
               child: SvgPicture.asset(
                 Assets.imagesIcon,
                 width: MediaQuery.of(context).size.width,
-                height: 250,
+                height: 200,
               ),
             ),
             const SizedBox(height: 20),
@@ -92,58 +99,43 @@ class _SignInViewBodyState extends State<SignInViewBody> {
             ),
             SizedBox(height: 16),
             CustomTextField(
-              hintText: S.of(context).enter_name,
-              labels: S.of(context).name,
-              onSaved: (value) {
-                userTypeValue = value!;
-              },
+              labels: "${S.of(context).employee_type} *",
+              hintText: S.of(context).enter_employee_type,
               controller: _userTypeValue,
-              readOnly: true,
+              // controller: ,
+              onChanged: (value) {
+                setState(() {
+                  selectedUserType = value;
+                });
+              },
               validator: (value) {
                 return validInput(
                   context: context,
                   val: value!,
-                  type: 'password',
-                  max: 30,
-                  min: 1,
+                  type: 'name',
+                  max: 50,
+                  min: 3,
                 );
               },
               keyboardType: TextInputType.name,
-              suffixIcon: Padding(
-                padding: const EdgeInsets.only(right: 8.0),
-                child: DropdownButton<String>(
-                  // value: userTypeValue,
-                  underline: Container(),
-                  borderRadius: BorderRadius.circular(8),
-                  elevation: 0,
-                  items:
-                      userType.map((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(
-                            value.toUpperCase(),
-                            style: AppStyle.styleSemiBold22(),
-                          ),
-                        );
-                      }).toList(),
-                  // items: [
-                  //   for (var i = 0; i < userType.length; i++)
-                  //     DropdownMenuItem<String>(
-                  //       value: userType[i].toLowerCase(),
-                  //       child: Text(
-                  //         userType[i].toUpperCase(),
-                  //         style: AppStyle.styleSemiBold22(),
-                  //       ),
-                  //     ),
-                  // ],
-                  onChanged: (value) {
-                    setState(() {
-                      userTypeValue = value!;
-                      _userTypeValue.text = value;
-                    });
-                  },
-                ),
-              ),
+              readOnly: true,
+              suffixIcon: const Icon(Icons.work_outline),
+              onTap: () async {
+                final result = await showDialog<String>(
+                  context: context,
+                  builder:
+                      (context) => CustomSelectDialog(
+                        items: userTypes,
+                        title: S.of(context).select_employee_type,
+                      ),
+                );
+                if (result != null) {
+                  setState(() {
+                    selectedUserType = result;
+                    _userTypeValue.text = result;
+                  });
+                }
+              },
             ),
 
             const SizedBox(height: 16),
@@ -157,7 +149,7 @@ class _SignInViewBodyState extends State<SignInViewBody> {
                   context.read<UserCubit>().signIn(
                     name: name,
                     password: password,
-                    userType: userTypeValue,
+                    userType: _userTypeValue.text,
                   );
                   // context.read<SignInCubit>().signInWithEmailAndPassword(
                   //   name: name,

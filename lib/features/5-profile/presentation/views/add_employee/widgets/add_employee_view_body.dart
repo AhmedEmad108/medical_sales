@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medical_sales/contants.dart';
+import 'package:medical_sales/core/cubit/add_employee/add_employee_cubit.dart';
 import 'package:medical_sales/core/helper_functions/valid_input.dart';
 import 'package:medical_sales/core/utils/app_color.dart';
 import 'package:medical_sales/core/utils/app_style.dart';
-import 'package:medical_sales/core/utils/custom_date_picker_field.dart';
 import 'package:medical_sales/core/utils/custom_dialog.dart';
 import 'package:medical_sales/core/utils/custom_password_text_field.dart';
 import 'package:medical_sales/core/widgets/custom_button.dart';
-import 'package:medical_sales/core/widgets/custom_image_picker.dart';
 import 'package:medical_sales/core/widgets/custom_text_field.dart';
+import 'package:medical_sales/features/5-profile/presentation/views/add_employee/widgets/custom_basic_info_step.dart';
+import 'package:medical_sales/features/5-profile/presentation/views/add_employee/widgets/custom_management_info_step.dart';
+import 'package:medical_sales/features/5-profile/presentation/views/add_employee/widgets/custom_step_indicator.dart';
 import 'package:medical_sales/features/auth/domain/entities/user_entity.dart';
-import 'package:medical_sales/core/cubit/user/user_cubit.dart';
 import 'package:medical_sales/generated/l10n.dart';
 
 class AddEmployeeViewBody extends StatefulWidget {
@@ -27,72 +28,44 @@ class _AddEmployeeViewBodyState extends State<AddEmployeeViewBody> {
   var _currentPage = 0;
   var _autovalidateMode = AutovalidateMode.disabled;
 
-  static const List<String> userTypes = [
-    'Area Manager',
-    'District Manager',
-    'Senior Manager',
-    'Medical Rep',
-  ];
-
-  static const List<String> userStatuses = ['Active', 'Inactive'];
-  static const List<String> admin = ['true', 'false'];
-
-  String selectedUserType = userTypes[3];
-  String selectedUserStatus = userStatuses[0];
-  String selectedAdmin = admin[1];
-
   // Form Controllers
-  final _nameController = TextEditingController();
-  final _typeController = TextEditingController();
-  final _joinDateController = TextEditingController();
-  final _statusController = TextEditingController();
-  final _adminController = TextEditingController();
+  // final _nameController = TextEditingController();
+  // final _typeController = TextEditingController();
+  // final _joinDateController = TextEditingController();
+  // final _statusController = TextEditingController();
+  // final _adminController = TextEditingController();
   final _emailController = TextEditingController();
   final _phoneController = TextEditingController();
   final _nationalIdController = TextEditingController();
   final _addressController = TextEditingController();
-  final _directManagerController = TextEditingController();
-  final _areaManagerController = TextEditingController();
-  final _territoryController = TextEditingController();
-  final _salaryController = TextEditingController();
-  final _notesController = TextEditingController();
+  // final _directManagerController = TextEditingController();
+  // final _areaManagerController = TextEditingController();
+  // final _territoryController = TextEditingController();
+  // final _salaryController = TextEditingController();
+  // final _notesController = TextEditingController();
 
   String? _password;
   String? _confirmPassword;
   String? _imageUrl;
 
-  @override
-  void initState() {
-    super.initState();
-    _setDefaultDate();
-    _typeController.text = selectedUserType;
-    _statusController.text = selectedUserStatus;
-    _adminController.text = selectedAdmin;
-  }
-
-  void _setDefaultDate() {
-    final now = DateTime.now();
-    _joinDateController.text =
-        "${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}";
-  }
+  String? name,
+      type,
+      joinDate,
+      employeeStatus,
+      admin,
+      directManager,
+      areaManager,
+      territory,
+      basicSalary,
+      notes;
 
   @override
   void dispose() {
     _pageController.dispose();
-    _nameController.dispose();
-    _typeController.dispose();
-    _joinDateController.dispose();
-    _statusController.dispose();
     _emailController.dispose();
     _phoneController.dispose();
     _nationalIdController.dispose();
     _addressController.dispose();
-    _directManagerController.dispose();
-    _areaManagerController.dispose();
-    _territoryController.dispose();
-    _salaryController.dispose();
-    _notesController.dispose();
-    _adminController.dispose();
     super.dispose();
   }
 
@@ -108,8 +81,7 @@ class _AddEmployeeViewBodyState extends State<AddEmployeeViewBody> {
               padding: const EdgeInsets.symmetric(
                 horizontal: kHorizontalPadding,
               ),
-
-              child: _buildStepIndicator(),
+              child: CustomStepIndicator(),
             ),
             const SizedBox(height: 16),
             Expanded(
@@ -122,277 +94,32 @@ class _AddEmployeeViewBodyState extends State<AddEmployeeViewBody> {
                   physics: const NeverScrollableScrollPhysics(),
                   onPageChanged: _handlePageChange,
                   children: [
-                    _buildBasicInfoStep(),
-                    _buildManagementInfoStep(),
+                    CustomBasicInfoStep(
+                      formKey: _formKeys[0],
+                      autovalidateMode: _autovalidateMode,
+                      imageUrl: (url) => _imageUrl = url,
+                      name: (value) => name = value!,
+                      type: (value) => type = value!,
+                      joinDate: (value) => joinDate = value!,
+                      status: (value) => employeeStatus = value!,
+                      admin: (value) => admin = value!,
+                    ),
+                    CustomManagementInfoStep(
+                      formKey: _formKeys[1],
+                      autovalidateMode: _autovalidateMode,
+                      type: type ?? '',
+                      directManager: (value) => directManager = value!,
+                      areaManager: (value) => areaManager = value!,
+                      territory: (value) => territory = value!,
+                      salary: (value) => basicSalary = value!,
+                      notes: (value) => notes = value!,
+                    ),
                     _buildContactInfoStep(),
                   ],
                 ),
               ),
             ),
             _buildNavigationButtons(),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildStepIndicator() {
-    return SizedBox(
-      height: 70,
-      width: double.infinity,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: List.generate(3, (index) {
-          return Expanded(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  width: 30,
-                  height: 30,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color:
-                        _currentPage >= index
-                            ? AppColor.primaryColor
-                            : AppColor.grey,
-                    border:
-                        _currentPage == index
-                            ? Border.all(color: AppColor.primaryColor, width: 2)
-                            : null,
-                  ),
-                  child: Center(
-                    child: Text(
-                      '${index + 1}',
-                      style: AppStyle.styleBold16().copyWith(
-                        color:
-                            _currentPage >= index ? Colors.white : Colors.black,
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 8),
-                FittedBox(
-                  child: Text(
-                    _getStepTitle(index),
-                    style: AppStyle.styleMedium15().copyWith(
-                      color:
-                          _currentPage >= index
-                              ? AppColor.primaryColor
-                              : AppColor.grey,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ],
-            ),
-          );
-        }),
-      ),
-    );
-  }
-
-  String _getStepTitle(int step) {
-    switch (step) {
-      case 0:
-        return S.of(context).basic_info;
-      case 1:
-        return S.of(context).management_info;
-      case 2:
-        return S.of(context).contact_info;
-      default:
-        return '';
-    }
-  }
-
-  Widget _buildBasicInfoStep() {
-    return SingleChildScrollView(
-      child: Form(
-        key: _formKeys[0],
-        autovalidateMode: _autovalidateMode,
-        child: Column(
-          children: [
-            const SizedBox(height: 16),
-            CustomImagePicker(
-              onFileChanged: (url) => _imageUrl = url,
-              auth: true,
-              radius: 70,
-            ),
-            const SizedBox(height: 24),
-            CustomTextField(
-              labels: "${S.of(context).employee_name} *",
-              hintText: S.of(context).enter_employee_name,
-              controller: _nameController,
-              validator: (value) {
-                return validInput(
-                  context: context,
-                  val: value!,
-                  type: 'name',
-                  max: 50,
-                  min: 3,
-                );
-              },
-              keyboardType: TextInputType.name,
-              suffixIcon: const Icon(Icons.person_outline),
-            ),
-            const SizedBox(height: 16),
-
-            CustomTextField(
-              labels: "${S.of(context).employee_type} *",
-              hintText: S.of(context).enter_employee_type,
-              controller: _typeController,
-              // controller: ,
-              onChanged: (value) {
-                setState(() {
-                  selectedUserType = value;
-                });
-              },
-              validator: (value) {
-                return validInput(
-                  context: context,
-                  val: value!,
-                  type: 'name',
-                  max: 50,
-                  min: 3,
-                );
-              },
-              keyboardType: TextInputType.name,
-              readOnly: true,
-              suffixIcon: const Icon(Icons.work_outline),
-              onTap: () async {
-                final result = await showDialog<String>(
-                  context: context,
-                  builder:
-                      (context) => CustomSelectDialog(
-                        items: userTypes,
-                        title: S.of(context).select_employee_type,
-                      ),
-                );
-                if (result != null) {
-                  setState(() {
-                    selectedUserType = result;
-                    _typeController.text = result;
-                  });
-                }
-              },
-              // onTap: () async {
-              //   final result = await showDialog<String>(
-              //     context: context,
-              //     builder: (context) {
-              //       return Dialog(
-              //         // title: Text(S.of(context).select_employee_type),
-              //         child: SingleChildScrollView(
-              //           child: ListBody(
-              //             children:
-              //                 userTypes.map((type) {
-              //                   return ListTile(
-              //                     title: Text(type),
-              //                     onTap: () {
-              //                       Navigator.pop(context, type);
-              //                     },
-              //                   );
-              //                 }).toList(),
-              //           ),
-              //         ),
-              //       );
-              //     },
-              //   );
-              //   if (result != null) {
-              //     setState(() {
-              //       selectedUserType = result;
-              //       _typeController.text = result;
-              //     });
-              //   }
-              // },
-              // onTap: () {
-              //   FocusScope.of(context).unfocus();
-              //   _selectEmployeeType();
-              // },
-            ),
-            const SizedBox(height: 16),
-            CustomDatePickerField(
-              label: "${S.of(context).join_date} *",
-              hint: S.of(context).enter_join_date,
-              controller: _joinDateController,
-              validator: (value) {
-                return validInput(
-                  context: context,
-                  val: value!,
-                  type: 'date',
-                  max: 10,
-                  min: 10,
-                );
-              },
-            ),
-            const SizedBox(height: 16),
-            CustomTextField(
-              labels: "${S.of(context).employee_status} *",
-              hintText: S.of(context).enter_employee_status,
-              controller: _statusController,
-              validator: (value) {
-                return validInput(
-                  context: context,
-                  val: value!,
-                  type: 'name',
-                  max: 20,
-                  min: 3,
-                );
-              },
-              keyboardType: TextInputType.name,
-              suffixIcon:
-                  _statusController.text == 'Active'
-                      ? const Icon(Icons.check_circle_outline)
-                      : const Icon(Icons.cancel_outlined, color: Colors.red),
-              readOnly: true,
-              onTap: () async {
-                final result = await showDialog<String>(
-                  context: context,
-                  builder:
-                      (context) => CustomSelectDialog(
-                        items: userStatuses,
-                        title: S.of(context).select_employee_status,
-                      ),
-                );
-                if (result != null) {
-                  setState(() {
-                    _statusController.text = result;
-                  });
-                }
-              },
-            ),
-            const SizedBox(height: 16),
-            CustomTextField(
-              labels: "${S.of(context).is_admin} *",
-              hintText: S.of(context).enter_is_admin,
-              controller: _adminController,
-              readOnly: true,
-              validator: (value) {
-                return validInput(
-                  context: context,
-                  val: value!,
-                  type: 'name',
-                  max: 20,
-                  min: 3,
-                );
-              },
-              keyboardType: TextInputType.name,
-              suffixIcon: const Icon(Icons.admin_panel_settings_outlined),
-              onTap: () async {
-                final result = await showDialog<String>(
-                  context: context,
-                  builder:
-                      (context) => CustomSelectDialog(
-                        items: admin,
-                        title: S.of(context).select_is_admin,
-                      ),
-                );
-                if (result != null) {
-                  setState(() {
-                    _adminController.text = result;
-                  });
-                }
-              },
-            ),
           ],
         ),
       ),
@@ -449,118 +176,6 @@ class _AddEmployeeViewBodyState extends State<AddEmployeeViewBody> {
               label: "${S.of(context).confirm_employee_password} *",
               hintText: S.of(context).enter_confirm_employee_password,
               onSaved: (value) => _confirmPassword = value,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildManagementInfoStep() {
-    return SingleChildScrollView(
-      child: Form(
-        key: _formKeys[1],
-        autovalidateMode: _autovalidateMode,
-        child: Column(
-          children: [
-            Visibility(
-              visible:
-                  _typeController.text == 'Medical Rep' ||
-                  _typeController.text == 'Senior Manager',
-              child: const SizedBox(height: 16),
-            ),
-            Visibility(
-              visible:
-                  _typeController.text == 'Medical Rep' ||
-                  _typeController.text == 'Senior Manager',
-              child: CustomTextField(
-                labels: "${S.of(context).direct_manager} *",
-                hintText: S.of(context).enter_direct_manager,
-                controller: _directManagerController,
-                validator: (value) {
-                  return validInput(
-                    context: context,
-                    val: value!,
-                    type: 'name',
-                    max: 20,
-                    min: 3,
-                  );
-                },
-                keyboardType: TextInputType.name,
-                suffixIcon: const Icon(Icons.person_outline),
-              ),
-            ),
-            Visibility(
-              visible:
-                  _typeController.text == 'Medical Rep' ||
-                  _typeController.text == 'Senior Manager' ||
-                  _typeController.text == 'District Manager',
-              child: const SizedBox(height: 16),
-            ),
-            Visibility(
-              visible:
-                  _typeController.text == 'Medical Rep' ||
-                  _typeController.text == 'Senior Manager' ||
-                  _typeController.text == 'District Manager',
-              child: CustomTextField(
-                labels: "${S.of(context).area_manager} *",
-                hintText: S.of(context).enter_area_manager,
-                controller: _areaManagerController,
-                validator: (value) {
-                  return validInput(
-                    context: context,
-                    val: value!,
-                    type: 'name',
-                    max: 20,
-                    min: 3,
-                  );
-                },
-                keyboardType: TextInputType.name,
-                suffixIcon: const Icon(Icons.person_outline),
-              ),
-            ),
-            const SizedBox(height: 16),
-            CustomTextField(
-              labels: "${S.of(context).territory} *",
-              hintText: S.of(context).enter_territory,
-              controller: _territoryController,
-              validator: (value) {
-                return validInput(
-                  context: context,
-                  val: value!,
-                  type: 'name',
-                  max: 20,
-                  min: 3,
-                );
-              },
-              keyboardType: TextInputType.name,
-              suffixIcon: const Icon(Icons.location_on_outlined),
-            ),
-            const SizedBox(height: 16),
-            CustomTextField(
-              labels: "${S.of(context).employee_basic_salary} *",
-              hintText: S.of(context).enter_employee_basic_salary,
-              controller: _salaryController,
-              validator: (value) {
-                return validInput(
-                  context: context,
-                  val: value!,
-                  type: 'number',
-                  max: 20,
-                  min: 3,
-                );
-              },
-              keyboardType: TextInputType.number,
-              suffixIcon: const Icon(Icons.monetization_on_outlined),
-            ),
-            const SizedBox(height: 16),
-            CustomTextField(
-              labels: S.of(context).employee_notes,
-              hintText: S.of(context).enter_employee_notes,
-              controller: _notesController,
-              keyboardType: TextInputType.multiline,
-              maxLines: 3,
-              suffixIcon: const Icon(Icons.notes_outlined),
             ),
           ],
         ),
@@ -696,27 +311,26 @@ class _AddEmployeeViewBodyState extends State<AddEmployeeViewBody> {
       }
 
       // Submit form
-      context.read<UserCubit>().signUp(
+      context.read<AddEmployeeCubit>().addEmployee(
         user: UserEntity(
-          uId: _nameController.text.toLowerCase().replaceAll(' ', '_'),
+          uId: '',
           image: _imageUrl ?? imageProfile,
-          name: _nameController.text,
+          name: name!,
           password: _password!,
-          userType: _typeController.text,
-          joiningDate: _joinDateController.text,
-          admin: _adminController.text,
-          directManager: _directManagerController.text,
-          areaManager: _areaManagerController.text,
-          territory: _territoryController.text,
-          employeeStatus: _statusController.text,
+          userType: type!,
+          joiningDate: joinDate!,
+          employeeStatus: employeeStatus!,
+          admin: admin!,
+          directManager: directManager,
+          areaManager: areaManager,
+          territory: territory!,
           email: _emailController.text,
           phone: _phoneController.text,
           nationalId: _nationalIdController.text,
           address: _addressController.text,
-          basicSalary: _salaryController.text,
-          notes: _notesController.text,
+          basicSalary: basicSalary,
+          notes: notes,
         ),
-        password: _password!,
       );
     } else {
       setState(() {

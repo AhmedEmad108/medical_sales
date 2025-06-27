@@ -16,13 +16,7 @@ abstract class AuthRepo {
   // });
 
   Future<Either<Failures, UserEntity>> signUp({
-    // required String email,
     required UserEntity user,
-    required String password,
-    // required String name,
-    // required String phone,
-    // required String image,
-    // required String userType,
   });
 
   Future<Either<Failures, UserEntity>> signIn({

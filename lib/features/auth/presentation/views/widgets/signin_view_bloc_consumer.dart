@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:medical_sales/contants.dart';
 import 'package:medical_sales/core/cubit/user/user_cubit.dart';
+import 'package:medical_sales/core/services/shared_prefrences_singletone.dart';
 import 'package:medical_sales/core/utils/app_images.dart';
 import 'package:medical_sales/core/utils/custom_dialog.dart';
 import 'package:medical_sales/core/utils/loading_dialog.dart';
@@ -22,6 +24,7 @@ class SignInViewBlocConsumer extends StatelessWidget {
           Navigator.of(
             context,
           ).pushNamedAndRemoveUntil(MainView.routeName, (route) => false);
+          Prefs.setBool(kIsLoggedIn, true);
         }
         if (state is SignInFailed) {
           print('SignInFailed: ${state.errMessage}');

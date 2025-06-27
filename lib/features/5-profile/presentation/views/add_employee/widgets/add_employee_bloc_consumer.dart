@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:medical_sales/core/cubit/user/user_cubit.dart';
+import 'package:medical_sales/core/cubit/add_employee/add_employee_cubit.dart';
 import 'package:medical_sales/core/utils/app_color.dart';
 import 'package:medical_sales/core/utils/app_images.dart';
 import 'package:medical_sales/core/utils/custom_dialog.dart';
@@ -14,12 +14,12 @@ class AddEmployeeBlocConsumer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<UserCubit, UserState>(
+    return BlocConsumer<AddEmployeeCubit, AddEmployeeState>(
       listener: (context, state) {
-        if (state is SignUpLoading) {
+        if (state is AddEmployeeLoading) {
           loadingDialog(context);
         }
-        if (state is SignUpSuccess) {
+        if (state is AddEmployeeSuccess) {
           Navigator.pop(context);
           Navigator.pop(context);
           showSnackBar(
@@ -28,7 +28,7 @@ class AddEmployeeBlocConsumer extends StatelessWidget {
             AppColor.green,
           );
         }
-        if (state is SignInFailed) {
+        if (state is AddEmployeeFailed) {
           Navigator.pop(context);
           customDialog(
             context,

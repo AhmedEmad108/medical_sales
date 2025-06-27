@@ -16,6 +16,9 @@ class CustomDatePickerField extends StatefulWidget {
   final bool readOnly;
   final Function(DateTime)? onDateSelected;
 
+  final void Function(String?)? onSaved;
+  final Function(String)? onChanged;
+
   const CustomDatePickerField({
     super.key,
     required this.label,
@@ -29,6 +32,8 @@ class CustomDatePickerField extends StatefulWidget {
     this.dateFormat,
     this.readOnly = false,
     this.onDateSelected,
+    this.onSaved,
+    this.onChanged,
   });
 
   @override
@@ -38,7 +43,7 @@ class CustomDatePickerField extends StatefulWidget {
 class _CustomDatePickerFieldState extends State<CustomDatePickerField> {
   late DateTime _selectedDate;
   late TimeOfDay? _selectedTime;
-  final _dateFormat = DateFormat('yyyy-MM-dd');
+  final _dateFormat = DateFormat('dd/MM/yyyy');
   final _timeFormat = DateFormat('HH:mm');
 
   @override
@@ -159,6 +164,8 @@ class _CustomDatePickerFieldState extends State<CustomDatePickerField> {
       controller: widget.controller,
       validator: widget.validator,
       readOnly: true,
+      onSaved: widget.onSaved,
+      onChanged: widget.onChanged,
       onTap: _selectDate,
       suffixIcon: const Icon(Icons.calendar_month_outlined),
     );

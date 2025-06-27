@@ -25,11 +25,13 @@ validInput({
       return S.of(context).not_valid_phone;
     }
   }
-  if (type == 'price') {
+  if (type == 'price' || type == 'number') {
     if (!GetUtils.isNum(val)) {
       return S.of(context).not_valid_price;
     }
+
   }
+  
   if (val.isEmpty) {
     return S.of(context).cant_be_empty;
   }

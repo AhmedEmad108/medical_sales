@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:medical_sales/core/services/firebase_auth_service.dart';
+import 'package:medical_sales/contants.dart';
+import 'package:medical_sales/core/services/shared_prefrences_singletone.dart';
 import 'package:medical_sales/core/utils/app_images.dart';
 import 'package:medical_sales/features/auth/presentation/views/signin_view.dart';
 import 'package:medical_sales/features/main/presentation/views/main_view.dart';
@@ -32,7 +33,7 @@ class _SplashViewBodyState extends State<SplashViewBody> {
       // );
       // bool isOnBoardingViewSeen = Prefs.getBool(kIsOnBoardingViewSeen);
 
-      var isLogedIn = FirebaseAuthService().isLoggedIn();
+      var isLogedIn = Prefs.getBool(kIsLoggedIn) ?? false;
 
       if (isLogedIn) {
         Navigator.pushNamedAndRemoveUntil(
