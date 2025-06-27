@@ -36,6 +36,48 @@ class UserEntity {
     this.notes,
     required this.employeeStatus,
   });
+
+
+   UserEntity copyWith({
+    String? uId,
+    String? userType,
+    String? name,
+    String? password,
+    String? phone,
+    String? image,
+    String? email,
+    String? joiningDate,
+    String? admin,
+    String? directManager,
+    String? areaManager,
+    String? territory,
+    String? nationalId,
+    String? address,
+    String? basicSalary,
+    String? notes,
+    String? employeeStatus,
+  }) {
+    return UserEntity(
+      uId: uId ?? this.uId,
+      userType: userType ?? this.userType,
+      name: name ?? this.name,
+      password: password ?? this.password,
+      phone: phone ?? this.phone,
+      image: image ?? this.image,
+      email: email ?? this.email,
+      joiningDate: joiningDate ?? this.joiningDate,
+      admin: admin ?? this.admin,
+      directManager: directManager ?? this.directManager,
+      areaManager: areaManager ?? this.areaManager,
+      territory: territory ?? this.territory,
+      nationalId: nationalId ?? this.nationalId,
+      address: address ?? this.address,
+      basicSalary: basicSalary ?? this.basicSalary,
+      notes: notes ?? this.notes,
+      employeeStatus: employeeStatus ?? this.employeeStatus,
+    );
+  }
+
 }
 
 //class UserEntity {

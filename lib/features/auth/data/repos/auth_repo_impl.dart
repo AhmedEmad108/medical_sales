@@ -26,96 +26,36 @@ class AuthRepoImpl implements AuthRepo {
     BackendEndpoint.userData,
   );
 
-  // @override
-  // Future<void> signUp({
-  //   required UserEntity user,
-  //   required String password,
-  // }) async {
-  //   // تحقق إذا كان الاسم مستخدم من قبل
-  //   final existing =
-  //       await usersCollection.where('name', isEqualTo: user.name).get();
-  //   if (existing.docs.isNotEmpty) {
-  //     throw Exception('الاسم مستخدم من قبل');
-  //   }
-  //   final userMap = UserModel.fromEntity(user).toMap();
-  //   userMap['password'] = password; // إضافة الباسورد صريح أو مشفر حسب رغبتك
-  //   await usersCollection.add(userMap);
-  // }
-
-  // @override
-  // Future<UserEntity?> signIn({
-  //   required String name,
-  //   required String password,
-  //   required String userType,
-  // }) async {
-  //   final result =
-  //       await usersCollection
-  //           .where('name', isEqualTo: name)
-  //           .where('password', isEqualTo: password)
-  //           .where('userType', isEqualTo: userType)
-  //           .get();
-  //   if (result.docs.isNotEmpty) {
-  //     final data = result.docs.first.data();
-  //     return UserModel.fromJson(data);
-  //   }
-  //   return null;
-  // }
-
   @override
   Future<Either<Failures, UserEntity>> signUp({
     required UserEntity user,
     required String password,
   }) async {
     try {
-      // تحقق لو فيه اسم أو إيميل أو رقم قومي متكرر (حسب احتياجك)
-      final existing =
-          await usersCollection.where('name', isEqualTo: user.name).get();
-      if (existing.docs.isNotEmpty) {
+      // جرب تجيب المستخدم بالاسم (document id = name)
+      final doc =
+          await usersCollection
+              .doc(user.name.toLowerCase().replaceAll(' ', ''))
+              .get();
+      if (doc.exists) {
         return Left(ServerFailure(message: 'اسم المستخدم مستخدم من قبل'));
       }
 
       // أنشئ Map من بيانات المستخدم
       final userMap = UserModel.fromEntity(user).toMap();
-      userMap['password'] =
-          password; // تخزين الباسورد كـ نص عادي (لو عايز ممكن تعمله هاش)
+      userMap['password'] = password;
 
-      // إضافة المستخدم
-      final docRef = await usersCollection.add(userMap);
-      var userEntity = UserEntity(
-        uId: docRef.id,
-        name: user.name,
-        password: user.password,
-        phone: user.phone,
-        image: user.image,
-        userType: user.userType,
-        admin: user.admin,
-        email: user.email,
-        employeeStatus: user.employeeStatus,
-        joiningDate: user.joiningDate,
-        territory: user.territory,
-        address: user.address,
-        areaManager: user.areaManager,
-        basicSalary: user.basicSalary,
-        directManager: user.directManager,
-        nationalId: user.nationalId,
-        notes: user.notes,
+      // أضف المستخدم بالاسم كـ document id
+      await usersCollection
+          .doc(user.name.toLowerCase().replaceAll(' ', ''))
+          .set(userMap);
+
+      final userEntity = user.copyWith(
+        uId: user.name.toLowerCase().replaceAll(' ', ''),
       );
-
-      await addUserData(user: userEntity);
-
-      // رجع بيانات المستخدم بعد التسجيل
-      // If you want to return the user with the new uId, create a new UserEntity manually:
-
       return Right(userEntity);
-    } on CustomException catch (e) {
-      // await deleteUser(u);
-      return Left(ServerFailure(message: e.message));
     } catch (e) {
-      // await deleteUser(user);
-      log('Exception in createUserWithEmailAndPassword: ${e.toString()}');
-      return Left(
-        ServerFailure(message: 'Something went wrong. Please try again later.'),
-      );
+      return Left(ServerFailure(message: 'حدث خطأ أثناء التسجيل'));
     }
   }
 
@@ -126,32 +66,29 @@ class AuthRepoImpl implements AuthRepo {
     required String userType,
   }) async {
     try {
-      // دور على المستخدم بالاسم فقط
-      final userQuery =
-          await usersCollection.where('name', isEqualTo: name).get();
+      final doc =
+          await usersCollection
+              .doc(name.toLowerCase().replaceAll(' ', ''))
+              .get();
 
-      if (userQuery.docs.isEmpty) {
+      if (!doc.exists) {
         return Left(
           ServerFailure(message: 'اسم المستخدم أو كلمة المرور غير صحيح.'),
         );
       }
 
-      final userData = userQuery.docs.first.data();
-
-      // تحقق من الباسورد
+      final userData = doc.data()!;
       if ((userData['password']?.toString() ?? '') != password) {
         return Left(
           ServerFailure(message: 'اسم المستخدم أو كلمة المرور غير صحيح.'),
         );
       }
 
-      // تحقق من نوع المستخدم
       if ((userData['userType'] ?? '').toLowerCase() !=
           userType.toLowerCase()) {
         return Left(ServerFailure(message: 'نوع المستخدم غير صحيح.'));
       }
 
-      // تحقق من حالة المستخدم (Active)
       final status =
           (userData['employeeStatus'] ?? userData['userStatus'] ?? '')
               .toLowerCase();
@@ -159,11 +96,12 @@ class AuthRepoImpl implements AuthRepo {
         return Left(ServerFailure(message: 'الحساب غير مفعل.'));
       }
 
-      // رجّع بيانات المستخدم
       final userEntity = UserEntity(
-        uId: userData['uId'] ?? userQuery.docs.first.id,
+        uId: name.toLowerCase().replaceAll(
+          ' ',
+          '',
+        ), // لأن ال document id هو الاسم
         name: userData['name'],
-        password: userData['password'],
         phone: userData['phone'],
         image: userData['image'],
         userType: userData['userType'],
@@ -178,13 +116,140 @@ class AuthRepoImpl implements AuthRepo {
         directManager: userData['directManager'],
         nationalId: userData['nationalId'],
         notes: userData['notes'],
+        password: userData['password'],
       );
       await saveUserLocally(user: userEntity);
+
       return Right(userEntity);
     } catch (e) {
       return Left(ServerFailure(message: 'حدث خطأ أثناء تسجيل الدخول'));
     }
   }
+
+  // @override
+  // Future<Either<Failures, UserEntity>> signUp({
+  //   required UserEntity user,
+  //   required String password,
+  // }) async {
+  //   try {
+  //     // تحقق لو فيه اسم أو إيميل أو رقم قومي متكرر (حسب احتياجك)
+  //     final existing =
+  //         await usersCollection.where('name', isEqualTo: user.name).get();
+  //     if (existing.docs.isNotEmpty) {
+  //       return Left(ServerFailure(message: 'اسم المستخدم مستخدم من قبل'));
+  //     }
+
+  //     // أنشئ Map من بيانات المستخدم
+  //     final userMap = UserModel.fromEntity(user).toMap();
+  //     userMap['password'] =
+  //         password; // تخزين الباسورد كـ نص عادي (لو عايز ممكن تعمله هاش)
+
+  //     // إضافة المستخدم
+  //     final docRef = await usersCollection.add(userMap);
+  //     var userEntity = UserEntity(
+  //       uId: docRef.id,
+  //       name: user.name,
+  //       password: user.password,
+  //       phone: user.phone,
+  //       image: user.image,
+  //       userType: user.userType,
+  //       admin: user.admin,
+  //       email: user.email,
+  //       employeeStatus: user.employeeStatus,
+  //       joiningDate: user.joiningDate,
+  //       territory: user.territory,
+  //       address: user.address,
+  //       areaManager: user.areaManager,
+  //       basicSalary: user.basicSalary,
+  //       directManager: user.directManager,
+  //       nationalId: user.nationalId,
+  //       notes: user.notes,
+  //     );
+
+  //     await addUserData(user: userEntity);
+
+  //     // رجع بيانات المستخدم بعد التسجيل
+  //     // If you want to return the user with the new uId, create a new UserEntity manually:
+
+  //     return Right(userEntity);
+  //   } on CustomException catch (e) {
+  //     // await deleteUser(u);
+  //     return Left(ServerFailure(message: e.message));
+  //   } catch (e) {
+  //     // await deleteUser(user);
+  //     log('Exception in createUserWithEmailAndPassword: ${e.toString()}');
+  //     return Left(
+  //       ServerFailure(message: 'Something went wrong. Please try again later.'),
+  //     );
+  //   }
+  // }
+
+  // @override
+  // Future<Either<Failures, UserEntity>> signIn({
+  //   required String name,
+  //   required String password,
+  //   required String userType,
+  // }) async {
+  //   try {
+  //     // دور على المستخدم بالاسم فقط
+  //     final userQuery =
+  //         await usersCollection.where('name', isEqualTo: name).get();
+
+  //     if (userQuery.docs.isEmpty) {
+  //       return Left(
+  //         ServerFailure(message: 'اسم المستخدم أو كلمة المرور غير صحيح.'),
+  //       );
+  //     }
+
+  //     final userData = userQuery.docs.first.data();
+
+  //     // تحقق من الباسورد
+  //     if ((userData['password']?.toString() ?? '') != password) {
+  //       return Left(
+  //         ServerFailure(message: 'اسم المستخدم أو كلمة المرور غير صحيح.'),
+  //       );
+  //     }
+
+  //     // تحقق من نوع المستخدم
+  //     if ((userData['userType'] ?? '').toLowerCase() !=
+  //         userType.toLowerCase()) {
+  //       return Left(ServerFailure(message: 'نوع المستخدم غير صحيح.'));
+  //     }
+
+  //     // تحقق من حالة المستخدم (Active)
+  //     final status =
+  //         (userData['employeeStatus'] ?? userData['userStatus'] ?? '')
+  //             .toLowerCase();
+  //     if (status != 'active') {
+  //       return Left(ServerFailure(message: 'الحساب غير مفعل.'));
+  //     }
+
+  //     // رجّع بيانات المستخدم
+  //     final userEntity = UserEntity(
+  //       uId: userData['uId'] ?? userQuery.docs.first.id,
+  //       name: userData['name'],
+  //       password: userData['password'],
+  //       phone: userData['phone'],
+  //       image: userData['image'],
+  //       userType: userData['userType'],
+  //       admin: userData['admin'],
+  //       email: userData['email'],
+  //       employeeStatus: userData['employeeStatus'],
+  //       joiningDate: userData['joiningDate'],
+  //       territory: userData['territory'],
+  //       address: userData['address'],
+  //       areaManager: userData['areaManager'],
+  //       basicSalary: userData['basicSalary'],
+  //       directManager: userData['directManager'],
+  //       nationalId: userData['nationalId'],
+  //       notes: userData['notes'],
+  //     );
+  //     await saveUserLocally(user: userEntity);
+  //     return Right(userEntity);
+  //   } catch (e) {
+  //     return Left(ServerFailure(message: 'حدث خطأ أثناء تسجيل الدخول'));
+  //   }
+  // }
 
   @override
   Future<void> deleteUser(User? user) async {
