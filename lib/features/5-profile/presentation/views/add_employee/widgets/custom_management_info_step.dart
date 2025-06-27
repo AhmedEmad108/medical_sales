@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:medical_sales/core/helper_functions/valid_input.dart';
+import 'package:medical_sales/core/utils/backend_endpoint.dart';
 import 'package:medical_sales/core/widgets/custom_text_field.dart';
+import 'package:medical_sales/features/5-profile/presentation/views/add_employee/widgets/add_employee_view_body.dart';
 import 'package:medical_sales/generated/l10n.dart';
 
 class CustomManagementInfoStep extends StatefulWidget {
@@ -37,6 +40,42 @@ class _CustomManagementInfoStepState extends State<CustomManagementInfoStep> {
   final TextEditingController salaryController = TextEditingController();
   final TextEditingController notesController = TextEditingController();
 
+  String? selectedDirectManager;
+  String? selectedAreaManager;
+  List<Map<String, dynamic>> managers = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchManagers();
+  }
+
+  Future<void> fetchManagers() async {
+    // Fetch managers from Firestore
+    final QuerySnapshot querySnapshot =
+        await FirebaseFirestore.instance
+            .collection(BackendEndpoint.userData)
+            .where(
+              'userType',
+              whereIn: ['Area Manager', 'District Manager', 'Senior Manager'],
+            )
+            .get();
+
+    setState(() {
+      managers =
+          querySnapshot.docs
+              .map(
+                (doc) => {
+                  'id': doc.id,
+                  'name': (doc.data() as Map<String, dynamic>)['name'] ?? '',
+                  'userType':
+                      (doc.data() as Map<String, dynamic>)['userType'] ?? '',
+                },
+              )
+              .toList();
+    });
+  }
+
   @override
   void dispose() {
     directManagerController.dispose();
@@ -58,36 +97,6 @@ class _CustomManagementInfoStepState extends State<CustomManagementInfoStep> {
             Visibility(
               visible:
                   widget.type == 'Medical Rep' ||
-                  widget.type == 'Senior Manager',
-              child: const SizedBox(height: 16),
-            ),
-            Visibility(
-              visible:
-                  widget.type == 'Medical Rep' ||
-                  widget.type == 'Senior Manager',
-              child: CustomTextField(
-                labels: "${S.of(context).direct_manager} *",
-                hintText: S.of(context).enter_direct_manager,
-                controller: directManagerController,
-                onSaved: (value) {
-                  widget.directManager(value);
-                },
-                validator: (value) {
-                  return validInput(
-                    context: context,
-                    val: value!,
-                    type: 'name',
-                    max: 20,
-                    min: 3,
-                  );
-                },
-                keyboardType: TextInputType.name,
-                suffixIcon: const Icon(Icons.person_outline),
-              ),
-            ),
-            Visibility(
-              visible:
-                  widget.type == 'Medical Rep' ||
                   widget.type == 'Senior Manager' ||
                   widget.type == 'District Manager',
               child: const SizedBox(height: 16),
@@ -101,6 +110,7 @@ class _CustomManagementInfoStepState extends State<CustomManagementInfoStep> {
                 labels: "${S.of(context).area_manager} *",
                 hintText: S.of(context).enter_area_manager,
                 controller: areaManagerController,
+                readOnly: true,
                 onSaved: (value) {
                   widget.areaManager(value);
                 },
@@ -112,6 +122,86 @@ class _CustomManagementInfoStepState extends State<CustomManagementInfoStep> {
                     max: 20,
                     min: 3,
                   );
+                },
+                onTap: () async {
+                  final result = await showDialog<String>(
+                    context: context,
+                    builder:
+                        (context) => CustomSelectDialog(
+                          items:
+                              managers
+                                  .where(
+                                    (manager) =>
+                                        manager['userType'] == 'Area Manager',
+                                  )
+                                  .map((manager) => manager['name'] as String)
+                                  .toList()
+                                  .cast<String>(),
+                          title: S.of(context).select_area_manager,
+                        ),
+                  );
+                  if (result != null) {
+                    setState(() {
+                      areaManagerController.text = result;
+                    });
+                  }
+                },
+                keyboardType: TextInputType.name,
+                suffixIcon: const Icon(Icons.person_outline),
+              ),
+            ),
+
+            Visibility(
+              visible:
+                  widget.type == 'Medical Rep' ||
+                  widget.type == 'Senior Manager',
+              child: const SizedBox(height: 16),
+            ),
+            Visibility(
+              visible:
+                  widget.type == 'Medical Rep' ||
+                  widget.type == 'Senior Manager',
+              child: CustomTextField(
+                labels: "${S.of(context).direct_manager} *",
+                hintText: S.of(context).enter_direct_manager,
+                controller: directManagerController,
+                readOnly: true,
+                onSaved: (value) {
+                  widget.directManager(value);
+                },
+                validator: (value) {
+                  return validInput(
+                    context: context,
+                    val: value!,
+                    type: 'name',
+                    max: 20,
+                    min: 3,
+                  );
+                },
+                onTap: () async {
+                  final result = await showDialog<String>(
+                    context: context,
+                    builder:
+                        (context) => CustomSelectDialog(
+                          items:
+                              managers
+                                  .where(
+                                    (manager) =>
+                                        manager['userType'] ==
+                                            'District Manager' ||
+                                        manager['userType'] == 'Senior Manager',
+                                  )
+                                  .map((manager) => manager['name'] as String)
+                                  .toList()
+                                  .cast<String>(),
+                          title: S.of(context).select_direct_manager,
+                        ),
+                  );
+                  if (result != null) {
+                    setState(() {
+                      directManagerController.text = result;
+                    });
+                  }
                 },
                 keyboardType: TextInputType.name,
                 suffixIcon: const Icon(Icons.person_outline),
