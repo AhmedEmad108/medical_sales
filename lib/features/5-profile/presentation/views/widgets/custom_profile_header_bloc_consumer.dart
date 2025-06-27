@@ -29,12 +29,12 @@ class _CustomProfileHeaderBlocConsumerState
         if (state is GetUserSuccess) {
           return ProfileHeaderItem(user: state.user);
         }
-        if (state is GetUserLoading) {
-          return Skeletonizer(
-            enabled: true,
-            child: ProfileHeaderItem(user: getUser()),
-          );
-        }
+        // if (state is GetUserLoading) {
+        //   return Skeletonizer(
+        //     enabled: true,
+        //     child: ProfileHeaderItem(user: getUser()),
+        //   );
+        // }
         if (state is GetUserFailed) {
           print('GetUserFailed: ${state.errMessage}');
           return Center(child: Text(state.errMessage));
@@ -42,10 +42,11 @@ class _CustomProfileHeaderBlocConsumerState
         // ret if (state is GetUserSuccess) {
 
         // }
-        return Skeletonizer(
-          enabled: true,
-          child: ProfileHeaderItem(user: getUser()),
-        );
+        return const Center(child: CircularProgressIndicator());
+        // return Skeletonizer(
+        //   enabled: true,
+        //   child: ProfileHeaderItem(user: getUser()),
+        // );
         // return ProfileHeaderItem(
         //   user: getUser(),
         // );

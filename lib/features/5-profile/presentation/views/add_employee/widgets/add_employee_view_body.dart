@@ -701,6 +701,7 @@ class _AddEmployeeViewBodyState extends State<AddEmployeeViewBody> {
           uId: '',
           image: _imageUrl ?? '',
           name: _nameController.text,
+          password: _password!,
           userType: _typeController.text,
           joiningDate: _joinDateController.text,
           admin: _adminController.text,

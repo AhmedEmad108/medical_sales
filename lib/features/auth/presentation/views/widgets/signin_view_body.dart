@@ -103,7 +103,7 @@ class _SignInViewBodyState extends State<SignInViewBody> {
                 return validInput(
                   context: context,
                   val: value!,
-                  type: 'name',
+                  type: 'password',
                   max: 30,
                   min: 1,
                 );

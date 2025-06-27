@@ -4,6 +4,7 @@ class UserModel extends UserEntity {
   UserModel({
     required super.uId,
     required super.name,
+    required super.password,
     super.phone,
     super.email,
     required super.image,
@@ -24,6 +25,7 @@ class UserModel extends UserEntity {
     return UserModel(
       uId: json['uId'],
       name: json['name'],
+      password: json['password'],
       phone: json['phone'],
       email: json['email'],
       image: json['image'],
@@ -44,6 +46,7 @@ class UserModel extends UserEntity {
   factory UserModel.fromEntity(UserEntity user) => UserModel(
     uId: user.uId,
     name: user.name,
+    password: user.password,
     phone: user.phone,
     email: user.email,
     image: user.image,
@@ -64,6 +67,7 @@ class UserModel extends UserEntity {
     return {
       'uId': uId,
       'name': name,
+      'password': password,
       'phone': phone,
       'email': email,
       'image': image,

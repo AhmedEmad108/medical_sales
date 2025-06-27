@@ -28,6 +28,7 @@ class UserCubit extends Cubit<UserState> {
           uId: reselt.uId,
           userType: reselt.userType,
           name: reselt.name,
+          password: reselt.password,
           phone: reselt.phone,
           image: reselt.image,
           email: reselt.email,
@@ -136,14 +137,39 @@ class UserCubit extends Cubit<UserState> {
   }) async {
     emit(SignInLoading());
     try {
-      final userData = await authRepo.signIn(
+      final result = await authRepo.signIn(
         name: name,
         password: password,
         userType: userType,
       );
-      emit(SignInSuccess(userData: userData));
-        } catch (e) {
+      result.fold(
+        (failure) {
+          emit(SignInFailed(errMessage: failure.message));
+        },
+        (userEntity) {
+          emit(SignInSuccess(userData: userEntity));
+        },
+      );
+    } catch (e) {
       emit(SignInFailed(errMessage: e.toString()));
     }
   }
+
+  // Future<void> signIn({
+  //   required String name,
+  //   required String password,
+  //   required String userType,
+  // }) async {
+  //   emit(SignInLoading());
+  //   try {
+  //     final userData = await authRepo.signIn(
+  //       name: name,
+  //       password: password,
+  //       userType: userType,
+  //     );
+  //     emit(SignInSuccess(userData: userData));
+  //       } catch (e) {
+  //     emit(SignInFailed(errMessage: e.toString()));
+  //   }
+  // }
 }

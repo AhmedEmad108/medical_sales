@@ -1,6 +1,7 @@
 class UserEntity {
   final String uId;
   final String name;
+  final String password;
   final String? phone;
   final String? email;
   final String image;
@@ -19,6 +20,7 @@ class UserEntity {
   UserEntity({
     required this.uId,
     required this.name,
+    required this.password,
     this.phone,
     this.email,
     required this.image,

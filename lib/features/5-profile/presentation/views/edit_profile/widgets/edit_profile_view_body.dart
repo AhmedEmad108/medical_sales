@@ -119,6 +119,7 @@ class _EditProfileViewBodyState extends State<EditProfileViewBody> {
                       uId: user2.uId,
                       userType: user2.userType,
                       name: userName.text,
+                      password: user2.password,
                       phone: phone.text,
                       image: urlImage!,
                       joiningDate: user2.joiningDate,
