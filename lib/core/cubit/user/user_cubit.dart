@@ -21,7 +21,7 @@ class UserCubit extends Cubit<UserState> {
     emit(GetUserLoading());
 
     try {
-      final reselt = await authRepo.getUserData(uId: getCurrentUserId());
+      final reselt = await authRepo.getUserData(uId: await getCurrentUserId());
       emit(GetUserSuccess(user: reselt));
       await authRepo.saveUserLocally(
         user: UserEntity(
@@ -54,7 +54,7 @@ class UserCubit extends Cubit<UserState> {
   Future<void> editUserImage({required String image}) async {
     try {
       emit(GetUserLoading());
-      await authRepo.updateUserImage(uId: getCurrentUserId(), image: image);
+      await authRepo.updateUserImage(uId: await getCurrentUserId(), image: image);
       await getUserData();
     } catch (e) {
       emit(GetUserFailed(errMessage: e.toString()));
@@ -113,8 +113,10 @@ class UserCubit extends Cubit<UserState> {
   //     }
   //   }
 
-  String getCurrentUserId() {
-    return FirebaseAuth.instance.currentUser!.uid;
+  Future<String> getCurrentUserId() async {
+    final user = await getUser();
+    return user.uId;
+    // return FirebaseAuth.instance.currentUser!.uid;
   }
 
   Future<void> signUp({

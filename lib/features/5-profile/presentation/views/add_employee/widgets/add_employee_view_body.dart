@@ -698,8 +698,8 @@ class _AddEmployeeViewBodyState extends State<AddEmployeeViewBody> {
       // Submit form
       context.read<UserCubit>().signUp(
         user: UserEntity(
-          uId: '',
-          image: _imageUrl ?? '',
+          uId: _nameController.text.toLowerCase().replaceAll(' ', '_'),
+          image: _imageUrl ?? imageProfile,
           name: _nameController.text,
           password: _password!,
           userType: _typeController.text,
